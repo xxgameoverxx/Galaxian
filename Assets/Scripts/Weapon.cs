@@ -23,7 +23,6 @@ public class Weapon : MonoBehaviour {
 
 	public virtual void Shoot()
 	{
-		print("Bang: " + ammo);
 	}
 
 	public void Equip()

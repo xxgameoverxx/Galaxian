@@ -43,7 +43,7 @@ public class Player : Actor {
 	// Use this for initialization
 	void Start () {
 		base.Start();
-		moveSpeed = 500;
+		moveSpeed = 750;
 		energy = 10;
 	}
 	

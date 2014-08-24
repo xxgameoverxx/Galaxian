@@ -30,15 +30,15 @@ public class Spawner : MonoBehaviour {
 
 	void Start () {
 
-		GameObject e = Resources.Load("Prefabs/Enemy") as GameObject;
-
-		Wave w = new Wave();
-		w.Add(e, new Vector2(0, 5));
-		Wave w2 = new Wave();
-		w2.Add(e, new Vector2(5, 5));
-
-		waves.Add(w);
-		waves.Add(w2);
+//		GameObject e = Resources.Load("Prefabs/Enemies/Enemy") as GameObject;
+//
+//		Wave w = new Wave();
+//		w.Add(e, new Vector2(0, 5));
+//		Wave w2 = new Wave();
+//		w2.Add(e, new Vector2(5, 5));
+//
+//		waves.Add(w);
+//		waves.Add(w2);
 
 		if(gameManager == null)
 		{
@@ -49,13 +49,18 @@ public class Spawner : MonoBehaviour {
 
 	public GameObject PlayerStart()
 	{
-		GameObject playerGO = Instantiate(PlayerPrefab, Vector2.zero, Quaternion.identity) as GameObject;
+		GameObject playerGO = Instantiate(PlayerPrefab, new Vector2(0, -5), Quaternion.identity) as GameObject;
 		playerGO.GetComponent<Player>().Sp = this;
 		return playerGO;
 	}
 
 	public void SpawnWave(int wave = -1)
 	{
+		if(waves.Count == 0)
+		{
+			print("Loading level...");
+			return;
+		}
 		if(wave == -1)
 		{
 			wave = waveNumber;

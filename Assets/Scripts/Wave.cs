@@ -1,27 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 
 public class Wave
 {
-	public Dictionary<GameObject, Vector2> list = new Dictionary<GameObject, Vector2>();
+	public List<XmlNode> list = new List<XmlNode>();
+	public GameManager gm;
 
-	public void Add(GameObject e, Vector2 pos = default(Vector2))
+	public void Add(XmlNode e)
 	{
-		if(pos == default(Vector2))
-		{
-			Debug.LogWarning("Position of " + e + " is set to (0, 0). Make sure you know what your are doing...");
-			pos = Vector2.zero;
-		}
-		list.Add(e, pos);
+		list.Add(e);
 	}
 
 	public void SpawnAll(Spawner s = null)
 	{
-		foreach(KeyValuePair<GameObject, Vector2> pair in list)
+		foreach(XmlNode node in list)
 		{
-			GameObject enemy = GameObject.Instantiate(pair.Key, pair.Value, pair.Key.transform.rotation) as GameObject;
-			enemy.GetComponent<Enemy>().offset = pair.Value;
+			GameObject enemyPrefab = Resources.Load("Prefabs/Enemies/" + node.Attributes["prefabName"].Value) as GameObject;
+			GameObject enemy = GameObject.Instantiate(enemyPrefab, gm.StringToVector2(node.Attributes["pos"].Value), Quaternion.identity) as GameObject;
 			if(s != null)
 			{
 				s.enemyList.Add(enemy);
