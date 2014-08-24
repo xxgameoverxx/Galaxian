@@ -9,7 +9,7 @@ public class Enemy : Actor {
 	public Vector2 offset = Vector2.zero;
 
 	#region Attributes
-	private float dampingY = 5;
+	private float dampingY = 20;
 	public float DampingY
 	{
 		get
@@ -77,7 +77,7 @@ public class Enemy : Actor {
 			time = timer;
 		}
 		float posX = Mathf.Cos(time * DampingX) * 10;
-		float posY = Mathf.Sin(time * DampingY) * 5;
+		float posY = Mathf.Sin(time * DampingY) * 20;
 		return new Vector2(posX, posY);
 	}
 

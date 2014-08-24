@@ -28,7 +28,7 @@ public class PlazmaGun : Weapon {
 	{
 		base.Shoot ();
 		GameObject bullet = Instantiate(PlazmaBullet, transform.position, transform.rotation) as GameObject;
-		bullet.layer = owner.gameObject.layer;
+		bullet.tag = owner.gameObject.tag;
 	}
 
 	public override void Start () {

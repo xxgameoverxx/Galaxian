@@ -195,6 +195,7 @@ public class Actor : MonoBehaviour {
 		w.transform.parent = slots[w.activeSlot].transform;
 		w.owner = transform.GetComponent<Actor>();
 		ActiveWeapon = w;
+		w.gameObject.tag = this.gameObject.tag;
 	}
 
 	public void UnequipItem(Item i)

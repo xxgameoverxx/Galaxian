@@ -13,8 +13,10 @@ public class Bullet : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		destroyed = true;
-//		Destroy(this.gameObject);
+		if(col.gameObject.tag != gameObject.tag)
+		{
+			destroyed = true;
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D col)
