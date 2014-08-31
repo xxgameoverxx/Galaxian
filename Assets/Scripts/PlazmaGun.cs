@@ -27,8 +27,12 @@ public class PlazmaGun : Weapon {
 	public override void Shoot ()
 	{
 		base.Shoot ();
-		GameObject bullet = Instantiate(PlazmaBullet, transform.position, transform.rotation) as GameObject;
-		bullet.tag = owner.gameObject.tag;
+		if(owner.energy >= 1)
+		{
+			owner.energy--;
+			GameObject bullet = Instantiate(PlazmaBullet, transform.position, transform.rotation) as GameObject;
+			bullet.tag = owner.gameObject.tag;
+		}
 	}
 
 	public override void Start () {

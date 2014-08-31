@@ -6,17 +6,20 @@ public class Enemy : Actor {
 	private float posChange;
 	private float timer = 0;
 
+	public float amplitudeY = 2;
+	public float amplitudeX = 5;
+	public float shootProbability = 1;
 	public Vector2 offset = Vector2.zero;
 
 	#region Attributes
-	private float dampingY = 20;
+	private float dampingY = 1;
 	public float DampingY
 	{
 		get
 		{
-			if(dampingY < 1)
+			if(dampingY < 0)
 			{
-				dampingY = 1;
+				dampingY = 0;
 			}
 			return dampingY;
 		}
@@ -26,14 +29,14 @@ public class Enemy : Actor {
 		}
 	}
 
-	private float dampingX = 1;
+	private float dampingX = 1f;
 	public float DampingX
 	{
 		get
 		{
-			if(dampingX < 1)
+			if(dampingX < 0)
 			{
-				dampingX = 1;
+				dampingX = 0;
 			}
 			return dampingX;
 		}
@@ -62,6 +65,8 @@ public class Enemy : Actor {
 	{
 		base.Start ();
 		health = 3;
+		GameObject healthGO = Resources.Load("Prefabs/Items/ShotgunAmmo") as GameObject;
+		inventory.Add(healthGO.GetComponent<Item>());
 	}
 
 	public override void Die ()
@@ -76,8 +81,8 @@ public class Enemy : Actor {
 		{
 			time = timer;
 		}
-		float posX = Mathf.Cos(time * DampingX) * 10;
-		float posY = Mathf.Sin(time * DampingY) * 20;
+		float posX = Mathf.Cos(time * DampingX) * amplitudeX;
+		float posY = Mathf.Sin(time * DampingY) * amplitudeY;
 		return new Vector2(posX, posY);
 	}
 
@@ -85,5 +90,9 @@ public class Enemy : Actor {
 	{
 		timer += Time.deltaTime;
 		rigidbody2D.velocity = PosChange();
+		if(Random.Range(0, 100) < shootProbability)
+		{
+			base.Shoot();
+		}
 	}
 }

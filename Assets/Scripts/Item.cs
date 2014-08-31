@@ -7,7 +7,7 @@ public class Item : MonoBehaviour {
 	public SlotName activeSlot;
 	public string name = "item";
 
-	public void Use()
+	public virtual void Use()
 	{
 		print(name + " is used.");
 	}

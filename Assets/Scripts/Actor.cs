@@ -10,6 +10,9 @@ public class Actor : MonoBehaviour {
 	public float hurtCooldown = 0.5f;
 	public Enemy lastHit;
 	public GameManager gameManager;
+	public float engRegenSpeed = 0.001f;
+	public float hurtTimer = 3;
+	public GameObject defaultWeapon;
 
 	#region Attributes and Slots
 	private GameObject explosion;
@@ -137,25 +140,43 @@ public class Actor : MonoBehaviour {
 	private Weapon activeWeapon;
 	public Weapon ActiveWeapon
 	{
-		get{ return activeWeapon; }
+		get
+		{
+			if(activeWeapon == null)
+			{
+				GameObject dw = Instantiate(defaultWeapon, transform.position, transform.rotation) as GameObject;
+				activeWeapon = dw.GetComponent<Weapon>();
+				activeWeapon.name = "Plazma Gun";
+				EquipWeapon(activeWeapon);
+			}
+			return activeWeapon;
+		}
 		set{ activeWeapon = value; }
 	}
 
-	public List<Item> items = new List<Item>();
+	public List<Item> inventory = new List<Item>();
 	public Dictionary<Slot, Item> slotDict = new Dictionary<Slot, Item>();
 	#endregion
 
 	public void Hit()
 	{
-		health--;
-		if(health <= 0)
+		if(hurtTimer <= 0)
 		{
-			Die();
+			hurtTimer = hurtCooldown;
+			health--;
+			if(health <= 0)
+			{
+				Die();
+			}
 		}
 	}
 
 	public virtual void Die()
 	{
+		foreach(Item i in inventory)
+		{
+			Instantiate(i.gameObject, transform.position, Quaternion.identity);
+		}
 		Instantiate(Explosion, transform.position, transform.rotation);
 		Destroy(this.gameObject);
 	}
@@ -171,7 +192,10 @@ public class Actor : MonoBehaviour {
 
 	public void RegenEng()
 	{
-
+		if(energy < 10)
+		{
+			energy += engRegenSpeed;
+		}
 	}
 
 	public void EquipItem(Item i)
@@ -181,6 +205,7 @@ public class Actor : MonoBehaviour {
 			UnequipItem(slots[i.activeSlot].item);
 		}
 		slots[i.activeSlot].item = i;
+		inventory.Add(i);
 	}
 
 	public void EquipWeapon(Weapon w)
@@ -201,6 +226,7 @@ public class Actor : MonoBehaviour {
 	public void UnequipItem(Item i)
 	{
 		slots[i.activeSlot].item = null;
+		inventory.Remove(i);
 		i.Unequip();
 	}
 
@@ -213,6 +239,8 @@ public class Actor : MonoBehaviour {
 	void Awake()
 	{
 		InitSlots();
+		defaultWeapon = (Resources.Load("Prefabs/Weapons/PlazmaGun") as GameObject);
+		defaultWeapon.name = "PlazmaGun";
 	}
 
 	private void InitSlots()
@@ -222,7 +250,7 @@ public class Actor : MonoBehaviour {
 		slots.Add(FrontSlot.name, FrontSlot);
 		slots.Add(CenterSlot.name, CenterSlot);
 	}
-	// Use this for initialization
+
 	public virtual void Start ()
 	{
 		foreach(Weapon w in transform.GetComponentsInChildren<Weapon>())
@@ -238,9 +266,15 @@ public class Actor : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		if(col.gameObject.tag != gameObject.tag)
+		if(col.gameObject.tag != gameObject.tag && col.gameObject.tag != "Item")
 		{
 			Hit();
 		}
+	}
+
+	public virtual void Update()
+	{
+		RegenEng();
+		hurtTimer -= Time.deltaTime;
 	}
 }

@@ -8,7 +8,6 @@ public class Bullet : MonoBehaviour {
 	private float timer = 0.01f;
 	// Use this for initialization
 	void Start () {
-		
 	}
 
 	void OnTriggerEnter2D(Collider2D col)
@@ -33,7 +32,7 @@ public class Bullet : MonoBehaviour {
 		}
 		else
 		{
-			rigidbody2D.velocity = Vector2.up * speed;
+			rigidbody2D.velocity = transform.up * speed;
 		}
 
 		if(timer <= 0)

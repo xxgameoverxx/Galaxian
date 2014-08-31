@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
 
 	public int playerLife = 5;
 	public string levelName;
+	public string levelDescription;
 
 	private Spawner spawner;
 
@@ -73,6 +74,18 @@ public class GameManager : MonoBehaviour {
 			int waveNumber = int.Parse(parentNode.Attributes["val"].Value);
 			spawner.waves[waveNumber].Add(node);
 		}
+		else if(node.Name == "Description")
+		{
+			if(node.Attributes["tag"].Value == "level")
+			{
+				levelDescription = node.InnerText;
+			}
+			else if(node.Attributes["tag"].Value == "wave")
+			{
+				int waveNumber = int.Parse(parentNode.Attributes["val"].Value);
+				spawner.waves[waveNumber].description = node.InnerText;
+			}
+		}
 
 		foreach(XmlNode childNode in node.ChildNodes)
 		{
@@ -95,5 +108,17 @@ public class GameManager : MonoBehaviour {
 		x = float.Parse(newS.Split( new Char[] {','})[0]);
 		y = float.Parse(newS.Split( new Char[] {','})[1]);
 		return new Vector2(x, y);
+	}
+
+	public Vector3 StringToVector3(string s)
+	{
+		float x;
+		float y;
+		float z;
+		string newS = s.Trim( new Char[] { '(', ')'} );
+		x = float.Parse(newS.Split( new Char[] {','})[0]);
+		y = float.Parse(newS.Split( new Char[] {','})[1]);
+		z = float.Parse(newS.Split( new char[] {','})[2]);
+		return new Vector3(x, y, z);
 	}
 }

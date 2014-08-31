@@ -27,7 +27,6 @@ public class Weapon : MonoBehaviour {
 
 	public void Equip()
 	{
-
 	}
 
 	public virtual void Unequip()

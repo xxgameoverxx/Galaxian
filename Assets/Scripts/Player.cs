@@ -5,6 +5,7 @@ public class Player : Actor {
 
 	public float moveX;
 	public float moveY;
+
 	private Spawner sp;
 	public Spawner Sp
 	{
@@ -22,6 +23,8 @@ public class Player : Actor {
 		}
 		set { sp = value; }
 	}
+
+	private GameObject shield;
 
 	public void Move()
 	{
@@ -45,12 +48,23 @@ public class Player : Actor {
 		base.Start();
 		moveSpeed = 750;
 		energy = 10;
+		health = 3;
+		shield = transform.FindChild("Shield").gameObject as GameObject;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		base.Update();
 		Move();
 		if(Input.GetKeyDown(KeyCode.K)) Die ();
 		if(Input.GetKeyDown(KeyCode.Space)) Shoot();
+		if(hurtTimer >= 0)
+		{
+			shield.SetActive(true);
+		}
+		else
+		{
+			shield.SetActive(false);
+		}
 	}
 }

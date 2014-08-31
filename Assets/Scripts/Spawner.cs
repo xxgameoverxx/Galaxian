@@ -10,7 +10,10 @@ public class Spawner : MonoBehaviour {
 
 	public int waveNumber = 0;
 
+	public bool showDescription = false;
 	private bool gameOver = false;
+	public string currentWaveDescription;
+	public string currentLevelDescription;
 
 	private GameObject player;
 
@@ -25,6 +28,21 @@ public class Spawner : MonoBehaviour {
 				Debug.LogWarning("Player prefab path is set to default value: Prefabs/Player by " + this);
 			}
 			return Resources.Load(playerPrefab) as GameObject;
+		}
+	}
+
+	void OnGUI()
+	{
+		if(showDescription)
+		{
+			GUI.Box(new Rect(20, 20, 300, 300), waves[waveNumber].description);
+			if(GUI.Button(new Rect(20, 340, 50, 25), "OK"))
+			{
+				showDescription = false;
+				player.SetActive(true);
+				Time.timeScale = 1;
+				waves[waveNumber].description = "";
+			}
 		}
 	}
 
@@ -45,6 +63,7 @@ public class Spawner : MonoBehaviour {
 			Debug.LogWarning("Game Manager is not found!");
 		}
 		player = PlayerStart();
+		currentLevelDescription = gameManager.levelDescription;
 	}
 
 	public GameObject PlayerStart()
@@ -67,6 +86,19 @@ public class Spawner : MonoBehaviour {
 		}
 		if(waves.Count > waveNumber)
 		{
+			if(waves[wave].description != "")
+			{
+				currentLevelDescription = waves[wave].description;
+				player.SetActive(false);
+				showDescription = true;
+				Time.timeScale = 0;
+			}
+
+			if(showDescription)
+			{
+				return;
+			}
+
 			waves[wave].SpawnAll(this);
 			waveNumber++;
 		}

@@ -1,12 +1,15 @@
 <Level name="First Level" val="1">
+	<Description tag="level">This is one hell of an awesome level!</Description>
 	<Wave name="Wave 1" val="0">
-		<Enemy name="BadassEnemy1" pos="(-5.0, 0.0)" prefabName="Enemy"/>
-		<Enemy name="BadassEnemy2" pos="(0.0, 0.0)" prefabName="Enemy"/>
-		<Enemy name="BadassEnemy3" pos="(5.0, 0.0)" prefabName="Enemy"/>
+		<Description tag="wave">Come get some!</Description>
+		<Enemy name="BadassEnemy1" pos="(-5.0, 0.0)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
+		<Enemy name="BadassEnemy2" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
+		<Enemy name="BadassEnemy3" pos="(5.0, 0.0)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
 	</Wave>
 	<Wave name="Wave 2" val="1">
-		<Enemy name="BadassEnemy1" pos="(-5.0, 2)" prefabName="Enemy"/>
-		<Enemy name="BadassEnemy2" pos="(0.0, 5)" prefabName="Enemy"/>
-		<Enemy name="BadassEnemy3" pos="(5.0, 0.0)" prefabName="Enemy"/>
+		<Description tag="wave">Hurt me plenty!</Description>
+		<Enemy name="BadassEnemy1" pos="(-5.0, 2)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
+		<Enemy name="BadassEnemy2" pos="(0.0, 5)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
+		<Enemy name="BadassEnemy3" pos="(5.0, 0.0)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
 	</Wave>
 </Level>
