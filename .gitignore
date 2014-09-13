@@ -61,3 +61,9 @@ db10aa939ca10d549b3f89a14b8ad7f7
 eeefab0ede45b954e8d2739d363307b5
 f54ed95ae896e7c45b525519a634cfd2
 /Library/metadata
+/*.suo
+/obj/Debug
+/obj
+/*.DotSettings
+/Assets/UnityVS
+/Assets/UnityVS.meta
