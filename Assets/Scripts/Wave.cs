@@ -8,6 +8,7 @@ public class Wave
 	public List<XmlNode> list = new List<XmlNode>();
 	public GameManager gm;
 	public string description = "";
+	public string gameOverText = "";
 	private bool showDescription = false;
 
 	public void Add(XmlNode e)

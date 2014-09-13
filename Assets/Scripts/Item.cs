@@ -5,11 +5,11 @@ public class Item : MonoBehaviour {
 
 	public float durability;
 	public SlotName activeSlot;
-	public string name = "item";
+	public string Name = "item";
 
 	public virtual void Use()
 	{
-		print(name + " is used.");
+		print(Name + " is used.");
 	}
 
 	public void Unequip()

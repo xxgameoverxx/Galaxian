@@ -51,10 +51,19 @@ public class Player : Actor {
 		health = 3;
 		shield = transform.FindChild("Shield").gameObject as GameObject;
 	}
-	
+
+	void WeaponSelect()
+	{
+		if(Input.GetKeyDown(KeyCode.Alpha1)) ActiveWeapon = FrontSlot.weapon;
+		if(Input.GetKeyDown(KeyCode.Alpha2)) ActiveWeapon = LeftSlot.weapon;
+		if(Input.GetKeyDown(KeyCode.Alpha3)) ActiveWeapon = RightSlot.weapon;
+		if(Input.GetKeyDown(KeyCode.Alpha4)) ActiveWeapon = CenterSlot.weapon;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		base.Update();
+		WeaponSelect();
 		Move();
 		if(Input.GetKeyDown(KeyCode.K)) Die ();
 		if(Input.GetKeyDown(KeyCode.Space)) Shoot();

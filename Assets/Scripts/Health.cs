@@ -5,7 +5,7 @@ public class Health : Item {
 
 	// Use this for initialization
 	void Start () {
-		name = "Health Item";
+		Name = "Health Item";
 		activeSlot = SlotName.Center;
 		durability = 3;
 	}

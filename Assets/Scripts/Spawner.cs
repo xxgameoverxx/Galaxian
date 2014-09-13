@@ -7,17 +7,20 @@ public class Spawner : MonoBehaviour {
 	public GameManager gameManager;
 	public List<Wave> waves = new List<Wave>();
 	public List<GameObject> enemyList = new List<GameObject>();
+    private float waitBeforeSpawn = 3;
+    private GUIHelper guiHelper;
 
 	public int waveNumber = 0;
 
-	public bool showDescription = false;
 	private bool gameOver = false;
+    private bool showingMessage = false;
 	public string currentWaveDescription;
 	public string currentLevelDescription;
 
 	private GameObject player;
 
 	public string playerPrefab;
+    private bool showDescription = false;
 	private GameObject PlayerPrefab
 	{
 		get
@@ -31,39 +34,34 @@ public class Spawner : MonoBehaviour {
 		}
 	}
 
-	void OnGUI()
-	{
-		if(showDescription)
-		{
-			GUI.Box(new Rect(20, 20, 300, 300), waves[waveNumber].description);
-			if(GUI.Button(new Rect(20, 340, 50, 25), "OK"))
-			{
-				showDescription = false;
-				player.SetActive(true);
-				Time.timeScale = 1;
-				waves[waveNumber].description = "";
-			}
-		}
-	}
+    //void OnGUI()
+    //{
+    //    if(showDescription)
+    //    {
+    //        GUI.Box(new Rect(20, 20, 300, 300), waves[waveNumber].description);
+    //        if(GUI.Button(new Rect(20, 340, 50, 25), "OK"))
+    //        {
+    //            showDescription = false;
+    //            player.SetActive(true);
+    //            Time.timeScale = 1;
+    //            waves[waveNumber].description = "";
+    //        }
+    //    }
+    //}
 
-	void Start () {
-
-//		GameObject e = Resources.Load("Prefabs/Enemies/Enemy") as GameObject;
-//
-//		Wave w = new Wave();
-//		w.Add(e, new Vector2(0, 5));
-//		Wave w2 = new Wave();
-//		w2.Add(e, new Vector2(5, 5));
-//
-//		waves.Add(w);
-//		waves.Add(w2);
-
+	void Start ()
+    {
 		if(gameManager == null)
 		{
 			Debug.LogWarning("Game Manager is not found!");
 		}
 		player = PlayerStart();
 		currentLevelDescription = gameManager.levelDescription;
+        guiHelper = FindObjectOfType<GUIHelper>();
+        if(guiHelper == null)
+        {
+            Debug.LogWarning("GUIHelper is not found by Spawner");
+        }
 	}
 
 	public GameObject PlayerStart()
@@ -84,28 +82,21 @@ public class Spawner : MonoBehaviour {
 		{
 			wave = waveNumber;
 		}
+        
 		if(waves.Count > waveNumber)
 		{
-			if(waves[wave].description != "")
-			{
-				currentLevelDescription = waves[wave].description;
-				player.SetActive(false);
-				showDescription = true;
-				Time.timeScale = 0;
-			}
-
-			if(showDescription)
-			{
-				return;
-			}
-
+            if (!string.IsNullOrEmpty(waves[wave].description))
+            {
+                guiHelper.ShowMessage(waves[wave].description);
+                showingMessage = true;
+            }
 			waves[wave].SpawnAll(this);
 			waveNumber++;
 		}
 		else
 		{
 			gameOver = true;
-			print("You won :(");
+            guiHelper.ShowMessage("YOU WON :(");
 		}
 
 	}
@@ -119,14 +110,36 @@ public class Spawner : MonoBehaviour {
 		}
 		else
 		{
-			print("Sayonara sucka!");
+            guiHelper.ShowMessage("SAYONARA SUCKA!");
 		}
 	}
 	
 	void Update () {
 		if(enemyList.Count == 0 && !gameOver)
 		{
-			SpawnWave();
+            waitBeforeSpawn -= Time.deltaTime;
+            if (waitBeforeSpawn <= 0 && !showingMessage)
+            {
+                waitBeforeSpawn = 3;
+                SpawnWave();
+            }
 		}
+
+        if(showingMessage && player != null)
+        {
+            Time.timeScale = 0;
+            player.SetActive(false);
+        }
+        else if(player != null)
+        {
+            Time.timeScale = 1;
+            player.SetActive(true);
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            showingMessage = false;
+            guiHelper.HideMessage();
+        }
 	}
 }

@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Enemy : Actor {
 
-	private float posChange;
 	private float timer = 0;
+    private bool selfDestroy = false;
 
 	public float amplitudeY = 2;
 	public float amplitudeX = 5;
@@ -12,6 +12,19 @@ public class Enemy : Actor {
 	public Vector2 offset = Vector2.zero;
 
 	#region Attributes
+    private Player plyr;
+    private Player player
+    {
+        get
+        {
+            if(plyr == null)
+            {
+                plyr = GameManager.FindObjectOfType<Player>();
+            }
+            return plyr;
+        }
+    }
+
 	private float dampingY = 1;
 	public float DampingY
 	{
@@ -67,6 +80,7 @@ public class Enemy : Actor {
 		health = 3;
 		GameObject healthGO = Resources.Load("Prefabs/Items/ShotgunAmmo") as GameObject;
 		inventory.Add(healthGO.GetComponent<Item>());
+        moveSpeed = 500;
 	}
 
 	public override void Die ()
@@ -81,18 +95,40 @@ public class Enemy : Actor {
 		{
 			time = timer;
 		}
-		float posX = Mathf.Cos(time * DampingX) * amplitudeX;
-		float posY = Mathf.Sin(time * DampingY) * amplitudeY;
-		return new Vector2(posX, posY);
+        if (!selfDestroy)
+        {
+            float posX = Mathf.Cos(time * DampingX) * amplitudeX;
+            float posY = Mathf.Sin(time * DampingY) * amplitudeY;
+            return new Vector2(posX, posY);
+        }
+        else
+        {
+            return new Vector2(0, 0);
+        }
 	}
+
 
 	void FixedUpdate()
 	{
 		timer += Time.deltaTime;
-		rigidbody2D.velocity = PosChange();
-		if(Random.Range(0, 100) < shootProbability)
+        if (selfDestroy)
+        {
+            rigidbody2D.velocity = transform.up * moveSpeed * Time.deltaTime;
+            Vector3 direction = (player.transform.position - transform.position).normalized;
+            Quaternion lookRot = Quaternion.LookRotation(transform.forward, direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, 0.1f);
+        }
+        else
+        {
+            rigidbody2D.velocity = PosChange();
+        }
+        if (Random.Range(0, 100) < shootProbability)
 		{
 			base.Shoot();
 		}
+        if(Random.Range(0f, 100f) < 0.1f)
+        {
+            selfDestroy = true;
+        }
 	}
 }

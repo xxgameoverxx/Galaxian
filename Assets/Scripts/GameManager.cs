@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 	public int playerLife = 5;
 	public string levelName;
 	public string levelDescription;
-
+	public string gameOverText;
 	private Spawner spawner;
 
 	private string playerPrefab;
@@ -84,6 +84,18 @@ public class GameManager : MonoBehaviour {
 			{
 				int waveNumber = int.Parse(parentNode.Attributes["val"].Value);
 				spawner.waves[waveNumber].description = node.InnerText;
+			}
+		}
+		else if(node.Name == "GameOverText")
+		{
+			if(node.Attributes["tag"].Value == "level")
+			{
+				gameOverText = node.InnerText;
+			}
+			else if(node.Attributes["tag"].Value == "wave")
+			{
+				int waveNumber = int.Parse(parentNode.Attributes["val"].Value);
+				spawner.waves[waveNumber].gameOverText = node.InnerText;
 			}
 		}
 

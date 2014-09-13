@@ -7,7 +7,7 @@ public class ShotgunAmmo : Item {
 
 	// Use this for initialization
 	void Start () {
-		name = "Shotgun Ammo";
+		Name = "Shotgun Ammo";
 		activeSlot = SlotName.Front;
 		durability = 5;
 		shotGun = Resources.Load("Prefabs/Weapons/Shotgun") as GameObject;
