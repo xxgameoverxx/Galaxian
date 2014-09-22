@@ -34,21 +34,6 @@ public class Spawner : MonoBehaviour {
 		}
 	}
 
-    //void OnGUI()
-    //{
-    //    if(showDescription)
-    //    {
-    //        GUI.Box(new Rect(20, 20, 300, 300), waves[waveNumber].description);
-    //        if(GUI.Button(new Rect(20, 340, 50, 25), "OK"))
-    //        {
-    //            showDescription = false;
-    //            player.SetActive(true);
-    //            Time.timeScale = 1;
-    //            waves[waveNumber].description = "";
-    //        }
-    //    }
-    //}
-
 	void Start ()
     {
 		if(gameManager == null)
@@ -96,7 +81,8 @@ public class Spawner : MonoBehaviour {
 		else
 		{
 			gameOver = true;
-            guiHelper.ShowMessage("YOU WON :(");
+            showingMessage = true;
+            guiHelper.ShowMessage(gameManager.winText);
 		}
 
 	}
@@ -110,7 +96,7 @@ public class Spawner : MonoBehaviour {
 		}
 		else
 		{
-            guiHelper.ShowMessage("SAYONARA SUCKA!");
+            guiHelper.ShowMessage("GAME OVER!!!");
 		}
 	}
 	

@@ -24,9 +24,4 @@ public class ShotgunAmmo : Item {
 			base.Unequip();
 		}
 	}
-
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

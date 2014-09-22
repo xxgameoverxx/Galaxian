@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Enemy : Actor {
 
@@ -9,6 +10,7 @@ public class Enemy : Actor {
 	public float amplitudeY = 2;
 	public float amplitudeX = 5;
 	public float shootProbability = 1;
+    public float selfDestroyProbability = 0;
 	public Vector2 offset = Vector2.zero;
 
 	#region Attributes
@@ -25,7 +27,7 @@ public class Enemy : Actor {
         }
     }
 
-	private float dampingY = 1;
+	private float dampingY = 1f;
 	public float DampingY
 	{
 		get
@@ -78,9 +80,8 @@ public class Enemy : Actor {
 	{
 		base.Start ();
 		health = 3;
-		GameObject healthGO = Resources.Load("Prefabs/Items/ShotgunAmmo") as GameObject;
+		GameObject healthGO = Resources.Load("Prefabs/Items/LaserAmmo") as GameObject;
 		inventory.Add(healthGO.GetComponent<Item>());
-        moveSpeed = 500;
 	}
 
 	public override void Die ()
@@ -126,7 +127,7 @@ public class Enemy : Actor {
 		{
 			base.Shoot();
 		}
-        if(Random.Range(0f, 100f) < 0.1f)
+        if(Random.Range(0f, 100f) < selfDestroyProbability)
         {
             selfDestroy = true;
         }
