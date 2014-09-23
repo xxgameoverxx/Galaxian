@@ -18,7 +18,7 @@ public class RocketLauncher : Weapon {
         }
     }
 
-	void Start () {
+	public override void Start () {
         ammo = AmmoType.Bomb;
         activeSlot = SlotName.Front;
         base.Start();

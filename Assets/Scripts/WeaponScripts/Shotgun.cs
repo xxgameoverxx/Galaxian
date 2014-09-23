@@ -19,7 +19,7 @@ public class Shotgun : Weapon {
 	}
 
 	// Use this for initialization
-	void Start () {
+	public override void Start () {
 		ammo = AmmoType.Shotgun;
 		activeSlot = SlotName.Front;
         base.Start();

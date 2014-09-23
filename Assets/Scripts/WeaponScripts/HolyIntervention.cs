@@ -1,10 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class HolyIntervention : Weapon
 {
-	// Use this for initialization
-	void Start () {
+	public override void Start () {
         ammo = AmmoType.Area;
         activeSlot = SlotName.Center;
         base.Start();

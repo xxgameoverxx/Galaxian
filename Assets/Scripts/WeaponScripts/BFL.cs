@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BFL : Weapon {
 
-    private bool active = false;
+    private bool activated = false;
     private float cooldownTime = 2f;
     private GameObject beam;
 
@@ -24,13 +24,13 @@ public class BFL : Weapon {
 
     public override void Shoot()
     {
-        if(!active)
+        if(!activated)
         {
             if (beamCount > 0)
             {
                 beamCount--;
                 cooldownTime = 2f;
-                active = true;
+                activated = true;
             }
         }
     }
@@ -39,7 +39,7 @@ public class BFL : Weapon {
     {
         if(cooldownTime < 0)
         {
-            active = false;
+            activated = false;
             if(beamCount == 0)
             {
                 owner.UnequipWeapon(this);
@@ -50,6 +50,6 @@ public class BFL : Weapon {
             cooldownTime -= Time.deltaTime;
         }
 
-        beam.SetActive(active);
+        beam.SetActive(activated);
     }
 }

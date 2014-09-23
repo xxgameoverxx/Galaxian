@@ -45,7 +45,7 @@ public class Player : Actor {
 	}
 
 	// Use this for initialization
-	void Start () {
+	public override void Start () {
 		base.Start();
 		moveSpeed = 750;
 		energy = 10;
@@ -63,7 +63,7 @@ public class Player : Actor {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	public override void Update () {
 		base.Update();
 		WeaponSelect();
 		Move();
