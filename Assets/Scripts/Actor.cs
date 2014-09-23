@@ -16,6 +16,8 @@ public class Actor : MonoBehaviour {
 	public float hurtTimer = 3;
 	public GameObject defaultWeapon;
 
+    private GameObject shield;
+
 	#region Attributes and Slots
 	private GameObject explosion;
 	private GameObject Explosion
@@ -162,7 +164,6 @@ public class Actor : MonoBehaviour {
 
 	public void Hit(float hitpoint = 1)
 	{
-        Debug.Log(this + " is really hit!");
 		if(hurtTimer <= 0)
 		{
 			hurtTimer = hurtCooldown;
@@ -185,10 +186,6 @@ public class Actor : MonoBehaviour {
 
 	public virtual void Die()
 	{
-        //foreach(Item i in inventory)
-        //{
-        //    Instantiate(i.gameObject, transform.position, Quaternion.identity);
-        //}
         if (inventory.Count > 0)
         {
             Instantiate(inventory[Random.Range(0, inventory.Count)].gameObject, transform.position, Quaternion.identity);
@@ -278,13 +275,23 @@ public class Actor : MonoBehaviour {
 		{
 			Debug.LogError("GameManager could not be found by " + this + " ! Be sure that you have it in the scene!");
 		}
+        shield = transform.FindChild("Shield").gameObject as GameObject;
+
 	}
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
 		if(col.gameObject.tag != gameObject.tag && col.gameObject.tag != "Item")
 		{
-			Hit();
+            Bullet b = col.GetComponent<Bullet>() ;
+            if (b != null)
+            {
+                Hit(b.hitPoint);
+            }
+            else
+            {
+                Hit();
+            }
 		}
 	}
 
@@ -292,5 +299,13 @@ public class Actor : MonoBehaviour {
 	{
 		RegenEng();
 		hurtTimer -= Time.deltaTime;
+        if (hurtTimer >= 0)
+        {
+            shield.SetActive(true);
+        }
+        else
+        {
+            shield.SetActive(false);
+        }
 	}
 }

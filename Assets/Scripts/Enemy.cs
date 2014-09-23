@@ -86,11 +86,13 @@ public class Enemy : Actor {
         GameObject ShotgunGO = Resources.Load("Prefabs/Items/ShotgunAmmo") as GameObject;
         GameObject RocketGO = Resources.Load("Prefabs/Items/RocketAmmo") as GameObject;
         GameObject HolyGO = Resources.Load("Prefabs/Items/HolyAmmo") as GameObject;
+        GameObject ShieldGO = Resources.Load("Prefabs/Items/ShieldItem") as GameObject;
         inventory.Add(healthGO.GetComponent<Item>());
         inventory.Add(LaserGO.GetComponent<Item>());
         inventory.Add(ShotgunGO.GetComponent<Item>());
         inventory.Add(RocketGO.GetComponent<Item>());
         inventory.Add(HolyGO.GetComponent<Item>());
+        inventory.Add(ShieldGO.GetComponent<Item>());
 
 	}
 

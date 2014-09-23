@@ -19,9 +19,4 @@ public class Health : Item {
 			base.Unequip();
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

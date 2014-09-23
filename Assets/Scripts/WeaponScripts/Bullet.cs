@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour {
 	public float speed = 10;
 	public bool destroyed = false;
 	public float timer = 0.01f;
+    public float hitPoint = 1;
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
@@ -20,7 +21,6 @@ public class Bullet : MonoBehaviour {
 		destroyed = true;
 	}
 
-	// Update is called once per frame
 	void FixedUpdate () {
 		if(destroyed)
 		{
