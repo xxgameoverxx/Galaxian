@@ -1,7 +1,7 @@
 <Level name="First Level" val="1">
 	<Description tag="level">This is one hell of an awesome level!</Description>
+	<GameOverText tag="level">You killed them.. YOU KILLED ALL OF THEM!!! Do you feel like a hero yet?</GameOverText>
 	<Wave name="Wave 1" val="0">
-		<Description tag="wave">Come get some!</Description>
 		<Enemy name="BadassEnemy1" pos="(-5.0, 0.0)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
 		<Enemy name="BadassEnemy2" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
 		<Enemy name="BadassEnemy3" pos="(5.0, 0.0)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
@@ -12,5 +12,4 @@
 		<Enemy name="BadassEnemy2" pos="(0.0, 5)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
 		<Enemy name="BadassEnemy3" pos="(5.0, 0.0)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
 	</Wave>
-	<GameOverText tag="level">You killed them.. YOU KILLED ALL OF THEM!!! Do you feel like a hero yet?</GameOverText>
 </Level>

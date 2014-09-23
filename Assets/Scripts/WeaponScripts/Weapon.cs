@@ -15,9 +15,11 @@ public class Weapon : MonoBehaviour {
 	public AmmoType ammo = AmmoType.Plazma;
 	public SlotName activeSlot;
 	public Actor owner;
+    public string Name;
 	
 	public virtual void Start()
 	{
+        //name = Name;
 		owner = transform.root.GetComponent<Actor>();
 	}
 

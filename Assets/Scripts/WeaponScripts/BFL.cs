@@ -17,9 +17,9 @@ public class BFL : Weapon {
 
     public override void Start()
     {
-        base.Start();
         beam = transform.FindChild("Beam").gameObject;
         beam.SetActive(false);
+        base.Start();
     }
 
     public override void Shoot()

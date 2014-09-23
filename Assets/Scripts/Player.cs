@@ -6,6 +6,8 @@ public class Player : Actor {
 	public float moveX;
 	public float moveY;
 
+    private GameObject shield;
+
 	private Spawner sp;
 	public Spawner Sp
 	{
@@ -24,7 +26,6 @@ public class Player : Actor {
 		set { sp = value; }
 	}
 
-	private GameObject shield;
 
 	public void Move()
 	{

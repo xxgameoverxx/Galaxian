@@ -160,12 +160,13 @@ public class Actor : MonoBehaviour {
 	public Dictionary<Slot, Item> slotDict = new Dictionary<Slot, Item>();
 	#endregion
 
-	public void Hit()
+	public void Hit(float hitpoint = 1)
 	{
+        Debug.Log(this + " is really hit!");
 		if(hurtTimer <= 0)
 		{
 			hurtTimer = hurtCooldown;
-			health--;
+			health -= hitpoint;
 			if(health <= 0)
 			{
 				Die();
@@ -188,8 +189,11 @@ public class Actor : MonoBehaviour {
         //{
         //    Instantiate(i.gameObject, transform.position, Quaternion.identity);
         //}
-        Instantiate(inventory[Random.Range(0, inventory.Count)].gameObject, transform.position, Quaternion.identity);
-		Instantiate(Explosion, transform.position, transform.rotation);
+        if (inventory.Count > 0)
+        {
+            Instantiate(inventory[Random.Range(0, inventory.Count)].gameObject, transform.position, Quaternion.identity);
+        }
+        Instantiate(Explosion, transform.position, transform.rotation);
 		Destroy(this.gameObject);
 	}
 

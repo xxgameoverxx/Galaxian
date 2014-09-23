@@ -4,11 +4,8 @@ using System.Collections;
 public class Bullet : MonoBehaviour {
 
 	public float speed = 10;
-	private bool destroyed = false;
-	private float timer = 0.01f;
-	// Use this for initialization
-	void Start () {
-	}
+	public bool destroyed = false;
+	public float timer = 0.01f;
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
@@ -37,7 +34,7 @@ public class Bullet : MonoBehaviour {
 
 		if(timer <= 0)
 		{
-			Destroy(this.gameObject);
+            Destroy(this.gameObject);
 		}
 	}
 }
