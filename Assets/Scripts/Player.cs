@@ -49,15 +49,16 @@ public class Player : Actor {
 		moveSpeed = 750;
 		energy = 10;
 		health = 3;
-		shield = transform.FindChild("Shield").gameObject as GameObject;
+        maxHealth = health;
+        shield = transform.FindChild("Shield").gameObject as GameObject;
 	}
 
 	void WeaponSelect()
 	{
-		if(Input.GetKeyDown(KeyCode.Alpha1)) ActiveWeapon = FrontSlot.weapon;
-		if(Input.GetKeyDown(KeyCode.Alpha2)) ActiveWeapon = LeftSlot.weapon;
-		if(Input.GetKeyDown(KeyCode.Alpha3)) ActiveWeapon = RightSlot.weapon;
-		if(Input.GetKeyDown(KeyCode.Alpha4)) ActiveWeapon = CenterSlot.weapon;
+		if(Input.GetKeyDown(KeyCode.Alpha1) && FrontSlot.weapon != null) ActiveWeapon = FrontSlot.weapon;
+        if (Input.GetKeyDown(KeyCode.Alpha2) && LeftSlot.weapon != null) ActiveWeapon = LeftSlot.weapon;
+        if (Input.GetKeyDown(KeyCode.Alpha3) && RightSlot.weapon != null) ActiveWeapon = RightSlot.weapon;
+        if (Input.GetKeyDown(KeyCode.Alpha4) && CenterSlot.weapon != null) ActiveWeapon = CenterSlot.weapon;
 	}
 
 	// Update is called once per frame

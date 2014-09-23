@@ -15,7 +15,7 @@ public class Health : Item {
 		Actor actor = col.gameObject.GetComponent<Actor>();
 		if(actor != null)
 		{
-			actor.health += durability;
+			actor.Heal(durability);
 			base.Unequip();
 		}
 	}

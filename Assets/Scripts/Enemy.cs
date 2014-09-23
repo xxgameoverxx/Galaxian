@@ -80,8 +80,14 @@ public class Enemy : Actor {
 	{
 		base.Start ();
 		health = 3;
-		GameObject healthGO = Resources.Load("Prefabs/Items/LaserAmmo") as GameObject;
-		inventory.Add(healthGO.GetComponent<Item>());
+        maxHealth = health;
+		GameObject healthGO = Resources.Load("Prefabs/Items/Health") as GameObject;
+        GameObject LaserGO = Resources.Load("Prefabs/Items/LaserAmmo") as GameObject;
+        GameObject ShotgunGO = Resources.Load("Prefabs/Items/ShotgunAmmo") as GameObject;
+        inventory.Add(healthGO.GetComponent<Item>());
+        inventory.Add(LaserGO.GetComponent<Item>());
+        inventory.Add(ShotgunGO.GetComponent<Item>());
+
 	}
 
 	public override void Die ()

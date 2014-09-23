@@ -18,7 +18,7 @@ public class LaserAmmo : Item
         if (actor != null)
         {
             BFL bfl = (Instantiate(laser, transform.position, transform.rotation) as GameObject).GetComponent<BFL>();
-            bfl.name = "Laser";
+            bfl.name = "BFL";
             actor.EquipWeapon(bfl);
             base.Unequip();
         }

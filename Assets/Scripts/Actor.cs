@@ -5,7 +5,9 @@ using System.Collections.Generic;
 public class Actor : MonoBehaviour {
 
 	public float health;
+    public float maxHealth;
 	public float energy;
+    public float maxEnergy;
 	public float moveSpeed;
 	public float hurtCooldown = 0.5f;
 	public Enemy lastHit;
@@ -171,12 +173,22 @@ public class Actor : MonoBehaviour {
 		}
 	}
 
+    public void Heal(float amount)
+    {
+        health += amount;
+        if(health > maxHealth)
+        {
+            health = maxHealth;
+        }
+    }
+
 	public virtual void Die()
 	{
-		foreach(Item i in inventory)
-		{
-			Instantiate(i.gameObject, transform.position, Quaternion.identity);
-		}
+        //foreach(Item i in inventory)
+        //{
+        //    Instantiate(i.gameObject, transform.position, Quaternion.identity);
+        //}
+        Instantiate(inventory[Random.Range(0, inventory.Count)].gameObject, transform.position, Quaternion.identity);
 		Instantiate(Explosion, transform.position, transform.rotation);
 		Destroy(this.gameObject);
 	}
