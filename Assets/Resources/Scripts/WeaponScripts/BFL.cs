@@ -7,8 +7,6 @@ public class BFL : Weapon {
     private float cooldownTime = 2f;
     private GameObject beam;
 
-    public int beamCount = 5;
-
     void Awake()
     {
         ammo = AmmoType.Laser;
@@ -27,9 +25,9 @@ public class BFL : Weapon {
     {
         if(!activated)
         {
-            if (beamCount > 0)
+            if (ammoCount > 0)
             {
-                beamCount--;
+                ammoCount--;
                 cooldownTime = 2f;
                 activated = true;
             }
@@ -41,7 +39,7 @@ public class BFL : Weapon {
         if(cooldownTime < 0)
         {
             activated = false;
-            if(beamCount == 0)
+            if (ammoCount == 0)
             {
                 owner.UnequipWeapon(this);
             }

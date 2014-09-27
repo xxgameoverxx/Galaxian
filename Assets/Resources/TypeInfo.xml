@@ -29,16 +29,16 @@
 		<InventoryItem value="103"/>
 		<InventoryItem value="104"/>
 		<InventoryItem value="105"/>
-		<DropProbability value="50"/>
+		<DropProbability value="100"/>
 	</Type>
-	<Type type="100" name="Health" prefab="Items/Health" durability="5" slotName="3"/>
+	<Type type="100" name="Health" prefab="Items/Health" durability="50" slotName="3"/>
 	<Type type="101" name="Divine Intervention Ammo" prefab="Items/HolyAmmo" durability="1" slotName="0"/>
-	<Type type="102" name="Shotgun Ammo" prefab="Items/ShotgunAmmo" durability="5" slotName="0"/>
-	<Type type="103" name="BFL Ammo" prefab="Items/LaserAmmo" durability="3" slotName="0"/>
+	<Type type="102" name="Shotgun Ammo" prefab="Items/ShotgunAmmo" durability="50" slotName="0"/>
+	<Type type="103" name="BFL Ammo" prefab="Items/LaserAmmo" durability="30" slotName="0"/>
 	<Type type="104" name="Rocket Launcher Ammo" prefab="Items/RocketAmmo" durability="3" slotName="0"/>
-	<Type type="105" name="Shield" prefab="Items/ShieldItem" durability="10" slotName="3"/>
-	<Type type="106" name="Shotgun" prefab="Weapons/Shotgun" durability="10" slotName="0"/>
-	<Type type="107" name="BFL" prefab="Weapons/BFL" durability="3" slotName="0"/>
-	<Type type="108" name="Rocket Launcher" prefab="Weapons/RocketLauncher" durability="3" slotName="0"/>
-	<Type type="109" name="Divine Intervention" prefab="Weapons/HolyIntervention" durability="1" slotName="0"/>
+	<Type type="105" name="Shield" prefab="Items/ShieldItem" durability="100" slotName="3"/>
+	<Type type="106" name="Shotgun" prefab="Weapons/Shotgun" durability="100" slotName="0"/>
+	<Type type="107" name="BFL" prefab="Weapons/BFL" durability="30" slotName="0"/>
+	<Type type="108" name="Rocket Launcher" prefab="Weapons/RocketLauncher" durability="30" slotName="0"/>
+	<Type type="109" name="Divine Intervention" prefab="Weapons/HolyIntervention" durability="10" slotName="0"/>
 </Types>

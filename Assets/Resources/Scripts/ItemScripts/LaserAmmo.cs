@@ -19,6 +19,7 @@ public class LaserAmmo : Item
         {
             BFL bfl = (Instantiate(laser, transform.position, transform.rotation) as GameObject).GetComponent<BFL>();
             bfl.name = "BFL";
+            bfl.ammoCount = (int)durability;
             actor.EquipWeapon(bfl);
             base.Unequip();
         }

@@ -3,7 +3,6 @@ using System.Collections;
 
 public class RocketLauncher : Weapon {
 
-    public int rocketCount = 3;
 
     private GameObject rocket;
     public GameObject Rocket
@@ -27,12 +26,12 @@ public class RocketLauncher : Weapon {
     public override void Shoot()
     {
         base.Shoot();
-        if(rocketCount > 0)
+        if (ammoCount > 0)
         {
-            rocketCount--;
+            ammoCount--;
             GameObject bullet = Instantiate(Rocket, transform.position, transform.rotation) as GameObject;
             bullet.tag = owner.gameObject.tag;
-            if (rocketCount == 0)
+            if (ammoCount == 0)
             {
                 owner.UnequipWeapon(this);
             }

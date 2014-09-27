@@ -9,7 +9,6 @@ public class ShotgunAmmo : Item {
 	void Start () {
 		Name = "Shotgun Ammo";
 		activeSlot = SlotName.Front;
-		durability = 5;
 		shotGun = Resources.Load("Prefabs/Weapons/Shotgun") as GameObject;
 	}
 
@@ -19,7 +18,8 @@ public class ShotgunAmmo : Item {
 		if(actor != null)
 		{
 			Shotgun sg = (Instantiate(shotGun, transform.position, transform.rotation) as GameObject).GetComponent<Shotgun>();
-			sg.name = "Shotgun"; 
+			sg.name = "Shotgun";
+            sg.ammoCount = (int)durability;
 			actor.EquipWeapon(sg);
 			base.Unequip();
 		}

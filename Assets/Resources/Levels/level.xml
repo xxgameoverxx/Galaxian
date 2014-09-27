@@ -14,13 +14,7 @@
 		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 			<Amplitude x="0" y="0"/>
 		</Enemy>
-		<Enemy typeId="1" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Amplitude x="0" y="0"/>
-		</Enemy>
 		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Amplitude x="0" y="0"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 			<Amplitude x="0" y="0"/>
 		</Enemy>
 		<Enemy typeId="1" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
@@ -34,8 +28,6 @@
 		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 		</Enemy>
 		<Enemy typeId="1" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-		</Enemy>
-		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 		</Enemy>
 		<Enemy typeId="1" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 		</Enemy>

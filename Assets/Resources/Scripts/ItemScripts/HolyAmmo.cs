@@ -16,7 +16,7 @@ public class HolyAmmo : Item
     void OnTriggerEnter2D(Collider2D col)
     {
         Actor actor = col.gameObject.GetComponent<Actor>();
-        if (actor != null)
+        if (actor != null && !(actor is Enemy))
         {
             HolyIntervention sg = (Instantiate(holyCall, transform.position, transform.rotation) as GameObject).GetComponent<HolyIntervention>();
             sg.name = "Holy Intervention";

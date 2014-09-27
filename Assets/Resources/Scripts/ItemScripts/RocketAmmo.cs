@@ -19,6 +19,7 @@ public class RocketAmmo : Item
         {
             RocketLauncher sg = (Instantiate(rocketLauncher, transform.position, transform.rotation) as GameObject).GetComponent<RocketLauncher>();
             sg.name = "Rocket Launcher";
+            sg.ammoCount = (int)durability;
             actor.EquipWeapon(sg);
             base.Unequip();
         }
