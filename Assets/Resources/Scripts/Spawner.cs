@@ -20,7 +20,6 @@ public class Spawner : MonoBehaviour {
 	private GameObject player;
 
 	public string playerPrefab;
-    private bool showDescription = false;
 	private GameObject PlayerPrefab
 	{
 		get
@@ -76,7 +75,7 @@ public class Spawner : MonoBehaviour {
                 showingMessage = true;
             }
 			waves[wave].SpawnAll(this);
-			waveNumber++;
+            waveNumber++;
 		}
 		else
 		{

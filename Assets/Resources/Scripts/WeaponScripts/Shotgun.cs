@@ -3,8 +3,6 @@ using System.Collections;
 
 public class Shotgun : Weapon {
 
-	public int shellCount = 5;
-
 	private GameObject shotgunShell;
 	public GameObject ShotgunShell
 	{
@@ -18,6 +16,10 @@ public class Shotgun : Weapon {
 		}
 	}
 
+    void OnCreated()
+    {
+        print("asdasd");
+    }
 	// Use this for initialization
 	public override void Start () {
 		ammo = AmmoType.Shotgun;
@@ -28,16 +30,16 @@ public class Shotgun : Weapon {
 	public override void Shoot ()
 	{
 		base.Shoot ();
-		if(shellCount > 0)
+		if(ammoCount > 0)
 		{
-			shellCount--;
+            ammoCount--;
 			for(int i = -1; i < 2; i++)
 			{
 				Quaternion rot = Quaternion.Euler(new Vector3(0, 0, 15 * i + transform.rotation.eulerAngles.z));
 				GameObject bullet = Instantiate(ShotgunShell, transform.position, rot) as GameObject;
 				bullet.tag = owner.gameObject.tag;
 			}
-			if(shellCount == 0)
+            if (ammoCount == 0)
 			{
 				owner.UnequipWeapon(this);
 			}

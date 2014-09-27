@@ -49,13 +49,20 @@ public class GameManager : MonoBehaviour {
     {
         XmlDocument typeDoc = new XmlDocument();
         typeDoc.Load(Application.dataPath + "/Resources/TypeInfo.xml");
-        foreach (XmlNode node in typeDoc)
+        foreach (XmlNode node in typeDoc.ChildNodes)
         {
-            if(node.Name == "Type")
+            foreach (XmlNode childNode in node.ChildNodes)
             {
                 typeInfo = new TypeInfo();
-                typeInfo.ReadInfo(node);
-                typeIdDict.Add(typeInfo.type, typeInfo);
+                typeInfo.ReadInfo(childNode);
+                try
+                {
+                    typeIdDict.Add(typeInfo.id, typeInfo);
+                }
+                catch
+                {
+                    Debug.LogError("Same id already exists in dictionary: " + typeInfo.id);
+                }
             }
         }
     }

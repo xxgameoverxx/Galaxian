@@ -16,6 +16,7 @@ public class Weapon : MonoBehaviour {
 	public SlotName activeSlot;
 	public Actor owner;
     public string Name;
+    public int ammoCount = 0;
 	
 	public virtual void Start()
 	{

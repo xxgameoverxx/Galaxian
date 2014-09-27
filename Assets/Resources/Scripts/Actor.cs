@@ -158,7 +158,7 @@ public class Actor : MonoBehaviour {
 		set{ activeWeapon = value; }
 	}
 
-	public List<Item> inventory = new List<Item>();
+	public List<Item> inventory;
 	public Dictionary<Slot, Item> slotDict = new Dictionary<Slot, Item>();
 	#endregion
 
@@ -218,6 +218,10 @@ public class Actor : MonoBehaviour {
         i.transform.rotation = slots[i.activeSlot].transform.rotation;
         i.transform.parent = slots[i.activeSlot].transform;
         i.gameObject.tag = this.gameObject.tag;
+        if(inventory == null)
+        {
+            inventory = new List<Item>();
+        }
         inventory.Add(i);
 	}
 

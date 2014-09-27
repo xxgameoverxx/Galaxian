@@ -78,28 +78,10 @@ public class Enemy : Actor {
 	}
 	#endregion
 
-	public override void Start ()
-	{
-		base.Start ();
-		
-		GameObject healthGO = Resources.Load("Prefabs/Items/Health") as GameObject;
-        GameObject LaserGO = Resources.Load("Prefabs/Items/LaserAmmo") as GameObject;
-        GameObject ShotgunGO = Resources.Load("Prefabs/Items/ShotgunAmmo") as GameObject;
-        GameObject RocketGO = Resources.Load("Prefabs/Items/RocketAmmo") as GameObject;
-        GameObject HolyGO = Resources.Load("Prefabs/Items/HolyAmmo") as GameObject;
-        GameObject ShieldGO = Resources.Load("Prefabs/Items/ShieldItem") as GameObject;
-        inventory.Add(healthGO.GetComponent<Item>());
-        inventory.Add(LaserGO.GetComponent<Item>());
-        inventory.Add(ShotgunGO.GetComponent<Item>());
-        inventory.Add(RocketGO.GetComponent<Item>());
-        inventory.Add(HolyGO.GetComponent<Item>());
-        inventory.Add(ShieldGO.GetComponent<Item>());
-	}
-
 	public override void Die ()
 	{
 		Sp.enemyList.Remove(this.gameObject);
-        if (inventory.Count > 0 && dropProbability < Random.Range(0, 100))
+        if (inventory.Count > 0 && dropProbability > Random.Range(0, 100))
         {
             Instantiate(inventory[Random.Range(0, inventory.Count)].gameObject, transform.position, Quaternion.identity);
         }
@@ -126,12 +108,13 @@ public class Enemy : Actor {
 
     void Move()
     {
-        if (selfDestroyProbability > 0)
+        if (selfDestroy)
         {
             rigidbody2D.velocity = transform.up * moveSpeed * Time.deltaTime;
             Vector3 direction = (player.transform.position - transform.position).normalized;
             Quaternion lookRot = Quaternion.LookRotation(transform.forward, direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, 0.1f);
+            return;
         }
         else
         {
@@ -174,5 +157,9 @@ public class Enemy : Actor {
 		timer += Time.deltaTime;
         Move();
         Shoot();
+        if(!selfDestroy && selfDestroyProbability > Random.Range(0, 1000))
+        {
+            selfDestroy = true;
+        }
 	}
 }

@@ -11,16 +11,127 @@
 		
 		Oh! Look! There is a small squad of alien fighters! Quick, get them!
 		</Description>
-		<Enemy typeId="1" pos="(-5.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
-		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
-		<Enemy typeId="1" pos="(5.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Amplitude x="0" y="0"/>
+		</Enemy>
+		<Enemy typeId="1" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Amplitude x="0" y="0"/>
+		</Enemy>
+		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Amplitude x="0" y="0"/>
+		</Enemy>
+		<Enemy typeId="1" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Amplitude x="0" y="0"/>
+		</Enemy>
+		<Enemy typeId="1" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Amplitude x="0" y="0"/>
+		</Enemy>
 	</Wave>
 	<Wave name="Wave 2" val="1">
 		<Description tag="wave">Well, this was relatively easy. I wonder what they were doing so close to the Earth... Well, I guess we'll never learn.
-		Your first mission, captain is to deliver this ship to a super secret military outpost not too far from Mars. Be careful
-		thou, there may be more of them on the way and usually they are not this easy to defeat.</Description>
-		<Enemy typeId="1" pos="(-5.0, 2)" rot="(0.0, 0.0, 180.0)"/>
-		<Enemy typeId="1" pos="(0.0, 5)" rot="(0.0, 0.0, 180.0)"/>
-		<Enemy typeId="1" pos="(5.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		Your first and last mission, captain, is to deliver democracy to their homeland. Be careful thou,
+		there may be more of them on the way and usually they are not this easy to defeat.</Description>
+		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+		</Enemy>
+		<Enemy typeId="1" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+		</Enemy>
+		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+		</Enemy>
+		<Enemy typeId="1" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+		</Enemy>
+		<Enemy typeId="1" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+		</Enemy>
+	</Wave>
+	<Wave name="Wave 3" val="2">
+		<Description tag="wave">Wow, that's more like it! Good job defeating them. By the way, is our ship damaged? If it is we may be loot some repair
+		tools from some of the enemies. Open your eyes for the goodies.</Description>
+		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Amplitude x="1" y="1"/>
+		</Enemy>
+		<Enemy typeId="1" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Amplitude x="1" y="1"/>
+		</Enemy>
+		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Amplitude x="1" y="1"/>
+			<InventoryItem value="100"/>
+			<DropProbability value="100"/>
+		</Enemy>
+		<Enemy typeId="1" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Amplitude x="1" y="1"/>
+		</Enemy>
+		<Enemy typeId="1" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Amplitude x="1" y="1"/>
+		</Enemy>
+	</Wave>
+	<Wave name="Wave 4" val="3">
+		<Description tag="wave">Hey cap, we just got an intel! It says that an alien convoy with some weapons is nearby! We need to take them down.
+		May be we can loot some cool weapons while we doing it. And captain, be careful, they will not hesitate to use
+		those weapons.</Description>
+		<Enemy typeId="2" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Weapon value="107" ammoCount="10"/>
+		</Enemy>
+		<Enemy typeId="2" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+		</Enemy>
+		<Enemy typeId="2" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+		</Enemy>
+		<Enemy typeId="2" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Weapon value="108" ammoCount="10"/>
+		</Enemy>
+		<Enemy typeId="2" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+		</Enemy>
+	</Wave>
+	<Wave name="Wave 5" val="4">
+		<Description tag="wave">Whew... That was close... It is not the time to relax thou. More enemy waves are approaching. Prepare yourself,
+		these seems to be more intelligent.</Description>
+		<Enemy typeId="2" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Weapon value="107" ammoCount="10"/>
+			<MoveToWaypoint value="true"/>
+		</Enemy>
+		<Enemy typeId="2" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<MoveToWaypoint value="true"/>
+		</Enemy>
+		<Enemy typeId="2" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<MoveToWaypoint value="true"/>
+		</Enemy>
+		<Enemy typeId="2" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<MoveToWaypoint value="true"/>
+			<Weapon value="108" ammoCount="10"/>
+		</Enemy>
+		<Enemy typeId="2" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<MoveToWaypoint value="true"/>
+		</Enemy>
+	</Wave>
+	<Wave name="Wave 6" val="5">
+		<Description tag="wave">Ok, we almost there. Best of them are preparing for the last stand so be careful, they may be suicidal.</Description>
+		<Enemy typeId="2" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<Weapon value="107" ammoCount="10"/>
+			<MoveToWaypoint value="true"/>
+		</Enemy>
+		<Enemy typeId="2" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<SelfDestroyProbability value="0.000000001"/>
+			<MoveToWaypoint value="true"/>
+		</Enemy>
+		<Enemy typeId="2" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<SelfDestroyProbability value="0.000000001"/>
+			<MoveToWaypoint value="true"/>
+		</Enemy>
+		<Enemy typeId="2" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
+			<SelfDestroyProbability value="0.000000001"/>
+			<MoveToWaypoint value="true"/>
+			<Weapon value="108" ammoCount="10"/>
+		</Enemy>
+		<Enemy typeId="2" pos="(13.0, 5.0)" rot="(0.0, 0.0, 180.0)">
+			<SelfDestroyProbability value="0.000000001"/>
+			<MoveToWaypoint value="true"/>
+		</Enemy>
+		<Enemy typeId="2" pos="(6.0, 5.0)" rot="(0.0, 0.0, 180.0)">
+			<SelfDestroyProbability value="0.000000001"/>
+			<MoveToWaypoint value="true"/>
+			<Weapon value="108" ammoCount="10"/>
+		</Enemy>
+		<Enemy typeId="2" pos="(13.0, 5.0)" rot="(0.0, 0.0, 180.0)">
+			<SelfDestroyProbability value="0.000000001"/>
+			<MoveToWaypoint value="true"/>
+		</Enemy>
 	</Wave>
 </Level>

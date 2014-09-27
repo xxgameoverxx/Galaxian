@@ -65,6 +65,13 @@ public class Player : Actor {
 		WeaponSelect();
 		Move();
 		if(Input.GetKeyDown(KeyCode.K)) Die ();
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            for(int i = 0; i < sp.enemyList.Count; i++)
+            {
+                sp.enemyList[i].GetComponent<Enemy>().Die();
+            }
+        }
 		if(Input.GetKeyDown(KeyCode.Space)) Shoot();
 
 	}

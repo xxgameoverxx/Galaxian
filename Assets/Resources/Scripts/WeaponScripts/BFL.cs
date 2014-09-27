@@ -19,6 +19,7 @@ public class BFL : Weapon {
     {
         beam = transform.FindChild("Beam").gameObject;
         beam.SetActive(false);
+        beam.tag = this.tag;
         base.Start();
     }
 

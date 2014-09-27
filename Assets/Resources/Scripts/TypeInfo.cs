@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
+
+public enum Types
+{
+    TypeEnemy = 0,
+    TypeItem = 1
+}
 
 public class TypeInfo
 {
@@ -11,40 +18,50 @@ public class TypeInfo
     public float dampingX;
     public float dampingY;
     public float health;
-    public float maxHealt;
+    public float maxHealth;
     public float energy;
-    public float energyRegenSpeed;
+    public float engRegenSpeed;
     public float maxEnergy;
     public float moveSpeed;
     public float hurtCooldown;
     public float dropProbability;
-    public int type;
+    public float durability;
+    public int id;
+    public int weapon = -1;
+    public int ammoCount;
+    public List<int> inventoryItems;
     public string prefab;
     public string name;
     public bool moveToWaypoint;
+    public Types type;
+    public SlotName slotName;
 
     public void ReadInfo(XmlNode node)
     {
-        foreach(XmlAttribute att in node.Attributes)
+        foreach (XmlAttribute att in node.Attributes)
         {
-            if(att.Name == "type")
+            if (att.Name == "type")
             {
-                type = int.Parse(att.Value);
+                id = int.Parse(att.Value);
             }
-            else if(att.Name == "name")
+            else if (att.Name == "name")
             {
                 name = att.Value;
             }
-            else if(att.Name == "prefab")
+            else if (att.Name == "prefab")
             {
-                prefab = "Prefabs/Enemies/" + att.Value;
+                prefab = "Prefabs/" + att.Value;
             }
-            else
+            else if (att.Name == "durability")
             {
-                Debug.LogError("Attribute of a node is not found! " + att.Name);
+                durability = float.Parse(att.Value);
+            }
+            else if (att.Name == "slotName")
+            {
+                slotName = (SlotName)(int.Parse(att.Value));
             }
         }
-        foreach(XmlNode xnode in node.ChildNodes)
+        foreach (XmlNode xnode in node.ChildNodes)
         {
             if (xnode.Name == "SelfDestroyProbability")
             {
@@ -59,27 +76,27 @@ public class TypeInfo
                 amplitudeX = float.Parse(xnode.Attributes["x"].Value);
                 amplitudeY = float.Parse(xnode.Attributes["y"].Value);
             }
-            else if(xnode.Name == "ShootProbability")
+            else if (xnode.Name == "ShootProbability")
             {
                 shootProbability = float.Parse(xnode.Attributes["value"].Value);
             }
-            else if(xnode.Name == "Damping")
+            else if (xnode.Name == "Damping")
             {
                 dampingX = float.Parse(xnode.Attributes["x"].Value);
                 dampingY = float.Parse(xnode.Attributes["y"].Value);
             }
-            else if(xnode.Name == "Health")
+            else if (xnode.Name == "Health")
             {
                 health = float.Parse(xnode.Attributes["value"].Value);
-                maxHealt = float.Parse(xnode.Attributes["maxValue"].Value);
+                maxHealth = float.Parse(xnode.Attributes["maxValue"].Value);
             }
             else if (xnode.Name == "Energy")
             {
                 energy = float.Parse(xnode.Attributes["value"].Value);
                 maxEnergy = float.Parse(xnode.Attributes["maxValue"].Value);
-                energyRegenSpeed = float.Parse(xnode.Attributes["regenSpeed"].Value);
+                engRegenSpeed = float.Parse(xnode.Attributes["regenSpeed"].Value);
             }
-            else if(xnode.Name == "MoveSpeed")
+            else if (xnode.Name == "MoveSpeed")
             {
                 moveSpeed = float.Parse(xnode.Attributes["value"].Value);
             }
@@ -90,6 +107,19 @@ public class TypeInfo
             else if (xnode.Name == "DropProbability")
             {
                 dropProbability = float.Parse(xnode.Attributes["value"].Value);
+            }
+            else if (xnode.Name == "InventoryItem")
+            {
+                if (inventoryItems == null)
+                {
+                    inventoryItems = new List<int>();
+                }
+                inventoryItems.Add(int.Parse(xnode.Attributes["value"].Value));
+            }
+            else if (xnode.Name == "Weapon")
+            {
+                weapon = int.Parse(xnode.Attributes["value"].Value);
+                ammoCount = int.Parse(xnode.Attributes["ammoCount"].Value);
             }
             else
             {
