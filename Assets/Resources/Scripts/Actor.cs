@@ -186,10 +186,6 @@ public class Actor : MonoBehaviour {
 
 	public virtual void Die()
 	{
-        if (inventory.Count > 0)
-        {
-            Instantiate(inventory[Random.Range(0, inventory.Count)].gameObject, transform.position, Quaternion.identity);
-        }
         Instantiate(Explosion, transform.position, transform.rotation);
 		Destroy(this.gameObject);
 	}
@@ -218,7 +214,11 @@ public class Actor : MonoBehaviour {
 			UnequipItem(slots[i.activeSlot].item);
 		}
 		slots[i.activeSlot].item = i;
-		inventory.Add(i);
+        i.transform.position = slots[i.activeSlot].transform.position;
+        i.transform.rotation = slots[i.activeSlot].transform.rotation;
+        i.transform.parent = slots[i.activeSlot].transform;
+        i.gameObject.tag = this.gameObject.tag;
+        inventory.Add(i);
 	}
 
 	public void EquipWeapon(Weapon w)
@@ -270,6 +270,10 @@ public class Actor : MonoBehaviour {
 		{
 			EquipWeapon(w);
 		}
+        foreach(Item i in transform.GetComponentsInChildren<Item>())
+        {
+            EquipItem(i);
+        }
 		gameManager = GameObject.FindObjectOfType<GameManager>();
 		if(gameManager == null)
 		{
@@ -294,6 +298,22 @@ public class Actor : MonoBehaviour {
             }
 		}
 	}
+
+    void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.gameObject.tag != gameObject.tag && col.gameObject.tag != "Item")
+        {
+            Bullet b = col.GetComponent<Bullet>();
+            if (b != null)
+            {
+                Hit(b.hitPoint);
+            }
+            else
+            {
+                Hit();
+            }
+        }
+    }
 
 	public virtual void Update()
 	{

@@ -15,7 +15,6 @@ public class HolyIntervention : Weapon
         foreach(Enemy e in GameObject.FindObjectsOfType<Enemy>())
         {
             e.Hit(3);
-            Debug.Log(e + " is hit");
         }
         owner.UnequipWeapon(this);
     }

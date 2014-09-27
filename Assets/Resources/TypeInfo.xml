@@ -1,0 +1,12 @@
+<Type type="1" name="Slow" prefab="Enemy">
+	<MoveToWaypoint value="false"/>
+	<Amplitude x="1" y="0"/>
+	<ShootProbability value="1"/>
+	<SelfDestroyProbability value="0"/>
+	<Damping x="1" y="1"/>
+	<Health value="3" maxValue="3"/>
+	<Energy value="10" maxValue="10" regenSpeed="0.001"/>
+	<MoveSpeed value="500" />
+	<HurtCooldown value="0.5"/>
+	<DropProbability value="50"/>
+</Type>

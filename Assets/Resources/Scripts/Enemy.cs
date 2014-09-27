@@ -6,12 +6,14 @@ public class Enemy : Actor {
 
 	private float timer = 0;
     private bool selfDestroy = false;
+    public bool moveToWaypoint = false;
 
-	public float amplitudeY = 2;
-	public float amplitudeX = 5;
+	public float amplitudeY = 0;
+	public float amplitudeX = 0;
 	public float shootProbability = 1;
     public float selfDestroyProbability = 0;
-	public Vector2 offset = Vector2.zero;
+    public float dropProbability = 1;
+    private Vector3 movePos = default(Vector3);
 
 	#region Attributes
     private Player plyr;
@@ -27,7 +29,7 @@ public class Enemy : Actor {
         }
     }
 
-	private float dampingY = 1f;
+	public float dampingY = 1f;
 	public float DampingY
 	{
 		get
@@ -44,7 +46,7 @@ public class Enemy : Actor {
 		}
 	}
 
-	private float dampingX = 1f;
+	public float dampingX = 1f;
 	public float DampingX
 	{
 		get
@@ -79,8 +81,7 @@ public class Enemy : Actor {
 	public override void Start ()
 	{
 		base.Start ();
-		health = 3;
-        maxHealth = health;
+		
 		GameObject healthGO = Resources.Load("Prefabs/Items/Health") as GameObject;
         GameObject LaserGO = Resources.Load("Prefabs/Items/LaserAmmo") as GameObject;
         GameObject ShotgunGO = Resources.Load("Prefabs/Items/ShotgunAmmo") as GameObject;
@@ -93,12 +94,15 @@ public class Enemy : Actor {
         inventory.Add(RocketGO.GetComponent<Item>());
         inventory.Add(HolyGO.GetComponent<Item>());
         inventory.Add(ShieldGO.GetComponent<Item>());
-
 	}
 
 	public override void Die ()
 	{
 		Sp.enemyList.Remove(this.gameObject);
+        if (inventory.Count > 0 && dropProbability < Random.Range(0, 100))
+        {
+            Instantiate(inventory[Random.Range(0, inventory.Count)].gameObject, transform.position, Quaternion.identity);
+        }
 		base.Die ();
 	}
 
@@ -120,11 +124,9 @@ public class Enemy : Actor {
         }
 	}
 
-
-	void FixedUpdate()
-	{
-		timer += Time.deltaTime;
-        if (selfDestroy)
+    void Move()
+    {
+        if (selfDestroyProbability > 0)
         {
             rigidbody2D.velocity = transform.up * moveSpeed * Time.deltaTime;
             Vector3 direction = (player.transform.position - transform.position).normalized;
@@ -135,13 +137,42 @@ public class Enemy : Actor {
         {
             rigidbody2D.velocity = PosChange();
         }
+
+        if (!moveToWaypoint || gameManager.waypoints.Count == 0)
+            return;
+
+        if(movePos == default(Vector3) || Vector3.Distance(transform.position, movePos) < 1f)
+        {
+            if (movePos != default(Vector3))
+            {
+                gameManager.waypoints.Add(movePos);
+            }
+            int index = Random.Range(0, gameManager.waypoints.Count);
+            movePos = gameManager.waypoints[index];
+            gameManager.waypoints.Remove(movePos);
+        }
+        else
+        {
+            transform.position = Vector3.Slerp(transform.position, movePos, Time.deltaTime * moveSpeed / 500);
+        }
+    }
+
+    void Shoot()
+    {
         if (Random.Range(0, 100) < shootProbability)
-		{
-			base.Shoot();
-		}
-        if(Random.Range(0f, 100f) < selfDestroyProbability)
+        {
+            base.Shoot();
+        }
+        if (Random.Range(0f, 100f) < selfDestroyProbability)
         {
             selfDestroy = true;
         }
+    }
+
+	void FixedUpdate()
+	{
+		timer += Time.deltaTime;
+        Move();
+        Shoot();
 	}
 }

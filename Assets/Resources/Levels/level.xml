@@ -2,14 +2,25 @@
 	<Description tag="level">This is one hell of an awesome level!</Description>
 	<GameOverText tag="level">You killed them.. YOU KILLED ALL OF THEM!!! Do you feel like a hero yet?</GameOverText>
 	<Wave name="Wave 1" val="0">
-		<Enemy name="BadassEnemy1" pos="(-5.0, 0.0)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
-		<Enemy name="BadassEnemy2" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
-		<Enemy name="BadassEnemy3" pos="(5.0, 0.0)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
+		<Description tag="wave">Welcome aboard captain! Since this is your first mission let me explain how this ship works...
+		Move your ship with WASD buttons on your console and shoot with SPACE. Yep, it's that simple to control a space ship
+		since we made signed contract with Apple. The word is next gen iShips will have only one button! How awesome is this?
+		
+		Anyway, back to the mission... As you know we are in war with those evil alien bastards and you have been chosen among
+		the best pilots of Planet Earth in order to bring some democracy to their planet.
+		
+		Oh! Look! There is a small squad of alien fighters! Quick, get them!
+		</Description>
+		<Enemy typeId="1" pos="(-5.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(5.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
 	</Wave>
 	<Wave name="Wave 2" val="1">
-		<Description tag="wave">Hurt me plenty!</Description>
-		<Enemy name="BadassEnemy1" pos="(-5.0, 2)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
-		<Enemy name="BadassEnemy2" pos="(0.0, 5)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
-		<Enemy name="BadassEnemy3" pos="(5.0, 0.0)" rot="(0.0, 0.0, 180.0)" prefabName="Enemy"/>
+		<Description tag="wave">Well, this was relatively easy. I wonder what they were doing so close to the Earth... Well, I guess we'll never learn.
+		Your first mission, captain is to deliver this ship to a super secret military outpost not too far from Mars. Be careful
+		thou, there may be more of them on the way and usually they are not this easy to defeat.</Description>
+		<Enemy typeId="1" pos="(-5.0, 2)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(0.0, 5)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(5.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
 	</Wave>
 </Level>

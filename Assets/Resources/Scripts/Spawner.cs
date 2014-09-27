@@ -114,12 +114,12 @@ public class Spawner : MonoBehaviour {
         if(showingMessage && player != null)
         {
             Time.timeScale = 0;
-            player.SetActive(false);
+            ActivateActors(false);
         }
         else if(player != null)
         {
             Time.timeScale = 1;
-            player.SetActive(true);
+            ActivateActors(true);
         }
 
         if(Input.GetKeyDown(KeyCode.Space))
@@ -128,4 +128,13 @@ public class Spawner : MonoBehaviour {
             guiHelper.HideMessage();
         }
 	}
+
+    void ActivateActors(bool b)
+    {
+        player.SetActive(b);
+        foreach(GameObject e in enemyList)
+        {
+            e.gameObject.SetActive(b);
+        }
+    }
 }

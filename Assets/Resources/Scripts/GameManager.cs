@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 using System;
 
@@ -9,7 +10,10 @@ public class GameManager : MonoBehaviour {
 	public string levelName;
 	public string levelDescription;
 	public string winText;
+    public List<Vector3> waypoints;
 	private Spawner spawner;
+    private TypeInfo typeInfo;
+    public Dictionary<int, TypeInfo> typeIdDict = new Dictionary<int, TypeInfo>();
 
 	private string playerPrefab;
 	public string PlayerPrefab
@@ -32,8 +36,33 @@ public class GameManager : MonoBehaviour {
 		get { return Resources.Load(spawnerPrefab) as GameObject; }
 	}
 
+    void InitWaypoints()
+    {
+        waypoints = new List<Vector3>();
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Waypoint"))
+        {
+            waypoints.Add(g.gameObject.transform.position);
+        }
+    }
+
+    void Awake()
+    {
+        XmlDocument typeDoc = new XmlDocument();
+        typeDoc.Load(Application.dataPath + "/Resources/TypeInfo.xml");
+        foreach (XmlNode node in typeDoc)
+        {
+            if(node.Name == "Type")
+            {
+                typeInfo = new TypeInfo();
+                typeInfo.ReadInfo(node);
+                typeIdDict.Add(typeInfo.type, typeInfo);
+            }
+        }
+    }
+
 	void Start()
 	{
+        InitWaypoints();
 		BeginLevel();
 		ReadXml(Application.dataPath + "/Resources/Levels/level.xml");
 	}
@@ -44,6 +73,7 @@ public class GameManager : MonoBehaviour {
 		spawner = s.GetComponent<Spawner>();
 		spawner.gameManager = this as GameManager;
 		spawner.playerPrefab = PlayerPrefab;
+        InitWaypoints();
 	}
 
 	public void ReadXml(string path)
@@ -54,6 +84,7 @@ public class GameManager : MonoBehaviour {
 		{
 			ReadNode(node);
 		}
+        
 	}
 
 	private void ReadNode(XmlNode node, XmlNode parentNode = null)
@@ -72,7 +103,7 @@ public class GameManager : MonoBehaviour {
 		else if(node.Name == "Enemy")
 		{
 			int waveNumber = int.Parse(parentNode.Attributes["val"].Value);
-			spawner.waves[waveNumber].Add(node);
+            spawner.waves[waveNumber].Add(node);
 		}
 		else if(node.Name == "Description")
 		{
