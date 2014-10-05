@@ -19,7 +19,7 @@ public class PlazmaGun : Weapon {
 
 	void Awake()
 	{
-		activeSlot = SlotName.Front;
+		activeSlot = SlotName.MainWeapon;
 		ammo = AmmoType.Plazma;
 	}
 

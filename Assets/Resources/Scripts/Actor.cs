@@ -91,7 +91,7 @@ public class Actor : MonoBehaviour {
 			if(leftSlot.transform == null)
 			{
 				leftSlot.transform = transform.FindChild("Slot_Left").transform;
-				leftSlot.name = SlotName.Left;
+				leftSlot.Name = SlotName.Left;
 			}
 			return leftSlot;
 		}
@@ -104,7 +104,7 @@ public class Actor : MonoBehaviour {
 			if(rightSlot.transform == null)
 			{
 				rightSlot.transform = transform.FindChild("Slot_Right").transform;
-				rightSlot.name = SlotName.Right;
+				rightSlot.Name = SlotName.Right;
 			}
 			return rightSlot;
 		}
@@ -118,7 +118,7 @@ public class Actor : MonoBehaviour {
 			if(frontSlot.transform == null)
 			{
 				frontSlot.transform = transform.FindChild("Slot_Front").transform;
-				frontSlot.name = SlotName.Front;
+				frontSlot.Name = SlotName.Front;
 			}
 			return frontSlot;
 		}
@@ -132,14 +132,42 @@ public class Actor : MonoBehaviour {
 			if(centerSlot.transform == null)
 			{
 				centerSlot.transform = transform.FindChild("Slot_Center").transform;
-				centerSlot.name = SlotName.Center;
+				centerSlot.Name = SlotName.Center;
 			}
 			return centerSlot;
 		}
 	}
 
+    private Slot mainWeaponSlot;
+    public Slot MainWeaponSlot
+    {
+        get
+        {
+            if(mainWeaponSlot == null)
+            {
+                mainWeaponSlot = new Slot();
+                mainWeaponSlot.transform = transform.FindChild("Slot_Front").transform;
+            }
+            mainWeaponSlot.Name = SlotName.MainWeapon;
+            return mainWeaponSlot;
+        }
+    }
+
 	private Dictionary<SlotName, Slot> slots = new Dictionary<SlotName, Slot>();
 
+    private GameObject DefaultWeapon
+    {
+        get
+        {
+            if(defaultWeapon == null)
+            {
+                defaultWeapon = GameObject.Instantiate((Resources.Load("Prefabs/Weapons/PlazmaGun") as GameObject), Vector3.zero, Quaternion.identity) as GameObject;
+                defaultWeapon.name = "PlazmaGun";
+                defaultWeapon.GetComponent<Weapon>().owner = this;
+            }
+            return defaultWeapon;
+        }
+    }
 
 	private Weapon activeWeapon;
 	public Weapon ActiveWeapon
@@ -148,8 +176,7 @@ public class Actor : MonoBehaviour {
 		{
 			if(activeWeapon == null)
 			{
-				GameObject dw = Instantiate(defaultWeapon, transform.position, transform.rotation) as GameObject;
-				activeWeapon = dw.GetComponent<Weapon>();
+				activeWeapon = DefaultWeapon.GetComponent<Weapon>();
 				activeWeapon.name = "Plazma Gun";
 				EquipWeapon(activeWeapon);
 			}
@@ -256,16 +283,16 @@ public class Actor : MonoBehaviour {
 	void Awake()
 	{
 		InitSlots();
-		defaultWeapon = (Resources.Load("Prefabs/Weapons/PlazmaGun") as GameObject);
-		defaultWeapon.name = "PlazmaGun";
+		
 	}
 
 	private void InitSlots()
 	{
-		slots.Add(LeftSlot.name, LeftSlot);
-		slots.Add(RightSlot.name, RightSlot);
-		slots.Add(FrontSlot.name, FrontSlot);
-		slots.Add(CenterSlot.name, CenterSlot);
+		slots.Add(LeftSlot.Name, LeftSlot);
+		slots.Add(RightSlot.Name, RightSlot);
+		slots.Add(FrontSlot.Name, FrontSlot);
+		slots.Add(CenterSlot.Name, CenterSlot);
+        slots.Add(MainWeaponSlot.Name, MainWeaponSlot);
 	}
 
 	public virtual void Start ()

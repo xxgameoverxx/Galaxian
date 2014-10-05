@@ -5,6 +5,8 @@ public class Player : Actor {
 
 	public float moveX;
 	public float moveY;
+    public float teleportDistance = 5;
+    public float teleportationEnergy = 5;
 
 	private Spawner sp;
 	public Spawner Sp
@@ -29,12 +31,75 @@ public class Player : Actor {
 	{
 		moveX = 0;
 		moveY = 0;
-		if(Input.GetKey(KeyCode.A) && transform.position.x > LeftBorder.position.x + transform.localScale.x / 2) moveX = -1;
-		if(Input.GetKey(KeyCode.D) && transform.position.x < RightBorder.position.x - transform.localScale.x / 2) moveX = 1;
-		if(Input.GetKey(KeyCode.S) && transform.position.y > BottomBorder.position.y + transform.localScale.y / 2) moveY = -1;
-		if(Input.GetKey(KeyCode.W) && transform.position.y < TopBorder.position.y) moveY = 1;
-		rigidbody2D.velocity = new Vector2(moveX, moveY).normalized * moveSpeed * Time.deltaTime;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if(Input.GetKeyDown(KeyCode.RightArrow)) Teleport("right");
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) Teleport("left");
+            if (Input.GetKeyDown(KeyCode.UpArrow)) Teleport("up");
+            if (Input.GetKeyDown(KeyCode.DownArrow)) Teleport("down");
+        }
+        if(Input.GetKey(KeyCode.LeftArrow) && transform.position.x > LeftBorder.position.x + transform.localScale.x / 2) moveX = -1;
+		if(Input.GetKey(KeyCode.RightArrow) && transform.position.x < RightBorder.position.x - transform.localScale.x / 2) moveX = 1;
+		if(Input.GetKey(KeyCode.DownArrow) && transform.position.y > BottomBorder.position.y + transform.localScale.y / 2) moveY = -1;
+		if(Input.GetKey(KeyCode.UpArrow) && transform.position.y < TopBorder.position.y) moveY = 1;
+        rigidbody2D.velocity = new Vector2(moveX, moveY).normalized * moveSpeed * Time.deltaTime;
 	}
+
+    public void Teleport(string dir)
+    {
+        if(energy < teleportationEnergy)
+        {
+            return;
+        }
+        else
+        {
+            energy -= teleportationEnergy;
+        }
+        if(dir == "right")
+        {
+            if ((transform.right * teleportDistance + transform.position).x < RightBorder.position.x - transform.localScale.x / 2)
+            {
+                transform.position += transform.right * teleportDistance;
+            }
+            else
+            {
+                transform.position = new Vector3(RightBorder.position.x - transform.localScale.x / 2, transform.position.y, transform.position.z);
+            }
+        }
+        else if (dir == "left")
+        {
+            if ((-transform.right * teleportDistance + transform.position).x > LeftBorder.position.x + transform.localScale.x / 2)
+            {
+                transform.position -= transform.right * teleportDistance;
+            }
+            else
+            {
+                transform.position = new Vector3(LeftBorder.position.x + transform.localScale.x / 2, transform.position.y, transform.position.z);
+            }
+        }
+        else if (dir == "up")
+        {
+            if ((transform.up * teleportDistance + transform.position).y < TopBorder.position.y)
+            {
+                transform.position += transform.up * teleportDistance;
+            }
+            else
+            {
+                transform.position = new Vector3(transform.position.x, TopBorder.position.y, transform.position.z);
+            }
+        }
+        else if (dir == "down")
+        {
+            if ((-transform.up * teleportDistance + transform.position).y > BottomBorder.position.y)
+            {
+                transform.position -= transform.up * teleportDistance;
+            }
+            else
+            {
+                transform.position = new Vector3(transform.position.x, BottomBorder.position.y, transform.position.z);
+            }
+        }
+    }
 
 	public override void Die ()
 	{
@@ -53,7 +118,7 @@ public class Player : Actor {
 
 	void WeaponSelect()
 	{
-		if(Input.GetKeyDown(KeyCode.Alpha1) && FrontSlot.weapon != null) ActiveWeapon = FrontSlot.weapon;
+		if (Input.GetKeyDown(KeyCode.Alpha1) && FrontSlot.weapon != null) ActiveWeapon = FrontSlot.weapon;
         if (Input.GetKeyDown(KeyCode.Alpha2) && LeftSlot.weapon != null) ActiveWeapon = LeftSlot.weapon;
         if (Input.GetKeyDown(KeyCode.Alpha3) && RightSlot.weapon != null) ActiveWeapon = RightSlot.weapon;
         if (Input.GetKeyDown(KeyCode.Alpha4) && CenterSlot.weapon != null) ActiveWeapon = CenterSlot.weapon;
@@ -73,6 +138,7 @@ public class Player : Actor {
             }
         }
 		if(Input.GetKeyDown(KeyCode.Space)) Shoot();
+        if (Input.GetKeyDown(KeyCode.LeftControl)) Shoot(defaultWeapon.GetComponent<Weapon>());
 
 	}
 }
