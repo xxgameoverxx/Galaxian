@@ -15,6 +15,7 @@ public class Actor : MonoBehaviour {
 	public float engRegenSpeed = 0.001f;
 	public float hurtTimer = 3;
 	public GameObject defaultWeapon;
+    public string Name;
 
     private GameObject shield;
 

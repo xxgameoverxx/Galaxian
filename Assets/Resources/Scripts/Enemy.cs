@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Enemy : Actor {
 
 	private float timer = 0;
+    private float suicideCounter = 0;
     private bool selfDestroy = false;
     public bool moveToWaypoint = false;
 
@@ -157,9 +158,16 @@ public class Enemy : Actor {
 		timer += Time.deltaTime;
         Move();
         Shoot();
-        if(!selfDestroy && selfDestroyProbability > Random.Range(0, 1000))
+        if(timer - suicideCounter > 1)
         {
-            selfDestroy = true;
+            if (!selfDestroy && selfDestroyProbability > Random.Range(0, 100))
+            {
+                selfDestroy = true;
+            }
+            else
+            {
+                suicideCounter = timer;
+            }
         }
 	}
 }

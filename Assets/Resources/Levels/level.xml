@@ -57,8 +57,8 @@
 	</Wave>
 	<Wave name="Wave 4" val="3">
 		<Description tag="wave">Hey cap, we just got an intel! It says that an alien convoy with some weapons is nearby! We need to take them down.
-		May be we can loot some cool weapons while we doing it. And captain, be careful, they will not hesitate to use
-		those weapons.</Description>
+		May be we can loot some cool weapons while we doing it. If you manage to salvage some weapon, press CTRL button to use it.
+		And captain, be careful, they will not hesitate to use those weapons.</Description>
 		<Enemy typeId="2" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 			<Weapon value="107" ammoCount="10"/>
 		</Enemy>

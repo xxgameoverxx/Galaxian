@@ -29,7 +29,7 @@ public class TypeInfo
     public int id;
     public int weapon = -1;
     public int ammoCount;
-    public List<int> inventoryItems;
+    public List<int> inventoryItems = new List<int>();
     public string prefab;
     public string name;
     public bool moveToWaypoint;
@@ -50,7 +50,7 @@ public class TypeInfo
             }
             else if (att.Name == "prefab")
             {
-                prefab = "Prefabs/" + att.Value;
+                prefab = att.Value;
             }
             else if (att.Name == "durability")
             {
@@ -123,7 +123,10 @@ public class TypeInfo
             }
             else
             {
-                Debug.LogError("Unknown node: " + xnode.Name + ". Child of " + node.Name);
+                if (xnode.Name != "Dummy")
+                {
+                    Debug.LogError("Unknown node: " + xnode.Name + ". Child of " + node.Name);
+                }
             }
         }
     }

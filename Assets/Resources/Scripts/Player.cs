@@ -137,8 +137,8 @@ public class Player : Actor {
                 sp.enemyList[i].GetComponent<Enemy>().Die();
             }
         }
-		if(Input.GetKeyDown(KeyCode.Space)) Shoot();
-        if (Input.GetKeyDown(KeyCode.LeftControl)) Shoot(defaultWeapon.GetComponent<Weapon>());
+        if (Input.GetKeyDown(KeyCode.Space)) Shoot(defaultWeapon.GetComponent<Weapon>());
+        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) Shoot();
 
 	}
 }
