@@ -1,0 +1,93 @@
+Initialize engine version: 4.6.0b17 (2d43734a3870)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 765M  (ID=0x11e2)
+    Vendor:   NVIDIA
+    VRAM:     1992 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Anton\Desktop\Galaxian Editor\galaxian_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Anton\Desktop\Galaxian Editor\galaxian_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Anton\Desktop\Galaxian Editor\galaxian_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Anton\Desktop\Galaxian Editor\galaxian_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Anton\Desktop\Galaxian Editor\galaxian_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Anton\Desktop\Galaxian Editor\galaxian_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.041 seconds
+desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Platform assembly: C:\Users\Anton\Desktop\Galaxian Editor\galaxian_Data\Managed\System.Xml.dll (this message is harmless)
+Platform assembly: C:\Users\Anton\Desktop\Galaxian Editor\galaxian_Data\Managed\System.dll (this message is harmless)
+Platform assembly: C:\Users\Anton\Desktop\Galaxian Editor\galaxian_Data\Managed\System.Core.dll (this message is harmless)
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+UnloadTime: 0.306672 ms
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 19 unused Assets to reduce memory usage. Loaded Objects now: 616.
+Total: 0.884712 ms (FindLiveObjects: 0.034074 ms CreateObjectMapping: 0.008621 ms MarkObjects: 0.321862 ms  DeleteObjects: 0.039001 ms)
+
+UnloadTime: 7.146258 ms
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 143 unused Assets to reduce memory usage. Loaded Objects now: 272.
+Total: 2.327347 ms (FindLiveObjects: 0.043517 ms CreateObjectMapping: 0.033253 ms MarkObjects: 0.653578 ms  DeleteObjects: 0.286556 ms)
+
