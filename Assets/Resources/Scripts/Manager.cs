@@ -95,8 +95,6 @@ public class Manager : MonoBehaviour {
     }
     #endregion
 
-    public Properties currentProp;
-
     private TypeInfo currentType;
     public TypeInfo CurrentType
     {
