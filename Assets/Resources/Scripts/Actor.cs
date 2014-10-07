@@ -183,7 +183,10 @@ public class Actor : MonoBehaviour {
 			}
 			return activeWeapon;
 		}
-		set{ activeWeapon = value; }
+		set
+        {
+            activeWeapon = value;
+        }
 	}
 
 	public List<Item> inventory;
@@ -229,10 +232,14 @@ public class Actor : MonoBehaviour {
 
 	public void RegenEng()
 	{
-		if(energy < 10)
+		if(energy < maxEnergy)
 		{
-			energy += engRegenSpeed;
+			energy += engRegenSpeed * Time.deltaTime;
 		}
+        else
+        {
+            energy = maxEnergy;
+        }
 	}
 
 	public void EquipItem(Item i)
@@ -284,7 +291,6 @@ public class Actor : MonoBehaviour {
 	void Awake()
 	{
 		InitSlots();
-		
 	}
 
 	private void InitSlots()

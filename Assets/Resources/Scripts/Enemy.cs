@@ -6,6 +6,7 @@ public class Enemy : Actor {
 
 	private float timer = 0;
     private float suicideCounter = 0;
+    private float shootCounter = 0;
     private bool selfDestroy = false;
     public bool moveToWaypoint = false;
 
@@ -176,17 +177,12 @@ public class Enemy : Actor {
         {
             base.Shoot();
         }
-        if (Random.Range(0f, 100f) < selfDestroyProbability)
-        {
-            selfDestroy = true;
-        }
     }
 
 	void FixedUpdate()
 	{
 		timer += Time.deltaTime;
         Move();
-        Shoot();
         if(timer - suicideCounter > 1)
         {
             if (!selfDestroy && selfDestroyProbability > Random.Range(0, 100))
@@ -197,6 +193,14 @@ public class Enemy : Actor {
             {
                 suicideCounter = timer;
             }
+        }
+        if (timer - shootCounter > 1)
+        {
+            if (shootProbability > Random.Range(0, 100))
+            {
+                Shoot();
+            }
+            shootCounter = timer;
         }
 	}
 }

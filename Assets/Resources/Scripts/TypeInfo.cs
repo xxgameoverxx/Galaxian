@@ -36,6 +36,34 @@ public class TypeInfo
     public Types type;
     public SlotName slotName;
 
+    public void Clone(TypeInfo t)
+    {
+        amplitudeX = t.amplitudeX;
+        amplitudeY = t.amplitudeY;
+        shootProbability = t.shootProbability;
+        selfDestroyProbability = t.selfDestroyProbability;
+        dampingX = t.dampingX;
+        dampingY = t.dampingY;
+        health = t.health;
+        maxHealth = t.maxHealth;
+        energy = t.energy;
+        engRegenSpeed = t.engRegenSpeed;
+        maxEnergy = t.maxEnergy;
+        moveSpeed = t.moveSpeed;
+        hurtCooldown = t.hurtCooldown;
+        dropProbability = t.dropProbability;
+        durability = t.durability;
+        id = t.id;
+        weapon = t.weapon;
+        ammoCount = t.ammoCount;
+        inventoryItems = t.inventoryItems;
+        prefab = t.prefab;
+        name = t.name;
+        moveToWaypoint = t.moveToWaypoint;
+        type = t.type;
+        slotName = t.slotName;
+    }
+
     public void ReadInfo(XmlNode node)
     {
         foreach (XmlAttribute att in node.Attributes)

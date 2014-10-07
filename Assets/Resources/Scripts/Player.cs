@@ -114,6 +114,7 @@ public class Player : Actor {
 		energy = 10;
 		health = 3;
         maxHealth = health;
+        maxEnergy = energy;
 	}
 
 	void WeaponSelect()
