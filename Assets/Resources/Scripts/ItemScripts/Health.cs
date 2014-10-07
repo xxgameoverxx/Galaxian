@@ -18,5 +18,9 @@ public class Health : Item {
 			actor.Heal(durability);
 			base.Unequip();
 		}
+        if(col.tag == "Net")
+        {
+            Destroy(this.gameObject);
+        }
 	}
 }

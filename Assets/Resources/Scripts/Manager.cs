@@ -14,6 +14,8 @@ public class Manager : MonoBehaviour {
     int index = 0;
     Vector3 prfabPos;
 
+    public List<Vector3> wayPoints;
+
     #region New Values
     string newName = "NOPE";
     string newHealth = "NOPE";
@@ -72,6 +74,10 @@ public class Manager : MonoBehaviour {
 
     void Start()
     {
+        foreach(GameObject g in GameObject.FindGameObjectsWithTag("Waypoint"))
+        {
+            wayPoints.Add(g.transform.position);
+        }
     }
 
     void FillTypePrefabDict(XmlNode node)
@@ -109,6 +115,8 @@ public class Manager : MonoBehaviour {
         GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 11, Screen.width / 4, Screen.height / 20), "Damping X: ");
         GUI.Label(new Rect(Screen.width / 2, Screen.height / 5 * 3, Screen.width / 4, Screen.height / 20), "Damping Y: ");
         GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 13, Screen.width / 4, Screen.height / 20), "Move Speed: ");
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 10 * 7, Screen.width / 4, Screen.height / 20), "Drop Probability: ");
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 4 * 3, Screen.width / 4, Screen.height / 20), "Move To Waypoint: ");
 
         GUI.Label(new Rect(Screen.width / 4 * 3, Screen.height / 20, Screen.width / 4, Screen.height / 20), currentType.id.ToString());
         newName = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 10, Screen.width / 4, Screen.height / 20), newName);
@@ -123,6 +131,8 @@ public class Manager : MonoBehaviour {
         newDampingX = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 11, Screen.width / 4, Screen.height / 20), newDampingX);
         newDampingY = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 5 * 3, Screen.width / 4, Screen.height / 20), newDampingY);
         newMoveSpeed = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 13, Screen.width / 4, Screen.height / 20), newMoveSpeed);
+        newDropProb = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 10 * 7, Screen.width / 4, Screen.height / 20), newDropProb);
+        newMoveToWaypoint = GUI.Toggle(new Rect(Screen.width / 4 * 3, Screen.height / 4 * 3, Screen.width / 4, Screen.height / 20), newMoveToWaypoint, "");
         //newName = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 10, Screen.width / 4, Screen.height / 20), newName);
         
         if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 20 * 18, Screen.width / 4, Screen.height / 20), "Save"))
@@ -139,11 +149,41 @@ public class Manager : MonoBehaviour {
             enemyTypeDict[currentType.id].dampingX = float.Parse(newDampingX);
             enemyTypeDict[currentType.id].dampingY = float.Parse(newDampingY);
             enemyTypeDict[currentType.id].moveSpeed = float.Parse(newMoveSpeed);
+            enemyTypeDict[currentType.id].dropProbability = float.Parse(newDropProb);
+            enemyTypeDict[currentType.id].moveToWaypoint = newMoveToWaypoint;
+            UpdateEnemy();
         }
-        if (GUI.Button(new Rect(Screen.width / 4, Screen.height / 20 * 18, Screen.width / 4, Screen.height / 20), "Write To XML"))
+        if (GUI.Button(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 18, Screen.width / 4, Screen.height / 20), "Write To XML"))
         {
             WriteToXML();
         }
+        if (GUI.Button(new Rect(0, Screen.height / 20 * 18, Screen.width / 4, Screen.height / 20), "Hit"))
+        {
+            currentDummy.GetComponent<Enemy>().Hit();
+        }
+        if (GUI.Button(new Rect(Screen.width / 4, Screen.height / 20 * 18, Screen.width / 4, Screen.height / 20), "Kill"))
+        {
+            currentDummy.GetComponent<Enemy>().Die();
+        }
+    }
+
+    void UpdateEnemy()
+    {
+        currentDummy.transform.position = prfabPos;
+        Enemy e = currentDummy.GetComponent<Enemy>();
+        e.name = currentType.name;
+        e.maxHealth = currentType.maxHealth;
+        e.maxEnergy = currentType.maxEnergy;
+        e.engRegenSpeed = currentType.engRegenSpeed;
+        e.selfDestroyProbability = currentType.selfDestroyProbability;
+        e.shootProbability = currentType.shootProbability;
+        e.hurtCooldown = currentType.hurtCooldown;
+        e.amplitudeX = currentType.amplitudeX;
+        e.amplitudeY = currentType.amplitudeY;
+        e.dampingX = currentType.dampingX;
+        e.dampingY = currentType.dampingY;
+        e.moveSpeed = currentType.moveSpeed;
+        e.moveToWaypoint = currentType.moveToWaypoint;
     }
 
     void WriteToXML()
@@ -217,7 +257,7 @@ public class Manager : MonoBehaviour {
                 writer.WriteAttributeString("name", t.name.ToString());
                 writer.WriteAttributeString("prefab", t.prefab.ToString());
                 writer.WriteAttributeString("durability", t.durability.ToString());
-                writer.WriteAttributeString("slotName", t.slotName.ToString());
+                writer.WriteAttributeString("slotName", ((int)t.slotName).ToString());
                 writer.WriteEndElement(); //Type
             }
             writer.WriteEndElement(); //Types
@@ -235,7 +275,7 @@ public class Manager : MonoBehaviour {
         currentType = enemyTypeDict[enemyTypes[index]];
         GameObject go = Resources.Load(currentType.prefab) as GameObject;
         currentDummy = Instantiate(go, prfabPos, go.transform.rotation) as GameObject;
-        currentDummy.GetComponent<Actor>().enabled = false;
+        //currentDummy.GetComponent<Actor>().enabled = false;
         currentDummy.name = currentType.name;
         newName = currentType.name;
         newHealth = currentType.maxHealth.ToString();
@@ -250,61 +290,9 @@ public class Manager : MonoBehaviour {
         newDampingY = currentType.dampingY.ToString();
         newMoveSpeed = currentType.moveSpeed.ToString();
         newMoveToWaypoint = currentType.moveToWaypoint;
-    }
+        newDropProb = currentType.dropProbability.ToString();
+        UpdateEnemy();
 
-    void ChangeProperty(Properties prop, string value)
-    {
-        switch (prop)
-        {
-            case Properties.TypeID:
-                //text.text = type.id.ToString();
-                break;
-            case Properties.Name:
-                //text.text = type.name;
-                break;
-            case Properties.Health:
-                //text.text = type.health.ToString();
-                break;
-            case Properties.Energy:
-                //text.text = type.energy.ToString();
-                break;
-            case Properties.EnergyRegen:
-                //text.text = type.engRegenSpeed.ToString();
-                break;
-            case Properties.SelfDestroyProb:
-                //text.text = type.selfDestroyProbability.ToString();
-                break;
-            case Properties.ShootProb:
-                //text.text = type.shootProbability.ToString();
-                break;
-            case Properties.HurtCooldown:
-                //text.text = type.hurtCooldown.ToString();
-                break;
-            case Properties.AmplitudeX:
-                //text.text = type.amplitudeX.ToString();
-                break;
-            case Properties.AmplitudeY:
-                //text.text = type.amplitudeY.ToString();
-                break;
-            case Properties.DampingX:
-                //text.text = type.dampingX.ToString();
-                break;
-            case Properties.DampingY:
-                //text.text = type.dampingY.ToString();
-                break;
-            case Properties.MoveSpeed:
-                //text.text = type.moveSpeed.ToString();
-                break;
-            case Properties.DropProbability:
-                //text.text = type.dropProbability.ToString();
-                break;
-            case Properties.MoveToWaypoint:
-                //text.text = type.moveToWaypoint.ToString();
-                break;
-            default:
-                //text.text = "NOPE";
-                break;
-        }
     }
 
     void Update()
@@ -331,6 +319,14 @@ public class Manager : MonoBehaviour {
             {
                 index = 0;
             }
+            ChangePrefab();
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (currentDummy == null)
+        {
             ChangePrefab();
         }
     }

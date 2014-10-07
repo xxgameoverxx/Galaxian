@@ -23,5 +23,9 @@ public class RocketAmmo : Item
             actor.EquipWeapon(sg);
             base.Unequip();
         }
+        if (col.tag == "Net")
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

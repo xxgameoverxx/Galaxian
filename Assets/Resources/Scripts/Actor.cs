@@ -307,7 +307,7 @@ public class Actor : MonoBehaviour {
             EquipItem(i);
         }
 		gameManager = GameObject.FindObjectOfType<GameManager>();
-		if(gameManager == null)
+		if(gameManager == null && GameObject.FindObjectOfType<Manager>() == null)
 		{
 			Debug.LogError("GameManager could not be found by " + this + " ! Be sure that you have it in the scene!");
 		}

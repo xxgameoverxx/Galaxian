@@ -77,11 +77,39 @@ public class Enemy : Actor {
 		}
 		set { sp = value; }
 	}
+
+    private Manager manager;
+    private List<Vector3> Waypoints
+    {
+        get
+        {
+            if(gameManager != null)
+            {
+                return gameManager.waypoints;
+            }
+            else
+            {
+                return manager.wayPoints;
+            }
+        }
+    }
 	#endregion
+
+    public override void Start()
+    {
+        base.Start();
+        if(gameManager == null)
+        {
+            manager = GameObject.FindObjectOfType<Manager>();
+        }
+    }
 
 	public override void Die ()
 	{
-		Sp.enemyList.Remove(this.gameObject);
+        if (Sp != null)
+        {
+            Sp.enemyList.Remove(this.gameObject);
+        }
         if (inventory.Count > 0 && dropProbability > Random.Range(0, 100))
         {
             Instantiate(inventory[Random.Range(0, inventory.Count)].gameObject, transform.position, Quaternion.identity);
@@ -121,23 +149,24 @@ public class Enemy : Actor {
         {
             rigidbody2D.velocity = PosChange();
         }
-
-        if (!moveToWaypoint || gameManager.waypoints.Count == 0)
+        if (!moveToWaypoint || Waypoints.Count == 0)
             return;
 
         if(movePos == default(Vector3) || Vector3.Distance(transform.position, movePos) < 1f)
         {
             if (movePos != default(Vector3))
             {
-                gameManager.waypoints.Add(movePos);
+                Waypoints.Add(movePos);
             }
-            int index = Random.Range(0, gameManager.waypoints.Count);
-            movePos = gameManager.waypoints[index];
-            gameManager.waypoints.Remove(movePos);
+            int index = Random.Range(0, Waypoints.Count);
+            movePos = Waypoints[index];
+            Waypoints.Remove(movePos);
         }
         else
         {
-            transform.position = Vector3.Slerp(transform.position, movePos, Time.deltaTime * moveSpeed / 500);
+            //transform.position = Vector3.Slerp(transform.position, movePos, Time.deltaTime * moveSpeed / 500);
+            rigidbody2D.velocity = (movePos - transform.position).normalized * moveSpeed * Time.deltaTime;
+
         }
     }
 

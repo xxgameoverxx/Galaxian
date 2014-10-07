@@ -23,5 +23,9 @@ public class LaserAmmo : Item
             actor.EquipWeapon(bfl);
             base.Unequip();
         }
+        if (col.tag == "Net")
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

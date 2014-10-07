@@ -18,5 +18,9 @@ public class Shield : Item
             actor.hurtTimer = durability;
             base.Unequip();
         }
+        if (col.tag == "Net")
+        {
+            Destroy(this.gameObject);
+        }
     }
 }
