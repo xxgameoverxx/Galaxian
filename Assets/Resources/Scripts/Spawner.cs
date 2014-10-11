@@ -87,7 +87,7 @@ public class Spawner : MonoBehaviour {
                 guiHelper.ShowMessage(waves[wave].description);
                 showingMessage = true;
             }
-			waves[wave].SpawnAll(this);
+			waves[wave].SpawnAll(true, this);
             waveNumber++;
 		}
 		else

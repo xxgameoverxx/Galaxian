@@ -5,113 +5,49 @@
 	<Wave name="Test Wave 1" val="0">
 		<Description tag="wave">Sound check one - two...
 		</Description>
-		<Enemy typeId="0" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Amplitude x="0" y="0"/>
-		</Enemy>
-		<Enemy typeId="0" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Amplitude x="0" y="0"/>
-		</Enemy>
-		<Enemy typeId="0" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Amplitude x="0" y="0"/>
-		</Enemy>
+		<Enemy typeId="0" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="0" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="0" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
 	</Wave>
 	<Wave name="Test Wave 2" val="1">
 		<Description tag="wave">Test Wave</Description>
-		<Enemy typeId="0" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-		</Enemy>
-		<Enemy typeId="0" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-		</Enemy>
-		<Enemy typeId="0" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-		</Enemy>
-		<Enemy typeId="0" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-		</Enemy>
+		<Enemy typeId="0" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="0" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="0" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="0" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
 	</Wave>
 	<Wave name="Test Wave 3" val="2">
 		<Description tag="wave">Another test wave</Description>
-		<Enemy typeId="0" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Amplitude x="1" y="1"/>
-		</Enemy>
-		<Enemy typeId="0" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Amplitude x="1" y="1"/>
-		</Enemy>
-		<Enemy typeId="0" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Amplitude x="1" y="1"/>
-			<InventoryItem value="100"/>
-			<DropProbability value="100"/>
-		</Enemy>
-		<Enemy typeId="0" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Amplitude x="1" y="1"/>
-		</Enemy>
-		<Enemy typeId="0" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Amplitude x="1" y="1"/>
-		</Enemy>
+		<Enemy typeId="0" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="0" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="0" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="0" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="0" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
 	</Wave>
 	<Wave name="Test Wave 4" val="3">
 		<Description tag="wave">Yet another test wave</Description>
-		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Weapon value="107" ammoCount="10"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-		</Enemy>
-		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-		</Enemy>
-		<Enemy typeId="1" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Weapon value="108" ammoCount="10"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-		</Enemy>
+		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
 	</Wave>
 	<Wave name="Test Wave 5" val="4">
 		<Description tag="wave">Is this the last one?</Description>
-		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Weapon value="107" ammoCount="10"/>
-			<MoveToWaypoint value="true"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<MoveToWaypoint value="true"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<MoveToWaypoint value="true"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<MoveToWaypoint value="true"/>
-			<Weapon value="108" ammoCount="10"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<MoveToWaypoint value="true"/>
-		</Enemy>
+		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
 	</Wave>
 	<Wave name="Test Wave 6" val="5">
 		<Description tag="wave">Nope it wasn't...</Description>
-		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<Weapon value="107" ammoCount="10"/>
-			<MoveToWaypoint value="true"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<SelfDestroyProbability value="10"/>
-			<MoveToWaypoint value="true"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<SelfDestroyProbability value="5"/>
-			<MoveToWaypoint value="true"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<SelfDestroyProbability value="2"/>
-			<MoveToWaypoint value="true"/>
-			<Weapon value="108" ammoCount="10"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(13.0, 5.0)" rot="(0.0, 0.0, 180.0)">
-			<SelfDestroyProbability value="10"/>
-			<MoveToWaypoint value="true"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(6.0, 5.0)" rot="(0.0, 0.0, 180.0)">
-			<SelfDestroyProbability value="20"/>
-			<MoveToWaypoint value="true"/>
-			<Weapon value="108" ammoCount="10"/>
-		</Enemy>
-		<Enemy typeId="1" pos="(13.0, 5.0)" rot="(0.0, 0.0, 180.0)">
-			<SelfDestroyProbability value="1"/>
-			<MoveToWaypoint value="true"/>
-		</Enemy>
+		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(13.0, 5.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(6.0, 5.0)" rot="(0.0, 0.0, 180.0)"/>
+		<Enemy typeId="1" pos="(13.0, 5.0)" rot="(0.0, 0.0, 180.0)"/>
 	</Wave>
 </Level>

@@ -12,7 +12,7 @@ public class Actor : MonoBehaviour {
 	public float hurtCooldown = 0.5f;
 	public Enemy lastHit;
 	public GameManager gameManager;
-	public float engRegenSpeed = 0.001f;
+	public float engRegenSpeed = 1f;
 	public float hurtTimer = 3;
 	public GameObject defaultWeapon;
     public string Name;

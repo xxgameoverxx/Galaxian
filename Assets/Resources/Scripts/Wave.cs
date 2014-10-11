@@ -11,6 +11,7 @@ public class Wave
 	public string gameOverText = "";
     public string name;
     public List<Enemy> enemies = new List<Enemy>();
+    public List<EnemyInfo> enemyInfoList = new List<EnemyInfo>();
 
     private Dictionary<int, TypeInfo> typeIdDict;
     public Dictionary<int, TypeInfo> TypeIdDict
@@ -28,24 +29,40 @@ public class Wave
     public void Add(XmlNode node)
 	{
 		list.Add(node);
+        EnemyInfo ei = new EnemyInfo();
+        ei.ReadXml(node);
+        enemyInfoList.Add(ei);
 	}
 
 	public void SpawnAll(bool enabled = true, Spawner s = null)
 	{
         enemies.Clear();
-        foreach (XmlNode node in list)
-		{
-            TypeInfo t = TypeIdDict[int.Parse(node.Attributes["typeId"].Value)];
+        //foreach (XmlNode node in list)
+        //{
+        //    TypeInfo t = TypeIdDict[int.Parse(node.Attributes["typeId"].Value)];
+        //    GameObject enemyPrefab = Resources.Load(t.prefab) as GameObject;
+        //    GameObject enemy = GameObject.Instantiate(enemyPrefab, StringToVector2(node.Attributes["pos"].Value), Quaternion.Euler(StringToVector3(node.Attributes["rot"].Value))) as GameObject;
+        //    InitEnemy(t, enemy);
+        //    enemies.Add(enemy.GetComponent<Enemy>());
+        //    EnableEnemies(enabled);
+        //    if (s != null)
+        //    {
+        //        s.enemyList.Add(enemy);
+        //    }
+        //}
+        foreach (EnemyInfo i in enemyInfoList)
+        {
+            TypeInfo t = i.info;
             GameObject enemyPrefab = Resources.Load(t.prefab) as GameObject;
-            GameObject enemy = GameObject.Instantiate(enemyPrefab, StringToVector2(node.Attributes["pos"].Value), Quaternion.Euler(StringToVector3(node.Attributes["rot"].Value))) as GameObject;
-            InitEnemy(t, enemy, node);
+            GameObject enemy = GameObject.Instantiate(enemyPrefab, i.pos, i.rot) as GameObject;
+            InitEnemy(t, enemy);
             enemies.Add(enemy.GetComponent<Enemy>());
             EnableEnemies(enabled);
             if (s != null)
             {
                 s.enemyList.Add(enemy);
             }
-		}
+        }
 	}
 
     public void EnableEnemies(bool enable = true)
@@ -53,6 +70,10 @@ public class Wave
         foreach(Enemy e in enemies)
         {
             e.enabled = enable;
+            if (!e.enabled)
+            {
+                e.gameObject.rigidbody2D.velocity = Vector2.zero;
+            }
         }
     }
 
@@ -61,32 +82,14 @@ public class Wave
         foreach(Enemy e in enemies)
         {
             e.enabled = !e.enabled;
+            if(!e.enabled)
+            {
+                e.gameObject.rigidbody2D.velocity = Vector2.zero;
+            }
         }
     }
 
-    public Vector2 StringToVector2(string s)
-    {
-        float x;
-        float y;
-        string newS = s.Trim(new Char[] { '(', ')' });
-        x = float.Parse(newS.Split(new Char[] { ',' })[0]);
-        y = float.Parse(newS.Split(new Char[] { ',' })[1]);
-        return new Vector2(x, y);
-    }
-
-    public Vector3 StringToVector3(string s)
-    {
-        float x;
-        float y;
-        float z;
-        string newS = s.Trim(new Char[] { '(', ')' });
-        x = float.Parse(newS.Split(new Char[] { ',' })[0]);
-        y = float.Parse(newS.Split(new Char[] { ',' })[1]);
-        z = float.Parse(newS.Split(new char[] { ',' })[2]);
-        return new Vector3(x, y, z);
-    }
-
-    void InitEnemy(TypeInfo t, GameObject g, XmlNode n)
+    void InitEnemy(TypeInfo t, GameObject g)
     {
         Enemy e = g.GetComponent<Enemy>();
         e.name = t.name;
@@ -123,71 +126,6 @@ public class Wave
                 TypeInfo itemInfo = TypeIdDict[i];
                 GameObject newItem = Resources.Load(itemInfo.prefab) as GameObject;
                 e.inventory.Add(newItem.GetComponent<Item>());
-            }
-        }
-        foreach (XmlNode xnode in n.ChildNodes)
-        {
-            if (xnode.Name == "SelfDestroyProbability")
-            {
-                e.selfDestroyProbability = float.Parse(xnode.Attributes["value"].Value);
-            }
-            else if (xnode.Name == "MoveToWaypoint")
-            {
-                e.moveToWaypoint = bool.Parse(xnode.Attributes["value"].Value);
-            }
-            else if (xnode.Name == "Amplitude")
-            {
-                e.amplitudeX = float.Parse(xnode.Attributes["x"].Value);
-                e.amplitudeY = float.Parse(xnode.Attributes["y"].Value);
-            }
-            else if (xnode.Name == "ShootProbability")
-            {
-                e.shootProbability = float.Parse(xnode.Attributes["value"].Value);
-            }
-            else if (xnode.Name == "Damping")
-            {
-                e.dampingX = float.Parse(xnode.Attributes["x"].Value);
-                e.dampingY = float.Parse(xnode.Attributes["y"].Value);
-            }
-            else if (xnode.Name == "Health")
-            {
-                e.health = float.Parse(xnode.Attributes["value"].Value);
-                e.maxHealth = float.Parse(xnode.Attributes["maxValue"].Value);
-            }
-            else if (xnode.Name == "Energy")
-            {
-                e.energy = float.Parse(xnode.Attributes["value"].Value);
-                e.maxEnergy = float.Parse(xnode.Attributes["maxValue"].Value);
-                e.engRegenSpeed = float.Parse(xnode.Attributes["regenSpeed"].Value);
-            }
-            else if (xnode.Name == "MoveSpeed")
-            {
-                e.moveSpeed = float.Parse(xnode.Attributes["value"].Value);
-            }
-            else if (xnode.Name == "HurtCooldown")
-            {
-                e.hurtCooldown = float.Parse(xnode.Attributes["value"].Value);
-            }
-            else if (xnode.Name == "DropProbability")
-            {
-                e.dropProbability = float.Parse(xnode.Attributes["value"].Value);
-            }
-            else if (xnode.Name == "InventoryItem")
-            {
-                GameObject newItem = Resources.Load(TypeIdDict[int.Parse(xnode.Attributes["value"].Value)].prefab) as GameObject;
-                e.inventory.Add(newItem.GetComponent<Item>());
-            }
-            else if (xnode.Name == "Weapon")
-            {
-                TypeInfo newWeapon = TypeIdDict[int.Parse(xnode.Attributes["value"].Value)];
-                GameObject weaponPref = Resources.Load(newWeapon.prefab) as GameObject;
-                GameObject weapon = GameObject.Instantiate(weaponPref, g.transform.position, g.transform.rotation) as GameObject;
-                weapon.transform.parent = g.transform;
-                weapon.GetComponent<Weapon>().ammoCount = int.Parse(xnode.Attributes["ammoCount"].Value);
-            }
-            else
-            {
-                Debug.LogError("Unknown node: " + xnode.Name + ". Child of " + n.Name);
             }
         }
     }
