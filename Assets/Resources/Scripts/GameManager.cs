@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour {
     public List<Vector3> waypoints;
 	private Spawner spawner;
     private TypeInfo typeInfo;
-    public Dictionary<int, TypeInfo> typeIdDict = new Dictionary<int, TypeInfo>();
 
     private GameObject respawnPos;
     public Vector2 RespawnPos
@@ -100,6 +99,19 @@ public class GameManager : MonoBehaviour {
 		set { playerPrefab = value; }
 	}
 
+    private Dictionary<int, TypeInfo> typeIdDict;
+    public Dictionary<int, TypeInfo> TypeIdDict
+    {
+        get
+        {
+            if (typeIdDict == null)
+            {
+                typeIdDict = GameObject.FindObjectOfType<TypeInfoHolder>().typeInfoDict;
+            }
+            return typeIdDict;
+        }
+    }
+
 	public string spawnerPrefab = "Prefabs/Spawner";
 	private GameObject spawnerGO
 	{
@@ -125,24 +137,6 @@ public class GameManager : MonoBehaviour {
 
     void Awake()
     {
-        XmlDocument typeDoc = new XmlDocument();
-        typeDoc.Load(Application.dataPath + "/Resources/TypeInfo.xml");
-        foreach (XmlNode node in typeDoc.ChildNodes)
-        {
-            foreach (XmlNode childNode in node.ChildNodes)
-            {
-                typeInfo = new TypeInfo();
-                typeInfo.ReadInfo(childNode);
-                try
-                {
-                    typeIdDict.Add(typeInfo.id, typeInfo);
-                }
-                catch
-                {
-                    Debug.LogError("Same id already exists in dictionary: " + typeInfo.id);
-                }
-            }
-        }
         InitWaypoints();
         BeginLevel();
         ReadXml(Application.dataPath + "/Resources/Levels/level.xml");
@@ -188,7 +182,6 @@ public class GameManager : MonoBehaviour {
 		{
 			int waveNumber = int.Parse(node.Attributes["val"].Value);
 			Wave w = new Wave();
-			w.gm = this;
 			spawner.waves.Insert(waveNumber, w);
 		}
 		else if(node.Name == "Enemy")
@@ -208,7 +201,7 @@ public class GameManager : MonoBehaviour {
 				spawner.waves[waveNumber].description = node.InnerText;
 			}
 		}
-		else if(node.Name == "GameOverText")
+        else if (node.Name == "EndGameText")
 		{
 			if(node.Attributes["tag"].Value == "level")
 			{

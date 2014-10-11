@@ -80,6 +80,7 @@ public class Enemy : Actor {
 	}
 
     private Manager manager;
+    private LevelEditor levelEditor;
     private List<Vector3> Waypoints
     {
         get
@@ -88,9 +89,18 @@ public class Enemy : Actor {
             {
                 return gameManager.waypoints;
             }
-            else
+            else if(manager != null)
             {
                 return manager.wayPoints;
+            }
+            else if(levelEditor != null)
+            {
+                return levelEditor.waypoints;
+            }
+            else
+            {
+                Debug.LogError("Game Manger, manager and levelEditor is null!");
+                return null;
             }
         }
     }
@@ -102,6 +112,10 @@ public class Enemy : Actor {
         if(gameManager == null)
         {
             manager = GameObject.FindObjectOfType<Manager>();
+        }
+        if(manager == null)
+        {
+            levelEditor = GameObject.FindObjectOfType<LevelEditor>();
         }
     }
 
@@ -165,8 +179,8 @@ public class Enemy : Actor {
         }
         else
         {
-            //transform.position = Vector3.Slerp(transform.position, movePos, Time.deltaTime * moveSpeed / 500);
-            rigidbody2D.velocity = (movePos - transform.position).normalized * moveSpeed * Time.deltaTime;
+            transform.position = Vector3.Slerp(transform.position, movePos, Time.deltaTime * moveSpeed / 500);
+            //rigidbody2D.velocity = (movePos - transform.position).normalized * moveSpeed * Time.deltaTime;
 
         }
     }

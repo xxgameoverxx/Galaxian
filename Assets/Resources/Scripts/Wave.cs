@@ -2,33 +2,89 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
+using System;
 
 public class Wave
 {
     public List<XmlNode> list = new List<XmlNode>();
-	public GameManager gm;
 	public string description = "";
 	public string gameOverText = "";
+    public string name;
+    public List<Enemy> enemies = new List<Enemy>();
+
+    private Dictionary<int, TypeInfo> typeIdDict;
+    public Dictionary<int, TypeInfo> TypeIdDict
+    {
+        get
+        {
+            if (typeIdDict == null)
+            {
+                typeIdDict = GameObject.FindObjectOfType<TypeInfoHolder>().typeInfoDict;
+            }
+            return typeIdDict;
+        }
+    }
 
     public void Add(XmlNode node)
 	{
 		list.Add(node);
 	}
 
-	public void SpawnAll(Spawner s = null)
+	public void SpawnAll(bool enabled = true, Spawner s = null)
 	{
+        enemies.Clear();
         foreach (XmlNode node in list)
 		{
-            TypeInfo t = gm.typeIdDict[int.Parse(node.Attributes["typeId"].Value)];
+            TypeInfo t = TypeIdDict[int.Parse(node.Attributes["typeId"].Value)];
             GameObject enemyPrefab = Resources.Load(t.prefab) as GameObject;
-            GameObject enemy = GameObject.Instantiate(enemyPrefab, gm.StringToVector2(node.Attributes["pos"].Value), Quaternion.Euler(gm.StringToVector3(node.Attributes["rot"].Value))) as GameObject;
+            GameObject enemy = GameObject.Instantiate(enemyPrefab, StringToVector2(node.Attributes["pos"].Value), Quaternion.Euler(StringToVector3(node.Attributes["rot"].Value))) as GameObject;
             InitEnemy(t, enemy, node);
+            enemies.Add(enemy.GetComponent<Enemy>());
+            EnableEnemies(enabled);
             if (s != null)
             {
                 s.enemyList.Add(enemy);
             }
 		}
 	}
+
+    public void EnableEnemies(bool enable = true)
+    {
+        foreach(Enemy e in enemies)
+        {
+            e.enabled = enable;
+        }
+    }
+
+    public void ToggleEnemies()
+    {
+        foreach(Enemy e in enemies)
+        {
+            e.enabled = !e.enabled;
+        }
+    }
+
+    public Vector2 StringToVector2(string s)
+    {
+        float x;
+        float y;
+        string newS = s.Trim(new Char[] { '(', ')' });
+        x = float.Parse(newS.Split(new Char[] { ',' })[0]);
+        y = float.Parse(newS.Split(new Char[] { ',' })[1]);
+        return new Vector2(x, y);
+    }
+
+    public Vector3 StringToVector3(string s)
+    {
+        float x;
+        float y;
+        float z;
+        string newS = s.Trim(new Char[] { '(', ')' });
+        x = float.Parse(newS.Split(new Char[] { ',' })[0]);
+        y = float.Parse(newS.Split(new Char[] { ',' })[1]);
+        z = float.Parse(newS.Split(new char[] { ',' })[2]);
+        return new Vector3(x, y, z);
+    }
 
     void InitEnemy(TypeInfo t, GameObject g, XmlNode n)
     {
@@ -53,7 +109,7 @@ public class Wave
 
         if(t.weapon != -1)
         {
-            TypeInfo newWeapon = gm.typeIdDict[t.weapon];
+            TypeInfo newWeapon = TypeIdDict[t.weapon];
             GameObject weaponPref = Resources.Load(newWeapon.prefab) as GameObject;
             GameObject weapon = GameObject.Instantiate(weaponPref, g.transform.position, g.transform.rotation) as GameObject;
             weapon.transform.parent = g.transform;
@@ -64,7 +120,7 @@ public class Wave
         {
             foreach (int i in t.inventoryItems)
             {
-                TypeInfo itemInfo = gm.typeIdDict[i];
+                TypeInfo itemInfo = TypeIdDict[i];
                 GameObject newItem = Resources.Load(itemInfo.prefab) as GameObject;
                 e.inventory.Add(newItem.GetComponent<Item>());
             }
@@ -118,12 +174,12 @@ public class Wave
             }
             else if (xnode.Name == "InventoryItem")
             {
-                GameObject newItem = Resources.Load(gm.typeIdDict[int.Parse(xnode.Attributes["value"].Value)].prefab) as GameObject;
+                GameObject newItem = Resources.Load(TypeIdDict[int.Parse(xnode.Attributes["value"].Value)].prefab) as GameObject;
                 e.inventory.Add(newItem.GetComponent<Item>());
             }
             else if (xnode.Name == "Weapon")
             {
-                TypeInfo newWeapon = gm.typeIdDict[int.Parse(xnode.Attributes["value"].Value)];
+                TypeInfo newWeapon = TypeIdDict[int.Parse(xnode.Attributes["value"].Value)];
                 GameObject weaponPref = Resources.Load(newWeapon.prefab) as GameObject;
                 GameObject weapon = GameObject.Instantiate(weaponPref, g.transform.position, g.transform.rotation) as GameObject;
                 weapon.transform.parent = g.transform;

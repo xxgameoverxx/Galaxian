@@ -201,17 +201,17 @@ public class Manager : MonoBehaviour {
         hasLaserAmmo = GUI.Toggle(new Rect(Screen.width / 30 * 4, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 40), hasLaserAmmo, "Laser Ammo");
         hasRocketAmmo = GUI.Toggle(new Rect(Screen.width / 30 * 4, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 40), hasRocketAmmo, "Rocket Ammo");
         hasDevineIntervention = GUI.Toggle(new Rect(Screen.width / 30 * 4, Screen.height / 20 * 3f, Screen.width / 12, Screen.height / 40), hasDevineIntervention, "Devine Intervention");
-        Shotgun = GUI.Toggle(new Rect(Screen.width / 60 + Screen.width / 4, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 40), Shotgun, "Shotgun");
-        Laser = GUI.Toggle(new Rect(Screen.width / 60 + Screen.width / 4, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 40), Laser, "Laser");
-        Rocket = GUI.Toggle(new Rect(Screen.width / 60 + Screen.width / 4, Screen.height / 20 * 3f, Screen.width / 12, Screen.height / 40), Rocket, "Rocket");
-        ammoCount = GUI.TextField(new Rect(Screen.width / 60 + Screen.width / 4 + Screen.width / 30 * 4, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 20), ammoCount);
-        GUI.Label(new Rect(Screen.width / 60 + Screen.width / 4 + Screen.width / 30 * 4, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 20), "Ammo Count");
+        Shotgun = GUI.Toggle(new Rect(Screen.width / 15 * 4, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 40), Shotgun, "Shotgun");
+        Laser = GUI.Toggle(new Rect(Screen.width / 15 * 4, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 40), Laser, "Laser");
+        Rocket = GUI.Toggle(new Rect(Screen.width / 15 * 4, Screen.height / 20 * 3f, Screen.width / 12, Screen.height / 40), Rocket, "Rocket");
+        ammoCount = GUI.TextField(new Rect(Screen.width / 5 * 2, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 20), ammoCount);
+        GUI.Label(new Rect(Screen.width / 5 * 2, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 20), "Ammo Count");
 
-        if (GUI.Button(new Rect(Screen.width / 5 * 2, Screen.height / 20 * 16, Screen.width / 5, Screen.height / 20), "Previous"))
+        if (GUI.Button(new Rect(Screen.width / 5 * 3, Screen.height / 20 * 16, Screen.width / 10, Screen.height / 20), "Previous"))
         {
             Previous();
         }
-        if (GUI.Button(new Rect(Screen.width / 5 * 3, Screen.height / 20 * 16, Screen.width / 5, Screen.height / 20), "Next"))
+        if (GUI.Button(new Rect(Screen.width / 10 * 7, Screen.height / 20 * 16, Screen.width / 10, Screen.height / 20), "Next"))
         {
             Next();
         }

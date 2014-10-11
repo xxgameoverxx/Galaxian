@@ -12,7 +12,7 @@ public class Main : MonoBehaviour
         }
         if (GUI.Button(new Rect(Screen.width / 4, Screen.height / 3 + Screen.height / 15 + 20, Screen.width / 2, Screen.height / 15), "Editor"))
         {
-            Application.LoadLevel("Editor");
+            Application.LoadLevel("UnitEditor");
         }
         if (GUI.Button(new Rect(Screen.width / 4, Screen.height / 3 + Screen.height / 15 * 2 + 40, Screen.width / 2, Screen.height / 15), "Options"))
         {

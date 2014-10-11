@@ -1,16 +1,9 @@
-<Level name="First Level" val="1" leftBorder="(-15.0, 0.0)" rightBorder="(15.0, 0.0)" topBorder="(0.0, -1.0)" bottomBorder="(0.0, -10.0)" respawnPos="(10.0, -5.0, 0.0)">
-	<Description tag="level">This is one hell of an awesome level!</Description>
-	<EndGameText tag="level">You killed them.. YOU KILLED ALL OF THEM!!! Do you feel like a hero yet?</EndGameText>
-	<GameOverText tag="level">Sayonara sucka!</GameOverText>
-	<Wave name="Wave 1" val="0">
-		<Description tag="wave">Welcome aboard captain! Since this is your first mission let me explain how this ship works...
-		Move your ship with WASD buttons on your console and shoot with SPACE. Yep, it's that simple to control a space ship
-		since we made signed contract with Apple. The word is next gen iShips will have only one button! How awesome is this?
-		
-		Anyway, back to the mission... As you know we are in war with those evil alien bastards and you have been chosen among
-		the best pilots of Planet Earth in order to bring some democracy to their planet.
-		
-		Oh! Look! There is a small squad of alien fighters! Quick, get them!
+<Level name="Test Level asd" val="1" leftBorder="(-15.0, 0.0)" rightBorder="(15.0, 0.0)" topBorder="(0.0, -1.0)" bottomBorder="(0.0, -10.0)" respawnPos="(10.0, -5.0, 0.0)">
+	<Description tag="level">This is a test level!</Description>
+	<EndGameText tag="level">Yay! You rock!</EndGameText>
+	<GameOverText tag="level">Lol noob!</GameOverText>
+	<Wave name="Test Wave 1" val="0">
+		<Description tag="wave">Sound check one - two...
 		</Description>
 		<Enemy typeId="0" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 			<Amplitude x="0" y="0"/>
@@ -22,10 +15,8 @@
 			<Amplitude x="0" y="0"/>
 		</Enemy>
 	</Wave>
-	<Wave name="Wave 2" val="1">
-		<Description tag="wave">Well, this was relatively easy. I wonder what they were doing so close to the Earth... Well, I guess we'll never learn.
-		Your first and last mission, captain, is to deliver democracy to their homeland. Be careful thou,
-		there may be more of them on the way and usually they are not this easy to defeat.</Description>
+	<Wave name="Test Wave 2" val="1">
+		<Description tag="wave">Test Wave</Description>
 		<Enemy typeId="0" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 		</Enemy>
 		<Enemy typeId="0" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
@@ -35,9 +26,8 @@
 		<Enemy typeId="0" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 		</Enemy>
 	</Wave>
-	<Wave name="Wave 3" val="2">
-		<Description tag="wave">Wow, that's more like it! Good job defeating them. By the way, is our ship damaged? If it is we may be loot some repair
-		tools from some of the enemies. Open your eyes for the goodies.</Description>
+	<Wave name="Test Wave 3" val="2">
+		<Description tag="wave">Another test wave</Description>
 		<Enemy typeId="0" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 			<Amplitude x="1" y="1"/>
 		</Enemy>
@@ -56,10 +46,8 @@
 			<Amplitude x="1" y="1"/>
 		</Enemy>
 	</Wave>
-	<Wave name="Wave 4" val="3">
-		<Description tag="wave">Hey cap, we just got an intel! It says that an alien convoy with some weapons is nearby! We need to take them down.
-		May be we can loot some cool weapons while we doing it. If you manage to salvage some weapon, press CTRL button to use it.
-		And captain, be careful, they will not hesitate to use those weapons.</Description>
+	<Wave name="Test Wave 4" val="3">
+		<Description tag="wave">Yet another test wave</Description>
 		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 			<Weapon value="107" ammoCount="10"/>
 		</Enemy>
@@ -73,9 +61,8 @@
 		<Enemy typeId="1" pos="(13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 		</Enemy>
 	</Wave>
-	<Wave name="Wave 5" val="4">
-		<Description tag="wave">Whew... That was close... It is not the time to relax thou. More enemy waves are approaching. Prepare yourself,
-		these seems to be more intelligent.</Description>
+	<Wave name="Test Wave 5" val="4">
+		<Description tag="wave">Is this the last one?</Description>
 		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 			<Weapon value="107" ammoCount="10"/>
 			<MoveToWaypoint value="true"/>
@@ -94,36 +81,36 @@
 			<MoveToWaypoint value="true"/>
 		</Enemy>
 	</Wave>
-	<Wave name="Wave 6" val="5">
-		<Description tag="wave">Ok, we almost there. Best of them are preparing for the last stand so be careful, they may be suicidal.</Description>
+	<Wave name="Test Wave 6" val="5">
+		<Description tag="wave">Nope it wasn't...</Description>
 		<Enemy typeId="1" pos="(-13.0, 0.0)" rot="(0.0, 0.0, 180.0)">
 			<Weapon value="107" ammoCount="10"/>
 			<MoveToWaypoint value="true"/>
 		</Enemy>
 		<Enemy typeId="1" pos="(-6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<SelfDestroyProbability value="0.000000001"/>
+			<SelfDestroyProbability value="10"/>
 			<MoveToWaypoint value="true"/>
 		</Enemy>
 		<Enemy typeId="1" pos="(0.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<SelfDestroyProbability value="0.000000001"/>
+			<SelfDestroyProbability value="5"/>
 			<MoveToWaypoint value="true"/>
 		</Enemy>
 		<Enemy typeId="1" pos="(6.0, 0.0)" rot="(0.0, 0.0, 180.0)">
-			<SelfDestroyProbability value="0.000000001"/>
+			<SelfDestroyProbability value="2"/>
 			<MoveToWaypoint value="true"/>
 			<Weapon value="108" ammoCount="10"/>
 		</Enemy>
 		<Enemy typeId="1" pos="(13.0, 5.0)" rot="(0.0, 0.0, 180.0)">
-			<SelfDestroyProbability value="0.000000001"/>
+			<SelfDestroyProbability value="10"/>
 			<MoveToWaypoint value="true"/>
 		</Enemy>
 		<Enemy typeId="1" pos="(6.0, 5.0)" rot="(0.0, 0.0, 180.0)">
-			<SelfDestroyProbability value="0.000000001"/>
+			<SelfDestroyProbability value="20"/>
 			<MoveToWaypoint value="true"/>
 			<Weapon value="108" ammoCount="10"/>
 		</Enemy>
 		<Enemy typeId="1" pos="(13.0, 5.0)" rot="(0.0, 0.0, 180.0)">
-			<SelfDestroyProbability value="0.000000001"/>
+			<SelfDestroyProbability value="1"/>
 			<MoveToWaypoint value="true"/>
 		</Enemy>
 	</Wave>

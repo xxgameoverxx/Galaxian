@@ -27,6 +27,7 @@ public class BFL : Weapon {
         {
             if (ammoCount > 0)
             {
+                beam.tag = this.tag;
                 ammoCount--;
                 cooldownTime = 2f;
                 activated = true;

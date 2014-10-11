@@ -26,7 +26,6 @@ public class Player : Actor {
 		set { sp = value; }
 	}
 
-
 	public void Move()
 	{
 		moveX = 0;
