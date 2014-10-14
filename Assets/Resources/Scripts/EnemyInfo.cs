@@ -6,18 +6,24 @@ using System;
 
 public class EnemyInfo
 {
+    private TypeInfoHolder typeInfoHolder;
     private Dictionary<int, TypeInfo> typeIdDict;
-    public Dictionary<int, TypeInfo> TypeIdDict
+    private Dictionary<int, TypeInfo> TypeIdDict
     {
         get
         {
-            if (typeIdDict == null)
+            if(typeInfoHolder == null)
             {
-                typeIdDict = GameObject.FindObjectOfType<TypeInfoHolder>().typeInfoDict;
+                typeInfoHolder = new TypeInfoHolder();
+            }
+            if(typeIdDict == null)
+            {
+                typeIdDict = typeInfoHolder.typeInfoDict;
             }
             return typeIdDict;
         }
     }
+
 
     public Vector2 pos;
     public Quaternion rot;

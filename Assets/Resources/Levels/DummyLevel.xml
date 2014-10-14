@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Level name="DummyLevel">
+	<EndGameText>Enter an end game message...</EndGameText>
+	<GameOverText>Enter a game over message...</GameOverText>
+	<Description tag="level">Enter a description...</Description>
+	<Wave name="Dummy Wave" val="5">
+		<Description tag="wave">Write a description for this wave</Description>
+		<Enemy typeId="0" pos="(0,0)" rot="(0.0,0.0,180.0)" />
+	</Wave>
+</Level>

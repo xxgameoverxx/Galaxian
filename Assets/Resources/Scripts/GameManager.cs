@@ -99,14 +99,20 @@ public class GameManager : MonoBehaviour {
 		set { playerPrefab = value; }
 	}
 
+    private TypeInfoHolder typeInfoHolder;
+
     private Dictionary<int, TypeInfo> typeIdDict;
-    public Dictionary<int, TypeInfo> TypeIdDict
+    private Dictionary<int, TypeInfo> TypeIdDict
     {
         get
         {
+            if (typeInfoHolder == null)
+            {
+                typeInfoHolder = new TypeInfoHolder();
+            }
             if (typeIdDict == null)
             {
-                typeIdDict = GameObject.FindObjectOfType<TypeInfoHolder>().typeInfoDict;
+                typeIdDict = typeInfoHolder.typeInfoDict;
             }
             return typeIdDict;
         }
@@ -141,11 +147,6 @@ public class GameManager : MonoBehaviour {
         BeginLevel();
         ReadXml(Application.dataPath + "/Resources/Levels/level.xml");
     }
-
-	void Start()
-	{
-        
-	}
 
 	private void BeginLevel()
 	{
@@ -207,11 +208,11 @@ public class GameManager : MonoBehaviour {
 			{
 				winText = node.InnerText;
 			}
-			else if(node.Attributes["tag"].Value == "wave")
-			{
-				int waveNumber = int.Parse(parentNode.Attributes["val"].Value);
-				spawner.waves[waveNumber].gameOverText = node.InnerText;
-			}
+            //else if(node.Attributes["tag"].Value == "wave")
+            //{
+            //    int waveNumber = int.Parse(parentNode.Attributes["val"].Value);
+            //    spawner.waves[waveNumber].gameOverText = node.InnerText;
+            //}
 		}
 
 		foreach(XmlNode childNode in node.ChildNodes)

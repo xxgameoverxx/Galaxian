@@ -6,21 +6,24 @@ using System;
 
 public class Wave
 {
-    public List<XmlNode> list = new List<XmlNode>();
+    public int id;
 	public string description = "";
-	public string gameOverText = "";
+    //public string gameOverText = "";
     public string name;
     public List<Enemy> enemies = new List<Enemy>();
     public List<EnemyInfo> enemyInfoList = new List<EnemyInfo>();
+    public Dictionary<Enemy, EnemyInfo> enemyEnemyInfoDict = new Dictionary<Enemy, EnemyInfo>();
 
+    private TypeInfoHolder typeInfoHolder;
     private Dictionary<int, TypeInfo> typeIdDict;
     public Dictionary<int, TypeInfo> TypeIdDict
     {
         get
         {
-            if (typeIdDict == null)
+            if (typeInfoHolder == null)
             {
-                typeIdDict = GameObject.FindObjectOfType<TypeInfoHolder>().typeInfoDict;
+                typeInfoHolder = new TypeInfoHolder();
+                typeIdDict = typeInfoHolder.typeInfoDict;
             }
             return typeIdDict;
         }
@@ -28,7 +31,6 @@ public class Wave
 
     public void Add(XmlNode node)
 	{
-		list.Add(node);
         EnemyInfo ei = new EnemyInfo();
         ei.ReadXml(node);
         enemyInfoList.Add(ei);
@@ -36,31 +38,25 @@ public class Wave
 
 	public void SpawnAll(bool enabled = true, Spawner s = null)
 	{
+        if(enemyInfoList.Count == 0)
+        {
+            CreateBasicEnemy();
+        }
         enemies.Clear();
-        //foreach (XmlNode node in list)
-        //{
-        //    TypeInfo t = TypeIdDict[int.Parse(node.Attributes["typeId"].Value)];
-        //    GameObject enemyPrefab = Resources.Load(t.prefab) as GameObject;
-        //    GameObject enemy = GameObject.Instantiate(enemyPrefab, StringToVector2(node.Attributes["pos"].Value), Quaternion.Euler(StringToVector3(node.Attributes["rot"].Value))) as GameObject;
-        //    InitEnemy(t, enemy);
-        //    enemies.Add(enemy.GetComponent<Enemy>());
-        //    EnableEnemies(enabled);
-        //    if (s != null)
-        //    {
-        //        s.enemyList.Add(enemy);
-        //    }
-        //}
+        enemyEnemyInfoDict.Clear();
         foreach (EnemyInfo i in enemyInfoList)
         {
             TypeInfo t = i.info;
             GameObject enemyPrefab = Resources.Load(t.prefab) as GameObject;
-            GameObject enemy = GameObject.Instantiate(enemyPrefab, i.pos, i.rot) as GameObject;
+            GameObject enemyGO = GameObject.Instantiate(enemyPrefab, i.pos, i.rot) as GameObject;
+            Enemy enemy = enemyGO.GetComponent<Enemy>();
             InitEnemy(t, enemy);
-            enemies.Add(enemy.GetComponent<Enemy>());
+            enemies.Add(enemy);
+            enemyEnemyInfoDict.Add(enemy, i);
             EnableEnemies(enabled);
             if (s != null)
             {
-                s.enemyList.Add(enemy);
+                s.enemyList.Add(enemyGO);
             }
         }
 	}
@@ -89,9 +85,46 @@ public class Wave
         }
     }
 
-    void InitEnemy(TypeInfo t, GameObject g)
+    public void Save()
     {
-        Enemy e = g.GetComponent<Enemy>();
+        List<Enemy> enemiesToRemove = new List<Enemy>();
+        foreach(Enemy e in enemies)
+        {
+            if(e == null)
+            {
+                enemiesToRemove.Add(e);
+                continue;
+            }
+            enemyEnemyInfoDict[e].pos = e.gameObject.transform.position;
+            enemyEnemyInfoDict[e].rot = e.gameObject.transform.rotation;
+            
+        }
+        foreach(Enemy e in enemiesToRemove)
+        {
+            enemies.Remove(e);
+            enemyInfoList.Remove(enemyEnemyInfoDict[e]);
+            enemyEnemyInfoDict.Remove(e);
+        }
+    }
+
+    void CreateBasicEnemy()
+    {
+        EnemyInfo ei = new EnemyInfo();
+        for (int i = 0; i < TypeIdDict.Count; i++)
+        {
+            if (TypeIdDict.ContainsKey(i))
+            {
+                ei.info = TypeIdDict[i];
+                break;
+            }
+        }
+        ei.pos = Vector2.zero;
+        ei.rot = Quaternion.Euler(0, 0, 180);
+        enemyInfoList.Add(ei);
+    }
+
+    void InitEnemy(TypeInfo t, Enemy e)
+    {
         e.name = t.name;
         e.selfDestroyProbability = t.selfDestroyProbability;
         e.moveToWaypoint = t.moveToWaypoint;
@@ -114,8 +147,8 @@ public class Wave
         {
             TypeInfo newWeapon = TypeIdDict[t.weapon];
             GameObject weaponPref = Resources.Load(newWeapon.prefab) as GameObject;
-            GameObject weapon = GameObject.Instantiate(weaponPref, g.transform.position, g.transform.rotation) as GameObject;
-            weapon.transform.parent = g.transform;
+            GameObject weapon = GameObject.Instantiate(weaponPref, e.transform.position, e.transform.rotation) as GameObject;
+            weapon.transform.parent = e.transform;
             weapon.GetComponent<Weapon>().ammoCount = (int)t.ammoCount;
         }
 

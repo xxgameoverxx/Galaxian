@@ -6,10 +6,10 @@ using System.Xml;
 
 public class Manager : MonoBehaviour {
 
-    Dictionary<int, TypeInfo> enemyTypeDict = new Dictionary<int, TypeInfo>();
-    Dictionary<int, TypeInfo> itemTypeDict = new Dictionary<int, TypeInfo>();
-    List<int> enemyTypes = new List<int>();
-    List<int> itemTypes = new List<int>();
+    Dictionary<int, TypeInfo> enemyTypeDict;
+    Dictionary<int, TypeInfo> itemTypeDict;
+    List<int> enemyTypes;
+    List<int> itemTypes;
     GameObject currentDummy;
     int index = 0;
     Vector3 prfabPos;
@@ -120,15 +120,77 @@ public class Manager : MonoBehaviour {
         }
     }
 
+    private TypeInfoHolder typeInfoHolder;
+    private Dictionary<int, TypeInfo> EnemyTypeDict
+    {
+        get
+        {
+            if (typeInfoHolder == null)
+            {
+                typeInfoHolder = new TypeInfoHolder();
+            }
+            if(enemyTypeDict == null)
+            {
+                enemyTypeDict = typeInfoHolder.enemyTypeDict;
+            }
+            return enemyTypeDict;
+        }
+    }
+    private Dictionary<int, TypeInfo> ItemTypeDict
+    {
+        get
+        {
+            if (typeInfoHolder == null)
+            {
+                typeInfoHolder = new TypeInfoHolder();
+            }
+            if (itemTypeDict == null)
+            {
+                itemTypeDict = typeInfoHolder.itemTypeDict;
+            }
+            return itemTypeDict;
+        }
+    }
+    private List<int> EnemyTypes
+    {
+        get
+        {
+            if (typeInfoHolder == null)
+            {
+                typeInfoHolder = new TypeInfoHolder();
+            }
+            if (enemyTypes == null)
+            {
+                enemyTypes = typeInfoHolder.enemyIds;
+            }
+            return enemyTypes;
+        }
+    }
+    private List<int> ItemTypes
+    {
+        get
+        {
+            if (typeInfoHolder == null)
+            {
+                typeInfoHolder = new TypeInfoHolder();
+            }
+            if (itemTypes == null)
+            {
+                itemTypes = typeInfoHolder.itemIds;
+            }
+            return itemTypes;
+        }
+    }
+
     void Awake()
     {
         prfabPos = GameObject.FindGameObjectWithTag("Respawn").transform.position;
-        XmlDocument typeDoc = new XmlDocument();
-        typeDoc.Load(Application.dataPath + "/Resources/TypeInfo.xml");
-        foreach (XmlNode node in typeDoc.ChildNodes)
-        {
-            FillTypePrefabDict(node);
-        }
+        //XmlDocument typeDoc = new XmlDocument();
+        //typeDoc.Load(Application.dataPath + "/Resources/TypeInfo.xml");
+        //foreach (XmlNode node in typeDoc.ChildNodes)
+        //{
+        //    FillTypePrefabDict(node);
+        //}
         ChangePrefab();
     }
 
@@ -140,25 +202,25 @@ public class Manager : MonoBehaviour {
         }
     }
 
-    void FillTypePrefabDict(XmlNode node)
-    {
-        foreach(XmlNode child in node.ChildNodes)
-        {
-            int typeId = int.Parse(child.Attributes["type"].Value);
-            TypeInfo type = new TypeInfo();
-            type.ReadInfo(child);
-            if (typeId < 100)
-            {
-                enemyTypeDict.Add(typeId, type);
-                enemyTypes.Add(typeId);
-            }
-            else
-            {
-                itemTypeDict.Add(typeId, type);
-                itemTypes.Add(typeId);
-            }
-        }
-    }
+    //void FillTypePrefabDict(XmlNode node)
+    //{
+    //    foreach(XmlNode child in node.ChildNodes)
+    //    {
+    //        int typeId = int.Parse(child.Attributes["type"].Value);
+    //        TypeInfo type = new TypeInfo();
+    //        type.ReadInfo(child);
+    //        if (typeId < 100)
+    //        {
+    //            enemyTypeDict.Add(typeId, type);
+    //            enemyTypes.Add(typeId);
+    //        }
+    //        else
+    //        {
+    //            itemTypeDict.Add(typeId, type);
+    //            itemTypes.Add(typeId);
+    //        }
+    //    }
+    //}
 
     void OnGUI()
     {
@@ -217,9 +279,9 @@ public class Manager : MonoBehaviour {
         }
         if (GUI.Button(new Rect(Screen.width / 5 * 4, Screen.height / 20 * 16, Screen.width / 5, Screen.height / 20), "Delete"))
         {
-            enemyTypes.Remove(currentType.id);
-            enemyTypes.Remove(currentType.id);
-            currentType = enemyTypeDict[enemyTypes[0]];
+            EnemyTypes.Remove(currentType.id);
+            EnemyTypes.Remove(currentType.id);
+            currentType = EnemyTypeDict[EnemyTypes[0]];
             index = 0;
             ChangePrefab();
             //Apply();
@@ -234,14 +296,14 @@ public class Manager : MonoBehaviour {
             type.Clone(currentType);
             for(int i = 0; i < 100; i++)
             {
-                if(!enemyTypes.Contains(i))
+                if (!EnemyTypes.Contains(i))
                 {
                     type.id = i;
                     break;
                 }
             }
-            enemyTypes.Add(type.id);
-            enemyTypeDict.Add(type.id, type);
+            EnemyTypes.Add(type.id);
+            EnemyTypeDict.Add(type.id, type);
             currentType = type;
             Apply();
         }
@@ -265,58 +327,58 @@ public class Manager : MonoBehaviour {
 
     void Apply()
     {
-        enemyTypeDict[currentType.id].name = newName;
-        enemyTypeDict[currentType.id].maxHealth = float.Parse(newHealth);
-        enemyTypeDict[currentType.id].maxEnergy = float.Parse(newEnergy);
-        enemyTypeDict[currentType.id].engRegenSpeed = float.Parse(newEnergyRegen);
-        enemyTypeDict[currentType.id].selfDestroyProbability = newSelfDestroyProb;
-        enemyTypeDict[currentType.id].shootProbability = newShootProb;
-        enemyTypeDict[currentType.id].hurtCooldown = float.Parse(newHurtCooldown);
-        enemyTypeDict[currentType.id].amplitudeX = float.Parse(newAmplitudeX);
-        enemyTypeDict[currentType.id].amplitudeY = float.Parse(newAmplitudeY);
-        enemyTypeDict[currentType.id].dampingX = float.Parse(newDampingX);
-        enemyTypeDict[currentType.id].dampingY = float.Parse(newDampingY);
-        enemyTypeDict[currentType.id].moveSpeed = float.Parse(newMoveSpeed);
-        enemyTypeDict[currentType.id].dropProbability = newDropProb;
-        enemyTypeDict[currentType.id].moveToWaypoint = newMoveToWaypoint;
-        enemyTypeDict[currentType.id].ammoCount = int.Parse(ammoCount);
+        EnemyTypeDict[currentType.id].name = newName;
+        EnemyTypeDict[currentType.id].maxHealth = float.Parse(newHealth);
+        EnemyTypeDict[currentType.id].maxEnergy = float.Parse(newEnergy);
+        EnemyTypeDict[currentType.id].engRegenSpeed = float.Parse(newEnergyRegen);
+        EnemyTypeDict[currentType.id].selfDestroyProbability = newSelfDestroyProb;
+        EnemyTypeDict[currentType.id].shootProbability = newShootProb;
+        EnemyTypeDict[currentType.id].hurtCooldown = float.Parse(newHurtCooldown);
+        EnemyTypeDict[currentType.id].amplitudeX = float.Parse(newAmplitudeX);
+        EnemyTypeDict[currentType.id].amplitudeY = float.Parse(newAmplitudeY);
+        EnemyTypeDict[currentType.id].dampingX = float.Parse(newDampingX);
+        EnemyTypeDict[currentType.id].dampingY = float.Parse(newDampingY);
+        EnemyTypeDict[currentType.id].moveSpeed = float.Parse(newMoveSpeed);
+        EnemyTypeDict[currentType.id].dropProbability = newDropProb;
+        EnemyTypeDict[currentType.id].moveToWaypoint = newMoveToWaypoint;
+        EnemyTypeDict[currentType.id].ammoCount = int.Parse(ammoCount);
 
-        enemyTypeDict[currentType.id].inventoryItems = new List<int>();
+        EnemyTypeDict[currentType.id].inventoryItems = new List<int>();
         if (hasHealth)
         {
-            enemyTypeDict[currentType.id].inventoryItems.Add(100);
+            EnemyTypeDict[currentType.id].inventoryItems.Add(100);
         }
         if (hasShield)
         {
-            enemyTypeDict[currentType.id].inventoryItems.Add(105);
+            EnemyTypeDict[currentType.id].inventoryItems.Add(105);
         } if (hasShotgunAmmo)
         {
-            enemyTypeDict[currentType.id].inventoryItems.Add(102);
+            EnemyTypeDict[currentType.id].inventoryItems.Add(102);
         } if (hasLaserAmmo)
         {
-            enemyTypeDict[currentType.id].inventoryItems.Add(103);
+            EnemyTypeDict[currentType.id].inventoryItems.Add(103);
         } if (hasRocketAmmo)
         {
-            enemyTypeDict[currentType.id].inventoryItems.Add(104);
+            EnemyTypeDict[currentType.id].inventoryItems.Add(104);
         } if (hasDevineIntervention)
         {
-            enemyTypeDict[currentType.id].inventoryItems.Add(101);
+            EnemyTypeDict[currentType.id].inventoryItems.Add(101);
         }
         if (Shotgun)
         {
-            enemyTypeDict[currentType.id].weapon = 106;
+            EnemyTypeDict[currentType.id].weapon = 106;
         }
         else if (Laser)
         {
-            enemyTypeDict[currentType.id].weapon = 107;
+            EnemyTypeDict[currentType.id].weapon = 107;
         }
         else if (Rocket)
         {
-            enemyTypeDict[currentType.id].weapon = 108;
+            EnemyTypeDict[currentType.id].weapon = 108;
         }
         else
         {
-            enemyTypeDict[currentType.id].weapon = -1;
+            EnemyTypeDict[currentType.id].weapon = -1;
         }
         updateEnemy = true;
     }
@@ -343,13 +405,13 @@ public class Manager : MonoBehaviour {
         e.inventory = new List<Item>();
         foreach(int i in currentType.inventoryItems)
         {
-            GameObject newItem = Resources.Load(itemTypeDict[i].prefab) as GameObject;
+            GameObject newItem = Resources.Load(ItemTypeDict[i].prefab) as GameObject;
             e.inventory.Add(newItem.GetComponent<Item>());
         }
 
         if (currentType.weapon != -1)
         {
-            TypeInfo type = itemTypeDict[currentType.weapon];
+            TypeInfo type = ItemTypeDict[currentType.weapon];
             GameObject newItem = Resources.Load(type.prefab) as GameObject;
             GameObject weapon = Instantiate(newItem, e.transform.position, e.transform.rotation) as GameObject;
             weapon.name = type.name;
@@ -367,9 +429,9 @@ public class Manager : MonoBehaviour {
         {
             writer.WriteStartDocument();
             writer.WriteStartElement("Types");
-            foreach(int i in enemyTypes)
+            foreach (int i in EnemyTypes)
             {
-                TypeInfo t = enemyTypeDict[i];
+                TypeInfo t = EnemyTypeDict[i];
                 writer.WriteStartElement("Type");
                 writer.WriteAttributeString("type", t.id.ToString());
                 writer.WriteAttributeString("name", t.name);
@@ -421,9 +483,9 @@ public class Manager : MonoBehaviour {
                 }
                 writer.WriteEndElement(); //Type
             }
-            foreach(int i in itemTypes)
+            foreach (int i in ItemTypes)
             {
-                TypeInfo t = itemTypeDict[i];
+                TypeInfo t = ItemTypeDict[i];
                 writer.WriteStartElement("Type");
                 writer.WriteAttributeString("type", t.id.ToString());
                 writer.WriteAttributeString("name", t.name.ToString());
@@ -444,7 +506,9 @@ public class Manager : MonoBehaviour {
         {
             Destroy(currentDummy);
         }
-        currentType = enemyTypeDict[enemyTypes[index]];
+        Debug.Log(index);
+        Debug.Log("enemy dict " + EnemyTypes.Count);
+        currentType = EnemyTypeDict[EnemyTypes[index]];
         GameObject go = Resources.Load(currentType.prefab) as GameObject;
         currentDummy = Instantiate(go, prfabPos, go.transform.rotation) as GameObject;
         currentDummy.name = currentType.name;
@@ -511,7 +575,7 @@ public class Manager : MonoBehaviour {
 
     void Next()
     {
-        if (index < enemyTypes.Count - 1)
+        if (index < EnemyTypes.Count - 1)
         {
             index++;
         }
@@ -530,7 +594,7 @@ public class Manager : MonoBehaviour {
         }
         else
         {
-            index = enemyTypes.Count - 1;
+            index = EnemyTypes.Count - 1;
         }
         ChangePrefab();
     }

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Level name="Test Level">
+	<Description tag="level">Level description</Description>
+	<EndGameText>Yay! You rock!</EndGameText>
+	<GameOverText>Lol noob!</GameOverText>
+	<Wave name="Test Wave 6" val="5">
+		<Description tag="wave">Nope it wasn't...</Description>
+		<Enemy typeId="1" pos="(-13,0)" rot="(0,0,180)" />
+		<Enemy typeId="1" pos="(-6,0)" rot="(0,0,180)" />
+		<Enemy typeId="1" pos="(0,0)" rot="(0,0,180)" />
+		<Enemy typeId="1" pos="(6,0)" rot="(0,0,180)" />
+		<Enemy typeId="1" pos="(13,5)" rot="(0,0,180)" />
+		<Enemy typeId="1" pos="(6,5)" rot="(0,0,180)" />
+		<Enemy typeId="1" pos="(13,5)" rot="(0,0,180)" />
+	</Wave>
+	<Wave name="New Wave" val="0">
+		<Description tag="wave">This is a new wave</Description>
+		<Enemy typeId="0" pos="(15.05007,9.848485)" rot="(0,0,180)" />
+	</Wave>
+</Level>
