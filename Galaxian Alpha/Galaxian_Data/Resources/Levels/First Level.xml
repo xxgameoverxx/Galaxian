@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Level name="First Level">
+	<EndGameText>You killed them.. YOU KILLED ALL OF THEM!!! Do you feel like a hero yet?</EndGameText>
+	<GameOverText>Sayonara sucka!</GameOverText>
+	<Wave name="Dummy Wave" val="5">
+		<Description tag="wave">Write a description for this wave</Description>
+		<Enemy typeId="0" pos="(0,0)" rot="(0,0,180)" />
+	</Wave>
+</Level>
