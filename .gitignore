@@ -69,3 +69,11 @@ f54ed95ae896e7c45b525519a634cfd2
 /Assets/UnityVS.meta
 /Library/*.dwlt
 /level.xml
+*
+*.db
+*.prefs
+*.asset
+*.txt
+*.dll
+*.mdb
+*.xml

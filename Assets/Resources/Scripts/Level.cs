@@ -13,11 +13,13 @@ public class Level
     public string directory;
     public Dictionary<int, Wave> waveDict;
     public List<int> wavesIds;
-    public Vector2 leftBorder;
-    public Vector2 rightBorder;
-    public Vector2 topBorder;
-    public Vector2 bottomBorder;
-
+    public Vector3 leftBorder;
+    public Vector3 rightBorder;
+    public Vector3 topBorder;
+    public Vector3 bottomBorder;
+    public Vector3 respawnPos;
+    public TypeInfo player;
+    public int lifeCount = 5;
 
     public Level()
     {
@@ -40,7 +42,14 @@ public class Level
                 continue;
             }
             name = node.Attributes["name"].Value;
-            foreach(XmlNode child in node.ChildNodes)
+            leftBorder = StringToVector3(node.Attributes["leftBorder"].Value);
+            rightBorder = StringToVector3(node.Attributes["rightBorder"].Value);
+            topBorder = StringToVector3(node.Attributes["topBorder"].Value);
+            bottomBorder = StringToVector3(node.Attributes["bottomBorder"].Value);
+            respawnPos = StringToVector3(node.Attributes["respawnPos"].Value);
+            player = TypeInfoHolder.enemyTypeDict[int.Parse(node.Attributes["player"].Value)];
+            lifeCount = int.Parse(node.Attributes["life"].Value);
+            foreach (XmlNode child in node.ChildNodes)
             {
                 SetAttributes(child);
             }
@@ -66,6 +75,8 @@ public class Level
             Wave wave = new Wave();
             wave.name = node.Attributes["name"].Value;
             wave.id = int.Parse(node.Attributes["val"].Value);
+            BackgoundHolder bg = new BackgoundHolder(node.Attributes["background"].Value, int.Parse(node.Attributes["backgroundId"].Value));
+            wave.background = bg;
             foreach (XmlNode childNode in node.ChildNodes)
             {
                 if (childNode.Name == "Enemy")
@@ -108,13 +119,12 @@ public class Level
         }
 
         Wave newWave = new Wave();
-        {
-            newWave.name = "New Wave";
-            newWave.description = "This is a new wave";
-            wavesIds.Add(index);
-            waveDict.Add(index, newWave);
-            newWave.id = index;
-        }
+        newWave.name = "New Wave";
+        newWave.description = "This is a new wave";
+        wavesIds.Add(index);
+        waveDict.Add(index, newWave);
+        newWave.id = index;
+        newWave.background = new BackgoundHolder();
     }
 
     public void DeleteWave(Wave w)
@@ -123,12 +133,12 @@ public class Level
         waveDict.Remove(w.id);
     }
 
-    public void WriteXML()
+    public void WriteXML(TypeInfo player = null)
     {
         XmlWriterSettings settings = new XmlWriterSettings();
         settings.Indent = true;
         settings.IndentChars = "\t";
-        using (XmlWriter writer = XmlWriter.Create("Assets/Resources/Levels/" + name + ".xml", settings))
+        using (XmlWriter writer = XmlWriter.Create(Application.dataPath + "/Resources/Levels/" + name + ".xml", settings))
         {
             writer.WriteStartDocument();
             writer.WriteStartElement("Level");
@@ -138,6 +148,11 @@ public class Level
             writer.WriteAttributeString("topBorder", GameObject.FindGameObjectWithTag("TopBorder").transform.position.ToString());
             writer.WriteAttributeString("bottomBorder", GameObject.FindGameObjectWithTag("BottomBorder").transform.position.ToString());
             writer.WriteAttributeString("respawnPos", GameObject.FindObjectOfType<Player>().transform.position.ToString());
+            if (player != null)
+            {
+                writer.WriteAttributeString("player", player.id.ToString());
+                writer.WriteAttributeString("life", lifeCount.ToString());
+            }
             writer.WriteStartElement("EndGameText");
             writer.WriteString(endGameMessage);
             writer.WriteEndElement(); //EndGameText
@@ -156,7 +171,8 @@ public class Level
                 writer.WriteStartElement("Wave");
                 writer.WriteAttributeString("name", w.name);
                 writer.WriteAttributeString("val", index.ToString());
-                writer.WriteAttributeString("background", w.background);
+                writer.WriteAttributeString("background", w.background.path);
+                writer.WriteAttributeString("backgroundId", w.background.id.ToString());
                 writer.WriteStartElement("Description");
                 writer.WriteAttributeString("tag", "wave");
                 writer.WriteString(w.description);
@@ -207,5 +223,18 @@ public class Level
         y = float.Parse(newS.Split(new Char[] { ',' })[1]);
         z = float.Parse(newS.Split(new char[] { ',' })[2]);
         return new Vector3(x, y, z);
+    }
+
+    private TypeInfoHolder typeInfoHolder;
+    private TypeInfoHolder TypeInfoHolder
+    {
+        get
+        {
+            if (typeInfoHolder == null)
+            {
+                typeInfoHolder = new TypeInfoHolder();
+            }
+            return typeInfoHolder;
+        }
     }
 }

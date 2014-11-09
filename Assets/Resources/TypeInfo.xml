@@ -1,78 +1,420 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Types>
-	<Type type="0" name="Slow" prefab="Prefabs/Enemies/Enemy">
-		<Amplitude x="2" y="0" />
-		<ShootProbability value="80" />
+	<Type type="0" name="First Guy" prefab="Prefabs/Enemies/Enemy" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="0" />
+		<SelfDestroyProbability value="90" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="90" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="50" />
+		<InventoryItem value="101" durability="3" />
+	</Type>
+	<Type type="1" name="First Guy" prefab="Prefabs/Enemies/Enemy1" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
 		<SelfDestroyProbability value="0" />
 		<Damping x="1" y="1" />
-		<Health value="3" maxValue="3" />
-		<Energy value="3" maxValue="3" regenSpeed="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
 		<MoveSpeed value="500" />
-		<HurtCooldown value="0.5" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="90" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+		<InventoryItem value="102" durability="11" />
+		<InventoryItem value="103" durability="11" />
+		<InventoryItem value="104" durability="11" />
+	</Type>
+	<Type type="2" name="First Guy" prefab="Prefabs/Enemies/Enemy2" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
 		<DropProbability value="0" />
 		<MoveToWaypoint value="False" />
 		<Weapon value="-1" ammoCount="0" />
 	</Type>
-	<Type type="1" name="Fast" prefab="Prefabs/Enemies/Enemy">
-		<Amplitude x="5" y="1" />
-		<ShootProbability value="80" />
+	<Type type="3" name="First Guy" prefab="Prefabs/Enemies/Enemy3" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
 		<SelfDestroyProbability value="0" />
-		<Damping x="2" y="1" />
-		<Health value="3" maxValue="3" />
-		<Energy value="3" maxValue="3" regenSpeed="1" />
-		<MoveSpeed value="300" />
-		<HurtCooldown value="0.5" />
-		<DropProbability value="100" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
 		<MoveToWaypoint value="False" />
-		<Weapon value="106" ammoCount="10" />
-		<InventoryItem value="100" />
-		<InventoryItem value="105" />
-		<InventoryItem value="102" />
-		<InventoryItem value="103" />
-		<InventoryItem value="104" />
-		<InventoryItem value="101" />
+		<Weapon value="-1" ammoCount="0" />
 	</Type>
-	<Type type="2" name="Third" prefab="Prefabs/Enemies/Enemy1">
-		<Amplitude x="2" y="1" />
-		<ShootProbability value="80" />
+	<Type type="4" name="First Guy" prefab="Prefabs/Enemies/Enemy4" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
 		<SelfDestroyProbability value="0" />
-		<Damping x="2" y="1" />
-		<Health value="3" maxValue="3" />
-		<Energy value="3" maxValue="3" regenSpeed="1" />
-		<MoveSpeed value="300" />
-		<HurtCooldown value="0.5" />
-		<DropProbability value="100" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
 		<MoveToWaypoint value="False" />
-		<Weapon value="106" ammoCount="10" />
-		<InventoryItem value="100" />
+		<Weapon value="-1" ammoCount="0" />
 	</Type>
-	<Type type="3" name="Fast" prefab="Prefabs/Enemies/Enemy2">
-		<Amplitude x="5" y="1" />
-		<ShootProbability value="80" />
+	<Type type="5" name="First Guy" prefab="Prefabs/Enemies/Enemy5" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
 		<SelfDestroyProbability value="0" />
-		<Damping x="2" y="1" />
-		<Health value="3" maxValue="3" />
-		<Energy value="3" maxValue="3" regenSpeed="1" />
-		<MoveSpeed value="300" />
-		<HurtCooldown value="0.5" />
-		<DropProbability value="100" />
-		<MoveToWaypoint value="True" />
-		<Weapon value="107" ammoCount="10" />
-		<InventoryItem value="100" />
-		<InventoryItem value="105" />
-		<InventoryItem value="102" />
-		<InventoryItem value="103" />
-		<InventoryItem value="104" />
-		<InventoryItem value="101" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
 	</Type>
-	<Type type="100" name="Health" prefab="Prefabs/Items/Health" durability="50" slotName="3" />
-	<Type type="101" name="Divine Intervention Ammo" prefab="Prefabs/Items/HolyAmmo" durability="1" slotName="0" />
-	<Type type="102" name="Shotgun Ammo" prefab="Prefabs/Items/ShotgunAmmo" durability="50" slotName="0" />
-	<Type type="103" name="BFL Ammo" prefab="Prefabs/Items/LaserAmmo" durability="30" slotName="0" />
-	<Type type="104" name="Rocket Launcher Ammo" prefab="Prefabs/Items/RocketAmmo" durability="3" slotName="0" />
-	<Type type="105" name="Shield" prefab="Prefabs/Items/ShieldItem" durability="100" slotName="3" />
-	<Type type="106" name="Shotgun" prefab="Prefabs/Weapons/Shotgun" durability="100" slotName="0" />
-	<Type type="107" name="BFL" prefab="Prefabs/Weapons/BFL" durability="30" slotName="0" />
-	<Type type="108" name="Rocket Launcher" prefab="Prefabs/Weapons/RocketLauncher" durability="30" slotName="0" />
-	<Type type="109" name="Divine Intervention" prefab="Prefabs/Weapons/HolyIntervention" durability="10" slotName="0" />
+	<Type type="6" name="First Guy" prefab="Prefabs/Enemies/Enemy6" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="7" name="First Guy" prefab="Prefabs/Enemies/Enemy7" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="8" name="First Guy" prefab="Prefabs/Enemies/Enemy8" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="9" name="First Guy" prefab="Prefabs/Enemies/Enemy9" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="10" name="First Guy" prefab="Prefabs/Enemies/Enemy10" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="11" name="First Guy" prefab="Prefabs/Enemies/Enemy11" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="12" name="First Guy" prefab="Prefabs/Enemies/Enemy12" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="13" name="First Guy" prefab="Prefabs/Enemies/Enemy13" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="14" name="First Guy" prefab="Prefabs/Enemies/Enemy14" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="15" name="First Guy" prefab="Prefabs/Enemies/Enemy15" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="16" name="First Guy" prefab="Prefabs/Enemies/Enemy16" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="17" name="First Guy" prefab="Prefabs/Enemies/Enemy17" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="18" name="First Guy" prefab="Prefabs/Enemies/Enemy18" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="19" name="First Guy" prefab="Prefabs/Enemies/Enemy19" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="20" name="First Guy" prefab="Prefabs/Enemies/Enemy20" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="21" name="First Guy" prefab="Prefabs/Enemies/Enemy21" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="22" name="First Guy" prefab="Prefabs/Enemies/Enemy22" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="23" name="First Guy" prefab="Prefabs/Enemies/Enemy23" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="24" name="First Guy" prefab="Prefabs/Enemies/Enemy24" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="25" name="First Guy" prefab="Prefabs/Enemies/Enemy25" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="26" name="First Guy" prefab="Prefabs/Enemies/Enemy26" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="27" name="First Guy" prefab="Prefabs/Enemies/Enemy27" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="28" name="First Guy" prefab="Prefabs/Enemies/Enemy28" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="29" name="First Guy" prefab="Prefabs/Enemies/Enemy29" locked="True" spread="1" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="2" maxValue="2" />
+		<Energy value="2" maxValue="2" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="0.1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="-1" ammoCount="0" />
+	</Type>
+	<Type type="30" name="Player" prefab="Prefabs/Enemies/Enemy13" locked="False" spread="3" bulletSpeed="10">
+		<Amplitude x="0" y="0" />
+		<ShootProbability value="44.52991" />
+		<SelfDestroyProbability value="0" />
+		<Damping x="1" y="1" />
+		<Health value="5" maxValue="5" />
+		<Energy value="5" maxValue="5" regenSpeed="1" />
+		<MoveSpeed value="500" />
+		<HurtCooldown value="1" />
+		<DropProbability value="0" />
+		<MoveToWaypoint value="False" />
+		<Weapon value="106" ammoCount="5" />
+	</Type>
+	<Type type="100" name="Health" prefab="Prefabs/Items/Health" durability="111" slotName="3" />
+	<Type type="101" name="Divine Intervention Ammo" prefab="Prefabs/Items/HolyAmmo" durability="122" slotName="0" />
+	<Type type="102" name="Shotgun Ammo" prefab="Prefabs/Items/ShotgunAmmo" durability="555" slotName="0" />
+	<Type type="103" name="BFL Ammo" prefab="Prefabs/Items/LaserAmmo" durability="303" slotName="0" />
+	<Type type="104" name="Rocket Launcher Ammo" prefab="Prefabs/Items/RocketAmmo" durability="33030" slotName="0" />
+	<Type type="105" name="Shield" prefab="Prefabs/Items/ShieldItem" durability="111" slotName="3" />
+	<Type type="106" name="Shotgun" prefab="Prefabs/Weapons/Shotgun" durability="1235" slotName="0" />
+	<Type type="107" name="BFL" prefab="Prefabs/Weapons/BFL" durability="305" slotName="0" />
+	<Type type="108" name="Rocket Launcher" prefab="Prefabs/Weapons/RocketLauncher" durability="3021" slotName="0" />
+	<Type type="109" name="Divine Intervention" prefab="Prefabs/Weapons/HolyIntervention" durability="1065" slotName="0" />
 </Types>

@@ -10,6 +10,8 @@ public class Actor : MonoBehaviour {
     public float maxEnergy;
 	public float moveSpeed;
 	public float hurtCooldown = 0.5f;
+    public int spread = 1;
+    public float bulletSpeed = 10;
 	public Enemy lastHit;
 	public GameManager gameManager;
 	public float engRegenSpeed = 1f;
@@ -156,7 +158,7 @@ public class Actor : MonoBehaviour {
 
 	private Dictionary<SlotName, Slot> slots = new Dictionary<SlotName, Slot>();
 
-    private GameObject DefaultWeapon
+    public GameObject DefaultWeapon
     {
         get
         {
@@ -164,7 +166,8 @@ public class Actor : MonoBehaviour {
             {
                 defaultWeapon = GameObject.Instantiate((Resources.Load("Prefabs/Weapons/PlazmaGun") as GameObject), Vector3.zero, Quaternion.identity) as GameObject;
                 defaultWeapon.name = "PlazmaGun";
-                defaultWeapon.GetComponent<Weapon>().owner = this;
+                defaultWeapon.GetComponent<Weapon>().Owner = this;
+                defaultWeapon.transform.parent = this.transform;
             }
             return defaultWeapon;
         }
@@ -270,7 +273,9 @@ public class Actor : MonoBehaviour {
 		w.transform.position = slots[w.activeSlot].transform.position;
 		w.transform.rotation = slots[w.activeSlot].transform.rotation;
 		w.transform.parent = slots[w.activeSlot].transform;
-		w.owner = transform.GetComponent<Actor>();
+        w.Owner = transform.GetComponent<Actor>();
+        w.SetSpread(spread);
+        w.SetSpeed(bulletSpeed);
 		ActiveWeapon = w;
 		w.gameObject.tag = this.gameObject.tag;
 	}

@@ -109,11 +109,13 @@ public class Player : Actor {
 	// Use this for initialization
 	public override void Start () {
 		base.Start();
-		moveSpeed = 750;
-		energy = 10;
-		health = 3;
-        maxHealth = health;
-        maxEnergy = energy;
+        //moveSpeed = 750;
+        //energy = 10;
+        //health = 3;
+        //maxHealth = health;
+        //maxEnergy = energy;
+        health = maxHealth;
+        energy = maxEnergy;
 	}
 
 	void WeaponSelect()
@@ -137,7 +139,7 @@ public class Player : Actor {
                 sp.enemyList[i].GetComponent<Enemy>().Die();
             }
         }
-        if (Input.GetKeyDown(KeyCode.Space)) Shoot(defaultWeapon.GetComponent<Weapon>());
+        if (Input.GetKeyDown(KeyCode.Space)) Shoot(DefaultWeapon.GetComponent<Weapon>());
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) Shoot();
 
 	}

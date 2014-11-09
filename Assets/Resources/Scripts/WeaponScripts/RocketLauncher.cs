@@ -30,15 +30,16 @@ public class RocketLauncher : Weapon {
         {
             ammoCount--;
             GameObject bullet = Instantiate(Rocket, transform.position, transform.rotation) as GameObject;
-            bullet.tag = owner.gameObject.tag;
+            bullet.tag = Owner.gameObject.tag;
+            bullet.GetComponent<Bullet>().speed = speed;
             if (ammoCount == 0)
             {
-                owner.UnequipWeapon(this);
+                Owner.UnequipWeapon(this);
             }
         }
         else
         {
-            owner.UnequipWeapon(this);
+            Owner.UnequipWeapon(this);
         }
     }
 

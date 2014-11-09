@@ -22,17 +22,20 @@ public class TypeInfo
     public float energy;
     public float engRegenSpeed;
     public float maxEnergy;
-    public float moveSpeed;
+    public float moveSpeed = 100;
     public float hurtCooldown;
     public float dropProbability;
     public float durability;
     public int id;
     public int weapon = -1;
     public int ammoCount;
-    public List<int> inventoryItems = new List<int>();
+    public int spread = 1;
+    public float bulletSpeed = 10;
+    public Dictionary<int, float> inventoryItems = new Dictionary<int, float>();
     public string prefab;
     public string name;
     public bool moveToWaypoint;
+    public bool locked = false;
     public Types type;
     public SlotName slotName;
 
@@ -88,6 +91,18 @@ public class TypeInfo
             {
                 slotName = (SlotName)(int.Parse(att.Value));
             }
+            else if(att.Name == "locked")
+            {
+                locked = bool.Parse(att.Value);
+            }
+            else if (att.Name == "spread")
+            {
+                spread = int.Parse(att.Value);
+            }
+            else if (att.Name == "bulletSpeed")
+            {
+                bulletSpeed = float.Parse(att.Value);
+            }
         }
         foreach (XmlNode xnode in node.ChildNodes)
         {
@@ -140,9 +155,9 @@ public class TypeInfo
             {
                 if (inventoryItems == null)
                 {
-                    inventoryItems = new List<int>();
+                    inventoryItems = new Dictionary<int, float>();
                 }
-                inventoryItems.Add(int.Parse(xnode.Attributes["value"].Value));
+                inventoryItems.Add(int.Parse(xnode.Attributes["value"].Value), float.Parse(xnode.Attributes["durability"].Value));
             }
             else if (xnode.Name == "Weapon")
             {

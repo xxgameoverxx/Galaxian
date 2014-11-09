@@ -27,11 +27,12 @@ public class PlazmaGun : Weapon {
 	public override void Shoot ()
 	{
 		base.Shoot ();
-		if(owner.energy >= 1)
+		if(Owner.energy >= 1)
 		{
-			owner.energy--;
+            Owner.energy--;
 			GameObject bullet = Instantiate(PlazmaBullet, transform.position, transform.rotation) as GameObject;
-			bullet.tag = owner.gameObject.tag;
+            bullet.tag = Owner.gameObject.tag;
+            bullet.GetComponent<Bullet>().speed = speed;
 		}
 	}
 

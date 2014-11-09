@@ -9,7 +9,7 @@ public class MouseMove : MonoBehaviour {
     Vector3 left;
     Vector3 right;
 
-    void Awake()
+    void Start()
     {
         actor = GetComponent<Actor>();
         up = GameObject.FindGameObjectWithTag("TopBorder").transform.position;
@@ -24,9 +24,10 @@ public class MouseMove : MonoBehaviour {
         {
             return;
         }
-        Vector3 dummy = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 posM = Input.mousePosition;
+        Vector3 dummy = Camera.main.ScreenToWorldPoint(new Vector3(posM.x, posM.y, 10f));
         Vector3 newPos = new Vector3(dummy.x, dummy.y, 0);
-        if (actor != null)
+        if (GetComponent<Actor>() != null)
         {
             transform.position = newPos;
         }
@@ -44,7 +45,6 @@ public class MouseMove : MonoBehaviour {
         {
             transform.position = newPos;
         }
-
     }
 
     void Update()
@@ -58,7 +58,14 @@ public class MouseMove : MonoBehaviour {
         {
             if (this.tag == "Enemy" || this.tag == "Waypoint")
             {
-                Destroy(this.gameObject);
+                if (actor != null)
+                {
+                    actor.Die();
+                }
+                else
+                {
+                    Destroy(this.gameObject);
+                }
             }
             else if ((this.tag == "TopBorder" || this.tag == "BottomBorder") && transform.position.y > 15 && transform.position.y > -15f)
             {

@@ -9,7 +9,7 @@ public class HolyAmmo : Item
     {
         Name = "Rocket";
         activeSlot = SlotName.Center;
-        durability = 3;
+        //durability = 3;
         holyCall = Resources.Load("Prefabs/Weapons/HolyIntervention") as GameObject;
     }
 
@@ -20,6 +20,7 @@ public class HolyAmmo : Item
         {
             HolyIntervention sg = (Instantiate(holyCall, transform.position, transform.rotation) as GameObject).GetComponent<HolyIntervention>();
             sg.name = "Holy Intervention";
+            sg.ammoCount = (int)durability;
             actor.EquipWeapon(sg);
             base.Unequip();
         }

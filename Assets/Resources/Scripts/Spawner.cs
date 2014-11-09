@@ -18,6 +18,22 @@ public class Spawner : MonoBehaviour {
 	public string currentLevelDescription;
 
 	private GameObject player;
+    public TypeInfo playerInfo;
+
+    private TypeInfoHolder typeInfoHolder;
+    private Dictionary<int, TypeInfo> typeIdDict;
+    public Dictionary<int, TypeInfo> TypeIdDict
+    {
+        get
+        {
+            if (typeInfoHolder == null)
+            {
+                typeInfoHolder = new TypeInfoHolder();
+                typeIdDict = typeInfoHolder.typeInfoDict;
+            }
+            return typeIdDict;
+        }
+    }
 
     private Vector2 respawnPos;
     public Vector2 RespawnPos
@@ -64,7 +80,31 @@ public class Spawner : MonoBehaviour {
 	public GameObject PlayerStart()
 	{
         GameObject playerGO = Instantiate(PlayerPrefab, gameManager.RespawnPos, Quaternion.identity) as GameObject;
-		playerGO.GetComponent<Player>().Sp = this;
+        if(playerGO.GetComponent<Enemy>() != null)
+        {
+            Destroy(playerGO.GetComponent<Enemy>());
+            playerGO.AddComponent<Player>();
+            playerGO.AddComponent<PlayerGUI>();
+            playerGO.name = "Player";
+            playerGO.tag = "Player";
+        }
+        Player p = playerGO.GetComponent<Player>();
+		p.Sp = this;
+        p.spread = playerInfo.spread;
+        p.bulletSpeed = playerInfo.bulletSpeed;
+        p.moveSpeed = playerInfo.moveSpeed;
+        p.maxEnergy = playerInfo.maxEnergy;
+        p.maxHealth = playerInfo.maxHealth;
+        GameObject w = p.DefaultWeapon;
+        if (playerInfo.weapon != -1)
+        {
+            TypeInfo newWeapon = TypeIdDict[playerInfo.weapon];
+            GameObject weaponPref = Resources.Load(newWeapon.prefab) as GameObject;
+            GameObject weapon = GameObject.Instantiate(weaponPref, p.transform.position, p.transform.rotation) as GameObject;
+            weapon.transform.parent = p.transform;
+            weapon.name = newWeapon.name;
+            weapon.GetComponent<Weapon>().ammoCount = (int)playerInfo.ammoCount;
+        }
 		return playerGO;
 	}
 
@@ -138,6 +178,10 @@ public class Spawner : MonoBehaviour {
         {
             showingMessage = false;
             guiHelper.HideMessage();
+            if(gameOver)
+            {
+                Application.LoadLevel("MainMenu");
+            }
         }
 	}
 

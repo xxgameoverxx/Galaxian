@@ -10,7 +10,7 @@ public class Wave
     public int id;
 	public string description = "";
     public string name;
-    public string background;
+    public BackgoundHolder background;
     public List<GameObject> waypoints = new List<GameObject>();
     public List<Vector3> waypointsPos = new List<Vector3>();
     public List<Enemy> enemies = new List<Enemy>();
@@ -79,9 +79,9 @@ public class Wave
     {
         Texture2D tex = null;
         byte[] fileData;
-        if (File.Exists(background))
+        if (File.Exists(background.path))
         {
-            fileData = File.ReadAllBytes(background);
+            fileData = File.ReadAllBytes(background.path);
             tex = new Texture2D(400, 300);
             tex.LoadImage(fileData);
             GameObject.FindGameObjectWithTag("Background").renderer.material.mainTexture = tex;
@@ -147,17 +147,19 @@ public class Wave
     public void Save()
     {
         List<Enemy> enemiesToRemove = new List<Enemy>();
+        enemyInfoList.Clear();
         foreach(Enemy e in enemies)
         {
             if(e == null)
             {
                 enemiesToRemove.Add(e);
+                enemyEnemyInfoDict.Remove(e);
                 continue;
             }
             enemyEnemyInfoDict[e].pos = e.gameObject.transform.position;
             enemyEnemyInfoDict[e].rot = e.gameObject.transform.rotation;
+            enemyInfoList.Add(enemyEnemyInfoDict[e]);
         }
-        //waypoints.Clear();
         waypointsPos.Clear();
         foreach(GameObject g in GameObject.FindGameObjectsWithTag("Waypoint"))
         {
@@ -173,8 +175,6 @@ public class Wave
         foreach(Enemy e in enemiesToRemove)
         {
             enemies.Remove(e);
-            enemyInfoList.Remove(enemyEnemyInfoDict[e]);
-            enemyEnemyInfoDict.Remove(e);
         }
     }
 
@@ -212,6 +212,8 @@ public class Wave
         e.hurtCooldown = t.hurtCooldown;
         e.engRegenSpeed = t.engRegenSpeed;
         e.dropProbability = t.dropProbability;
+        e.spread = t.spread;
+        e.bulletSpeed = t.bulletSpeed;
         e.inventory = new List<Item>();
 
         if(t.weapon != -1)
@@ -225,10 +227,11 @@ public class Wave
 
         if (t.inventoryItems != null)
         {
-            foreach (int i in t.inventoryItems)
+            foreach (int i in t.inventoryItems.Keys)
             {
                 TypeInfo itemInfo = TypeIdDict[i];
                 GameObject newItem = Resources.Load(itemInfo.prefab) as GameObject;
+                newItem.GetComponent<Item>().durability = t.inventoryItems[i];
                 e.inventory.Add(newItem.GetComponent<Item>());
             }
         }

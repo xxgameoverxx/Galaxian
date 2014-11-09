@@ -27,6 +27,7 @@ public class BFL : Weapon {
         {
             if (ammoCount > 0)
             {
+                base.Shoot();
                 beam.tag = this.tag;
                 ammoCount--;
                 cooldownTime = 2f;
@@ -42,7 +43,7 @@ public class BFL : Weapon {
             activated = false;
             if (ammoCount == 0)
             {
-                owner.UnequipWeapon(this);
+                Owner.UnequipWeapon(this);
             }
         }
         else

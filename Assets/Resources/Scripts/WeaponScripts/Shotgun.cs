@@ -16,11 +16,6 @@ public class Shotgun : Weapon {
 		}
 	}
 
-    void OnCreated()
-    {
-        print("asdasd");
-    }
-	// Use this for initialization
 	public override void Start () {
 		ammo = AmmoType.Shotgun;
 		activeSlot = SlotName.Front;
@@ -33,20 +28,21 @@ public class Shotgun : Weapon {
 		if(ammoCount > 0)
 		{
             ammoCount--;
-			for(int i = -1; i < 2; i++)
+            for (int i = -spread; i < spread + 1; i++)
 			{
 				Quaternion rot = Quaternion.Euler(new Vector3(0, 0, 15 * i + transform.rotation.eulerAngles.z));
 				GameObject bullet = Instantiate(ShotgunShell, transform.position, rot) as GameObject;
-				bullet.tag = owner.gameObject.tag;
-			}
+                bullet.tag = Owner.gameObject.tag;
+                bullet.GetComponent<Bullet>().speed = speed;
+            }
             if (ammoCount == 0)
 			{
-				owner.UnequipWeapon(this);
+                Owner.UnequipWeapon(this);
 			}
 		}
 		else
 		{
-			owner.UnequipWeapon(this);
+            Owner.UnequipWeapon(this);
 		}
 	}
 

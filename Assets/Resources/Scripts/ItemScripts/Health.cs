@@ -7,7 +7,7 @@ public class Health : Item {
 	void Start () {
 		Name = "Health Item";
 		activeSlot = SlotName.Center;
-		durability = 3;
+        //durability = 3;
 	}
 
 	void OnTriggerEnter2D(Collider2D col)

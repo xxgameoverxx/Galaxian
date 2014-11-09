@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
     private List<Vector3> waypoints;
 	private Spawner spawner;
     private TypeInfo typeInfo;
+    private GUIStyle button;
+    private GUISkin skin;
 
     public List<Vector3> Waypoints
     {
@@ -161,22 +163,32 @@ public class GameManager : MonoBehaviour {
 
     void OnGUI()
     {
-        if(GUI.Button(new Rect(Screen.width / 10 * 9, Screen.height / 60, Screen.width / 11, Screen.height / 30), "Main Menu"))
+        if(GUI.Button(new Rect(Screen.width / 10 * 9, Screen.height / 60, Screen.width / 11, Screen.height / 30), "Main Menu", button))
         {
             Application.LoadLevel("MainMenu");
         }
     }
 
+    //void Awake()
+    //{
+    //}
+
     void Awake()
     {
         levelNameToLoad = GameObject.FindObjectOfType<LevelSelector>().selectedLevel.name;
-    }
-
-    void Start()
-    {
-        InitWaypoints();
         BeginLevel();
+        InitWaypoints();
         ReadXml(Application.dataPath + "/Resources/Levels/" + levelNameToLoad + ".xml");
+        if (GameObject.FindObjectOfType<Style>() != null)
+        {
+            skin = GameObject.FindObjectOfType<Style>().skin;
+            button = skin.button;
+        }
+        else
+        {
+            Debug.LogError("Style object is not found!");
+            button = new GUIStyle();
+        }
     }
 
 	private void BeginLevel()
@@ -209,12 +221,17 @@ public class GameManager : MonoBehaviour {
             TopBorder.transform.position = StringToVector2(node.Attributes["topBorder"].Value);
             BottomBorder.transform.position = StringToVector2(node.Attributes["bottomBorder"].Value);
             RespawnPos = StringToVector3(node.Attributes["respawnPos"].Value);
+            int playerId = int.Parse(node.Attributes["player"].Value);
+            playerPrefab = TypeIdDict[playerId].prefab;
+            spawner.playerInfo = TypeIdDict[playerId];
+            spawner.playerPrefab = playerPrefab;
+            playerLife = int.Parse(node.Attributes["life"].Value);
         }
 		else if(node.Name == "Wave")
 		{
 			int waveNumber = int.Parse(node.Attributes["val"].Value);
 			Wave w = new Wave();
-            w.background = node.Attributes["background"].Value;
+            w.background = new BackgoundHolder(node.Attributes["background"].Value, int.Parse(node.Attributes["backgroundId"].Value));
 			spawner.waves.Insert(waveNumber, w);
 		}
 		else if(node.Name == "Enemy")

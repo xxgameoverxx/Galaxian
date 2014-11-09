@@ -9,6 +9,54 @@ public class BackgoundHolder
 {
     public string path;
     public Texture2D texture;
+    public int id;
+
+    public BackgoundHolder()
+    {
+
+    }
+
+    public BackgoundHolder(int _id)
+    {
+        id = _id;
+    }
+
+    public BackgoundHolder(string _path, int _id)
+    {
+        path = _path;
+        id = _id;
+        Texture2D tex = null;
+        byte[] fileData;
+        if (File.Exists(path))
+        {
+            fileData = File.ReadAllBytes(path);
+            tex = new Texture2D(400, 300);
+            tex.LoadImage(fileData);
+            texture = tex;
+        }
+        else
+        {
+            Debug.LogError("No such background path: " + path);
+        }
+    }
+
+    public void LoadTexture(string _path)
+    {
+        path = _path;
+        Texture2D tex = null;
+        byte[] fileData;
+        if (File.Exists(path))
+        {
+            fileData = File.ReadAllBytes(path);
+            tex = new Texture2D(400, 300);
+            tex.LoadImage(fileData);
+            texture = tex;
+        }
+        else
+        {
+            Debug.LogError("No such background path: " + path);
+        }
+    }
 }
 
 public class LevelEditor : MonoBehaviour
@@ -18,16 +66,20 @@ public class LevelEditor : MonoBehaviour
     public List<string> levels = new List<string>();
     public List<Vector3> waypoints = new List<Vector3>();
     private int currentEnemyIndex = 0;
+    private int currentPlayerIndex = 0;
     private bool changePrefab = true;
+    private bool changePlayerPrefab = true;
+    private bool levelUpdated = true;
     private TypeInfo currentEnemy;
+    private TypeInfo currentPlayer;
     private bool deleteLevelCheck = false;
     private bool lockWaypoints = true;
     private bool lockEnemies = false;
     private bool previousWaypointsLock = false;
     private bool previousEnemiesLock = true;
     private int backgroundIndex = 0;
-    private List<BackgoundHolder> pics;
-    public Texture pic;
+    private int lifeCount = 5;
+    private Dictionary<int, BackgoundHolder> pics;
     private TypeInfoHolder typeInfoHolder;
     private TypeInfoHolder TypeInfoHolder
     {
@@ -61,6 +113,14 @@ public class LevelEditor : MonoBehaviour
             return Resources.Load(TypeIdDict[TypeInfoHolder.enemyIds[currentEnemyIndex]].prefab) as GameObject;
         }
     }
+    private GameObject currentPlayerPrefab;
+    private GameObject CurrentPlayerPrefab
+    {
+        get
+        {
+            return Resources.Load(TypeIdDict[TypeInfoHolder.enemyIds[currentPlayerIndex]].prefab) as GameObject;
+        }
+    }
 
     private GameObject background;
 
@@ -80,39 +140,67 @@ public class LevelEditor : MonoBehaviour
     private string currentWaveName = "";
     private string currentWaveDescription = "";
 
+    private GUIStyle button;
+    private GUIStyle box;
+    private GUIStyle textField;
+    private GUIStyle toggle;
+    //private GUIStyle textArea;
+    //private GUIStyle scrollH;
+    //private GUIStyle scrollV;
+    private GUISkin skin;
+
     void Start()
     {
+        if (GameObject.FindObjectOfType<Style>() != null)
+        {
+            skin = GameObject.FindObjectOfType<Style>().skin;
+        }
+        else
+        {
+            Debug.LogError("Style object is not found!");
+            skin = new GUISkin();
+        }
+        //skin = new GUISkin();
+        button = skin.customStyles[2];
+        textField = skin.customStyles[3];
+        box = skin.customStyles[4];
+        toggle = skin.customStyles[5];
+        //textArea = skin.textArea;
+        //scrollH = skin.horizontalScrollbar;
+        //scrollV = skin.verticalScrollbar;
         foreach(GameObject g in GameObject.FindGameObjectsWithTag("Waypoint"))
         {
             waypoints.Add(g.transform.position);
         }
         ReadLevels();
         ReadPics();
-        UpdateLevel();
         background = GameObject.FindGameObjectWithTag("Background");
+        UpdateLevel();
         SetTexture();
     }
 
     void ReadPics()
     {
-        pics = new List<BackgoundHolder>();
+        pics = new Dictionary<int, BackgoundHolder>();
         GameObject bg = GameObject.FindGameObjectWithTag("Background");
+        int i = 0;
         foreach (var v in Directory.GetFiles(Application.dataPath + "/Resources/Backgrounds"))
         {
-            if (v.Split('.').Last() == "jpg" || v.Split('.').Last() == "png")
+            if (v.Split('.').Last() == "jpg" || v.Split('.').Last() == "png" || v.Split('.').Last() == "bmp")
             {
-                //Texture tex = Resources.Load("Backgrounds/" + v) as Texture;
                 Texture2D tex = null;
                 byte[] fileData;
                 if (File.Exists(v))
                 {
                     fileData = File.ReadAllBytes(v);
                     tex = new Texture2D(400, 300);
-                    tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+                    tex.LoadImage(fileData);
                     BackgoundHolder bh = new BackgoundHolder();
+                    bh.id = i;
                     bh.path = v;
                     bh.texture = tex;
-                    pics.Add(bh);
+                    pics.Add(i, bh);
+                    i++;
                 }
             }
         }
@@ -164,6 +252,15 @@ public class LevelEditor : MonoBehaviour
         newGameOver = currentLevel.gameOverMessage;
         newLevelDescription = currentLevel.description;
         currentWave = currentLevel.waveDict[currentLevel.wavesIds[0]];
+        currentPlayer = currentLevel.player;
+        currentPlayerIndex = currentPlayer.id;
+        lifeCount = currentLevel.lifeCount;
+        changePlayerPrefab = true;
+        levelUpdated = true;
+        GameObject.FindGameObjectWithTag("LeftBorder").transform.position = currentLevel.leftBorder;
+        GameObject.FindGameObjectWithTag("RightBorder").transform.position = currentLevel.rightBorder;
+        GameObject.FindGameObjectWithTag("TopBorder").transform.position = currentLevel.topBorder;
+        GameObject.FindGameObjectWithTag("BottomBorder").transform.position = currentLevel.bottomBorder;
         UpdateWave();
     }
 
@@ -177,7 +274,7 @@ public class LevelEditor : MonoBehaviour
             }
         }
         currentWaveName = currentWave.name;
-        //currentWave.background = pics[backgroundIndex].path;
+        SetTexture(currentWave.background);
         currentWaveDescription = currentWave.description;
         currentWave.SpawnAll(false);
         foreach(Actor a in GameObject.FindObjectsOfType<Actor>())
@@ -192,14 +289,14 @@ public class LevelEditor : MonoBehaviour
 
     void OnGUI()
     {
-        if(GUI.Button(new Rect(20, Screen.height / 40, Screen.width / 15, Screen.height / 15), "Menu"))
+        if(GUI.Button(new Rect(20, Screen.height / 40, Screen.width / 15, Screen.height / 15), "Menu", button))
         {
             Application.LoadLevel("MainMenu");
         }
         scrollPosition = GUI.BeginScrollView(scrollRect, scrollPosition, new Rect(0, 0, Screen.width / 7, Screen.height / 30 * levels.Count));
         for (int i = 0; i < levels.Count; i++)
         {
-            if (GUI.Button(new Rect(0, Screen.height / 30 * i, scrollRect.width, Screen.height / 30), levels[i]))
+            if (GUI.Button(new Rect(0, Screen.height / 30 * i, scrollRect.width, Screen.height / 30), levels[i], button))
             {
                 selectedLevel = levels[i];
                 currentLevel = levelDict[levels[i]];
@@ -211,7 +308,7 @@ public class LevelEditor : MonoBehaviour
         waveScrollPosition = GUI.BeginScrollView(waveScrollRect, waveScrollPosition, new Rect(0, 0, Screen.width / 7, Screen.height / 30 * currentLevel.wavesIds.Count));
         for (int i = 0; i < currentLevel.wavesIds.Count; i++)
         {
-            if (GUI.Button(new Rect(0, Screen.height / 30 * i, scrollRect.width, Screen.height / 30), currentLevel.waveDict[currentLevel.wavesIds[i]].name))
+            if (GUI.Button(new Rect(0, Screen.height / 30 * i, scrollRect.width, Screen.height / 30), currentLevel.waveDict[currentLevel.wavesIds[i]].name, button))
             {
                 currentWave = currentLevel.waveDict[currentLevel.wavesIds[i]];
                 UpdateWave();
@@ -219,37 +316,37 @@ public class LevelEditor : MonoBehaviour
         }
         GUI.EndScrollView();
 
-        newLevelName = GUI.TextField(new Rect(Screen.width / 30 * 8.5f, Screen.height / 40, Screen.width / 5, Screen.height / 30), newLevelName);
-        newEndGame = GUI.TextArea(new Rect(Screen.width / 2, Screen.height / 30 * 2, Screen.width / 4, Screen.height / 8), newEndGame);
-        newGameOver = GUI.TextArea(new Rect(Screen.width / 4 * 3, Screen.height / 30 * 2, Screen.width / 4, Screen.height / 8), newGameOver);
-        newLevelDescription = GUI.TextArea(new Rect(Screen.width / 4 * 3, Screen.height / 30 * 7, Screen.width / 4, Screen.height / 4), newLevelDescription);
-        GUI.Box(new Rect(Screen.width / 4 * 3, Screen.height / 5, Screen.width / 4, Screen.height / 30), "Level Description");
+        newLevelName = GUI.TextField(new Rect(Screen.width / 30 * 8.5f, Screen.height / 40, Screen.width / 5, Screen.height / 30), newLevelName, 20, textField);
+        newEndGame = GUI.TextArea(new Rect(Screen.width / 2, Screen.height / 30 * 2, Screen.width / 4, Screen.height / 8), newEndGame, textField);
+        newGameOver = GUI.TextArea(new Rect(Screen.width / 4 * 3, Screen.height / 30 * 2, Screen.width / 4, Screen.height / 8), newGameOver, textField);
+        newLevelDescription = GUI.TextArea(new Rect(Screen.width / 4 * 3, Screen.height / 30 * 7, Screen.width / 4, Screen.height / 4), newLevelDescription, textField);
+        GUI.Box(new Rect(Screen.width / 4 * 3, Screen.height / 5, Screen.width / 4, Screen.height / 30), "Level Description", box);
         GUI.DrawTexture(new Rect(Screen.width / 4 * 3, Screen.height / 30 * 7 + Screen.height / 4, Screen.width / 4, Screen.height / 4), pics[backgroundIndex].texture, ScaleMode.ScaleToFit);
 
-        if (GUI.Button(new Rect(Screen.width / 12 * 11, Screen.height / 30 * 7 + Screen.height / 2, Screen.width / 14, Screen.height / 30), "Next"))
+        if (GUI.Button(new Rect(Screen.width / 12 * 11, Screen.height / 30 * 7 + Screen.height / 2, Screen.width / 14, Screen.height / 30), "Next", button))
         {
             NextPic();
         }
-        if (GUI.Button(new Rect(Screen.width / 4 * 3, Screen.height / 30 * 7 + Screen.height / 2, Screen.width / 14, Screen.height / 30), "Previous"))
+        if (GUI.Button(new Rect(Screen.width / 4 * 3, Screen.height / 30 * 7 + Screen.height / 2, Screen.width / 14, Screen.height / 30), "Previous", button))
         {
             PreviousPic();
         }
-        if (GUI.Button(new Rect(Screen.width / 12 * 10, Screen.height / 30 * 7 + Screen.height / 2, Screen.width / 14, Screen.height / 30), "Set"))
+        if (GUI.Button(new Rect(Screen.width / 12 * 10, Screen.height / 30 * 7 + Screen.height / 2, Screen.width / 14, Screen.height / 30), "Set", button))
         {
             SetTexture();
         }
 
-        currentWaveName = GUI.TextField(new Rect(Screen.width / 30 * 8.5f, Screen.height / 30 * 25, Screen.width / 5, Screen.height / 30), currentWaveName);
-        currentWaveDescription = GUI.TextArea(new Rect(Screen.width / 2, Screen.height / 30 * 25, Screen.width / 2, Screen.height / 8), currentWaveDescription);
-        GUI.Box(new Rect(Screen.width / 2, Screen.height / 30 * 23.75f, Screen.width / 2, Screen.height / 30), "Wave Message");
-        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 10, Screen.height / 30 * 26.5f, Screen.width / 10, Screen.height / 30), "Save Wave"))
+        currentWaveName = GUI.TextField(new Rect(Screen.width / 30 * 8.5f, Screen.height / 30 * 25, Screen.width / 5, Screen.height / 30), currentWaveName, 20, textField);
+        currentWaveDescription = GUI.TextArea(new Rect(Screen.width / 2, Screen.height / 30 * 25, Screen.width / 2, Screen.height / 8), currentWaveDescription, textField);
+        GUI.Box(new Rect(Screen.width / 2, Screen.height / 30 * 23.75f, Screen.width / 2, Screen.height / 30), "Wave Message", box);
+        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 10, Screen.height / 30 * 26.5f, Screen.width / 10, Screen.height / 30), "Save Wave", button))
         {
             currentWave.description = currentWaveDescription;
             currentWave.name = currentWaveName;
             currentWave.Save();
             currentLevel.waveDict[currentWave.id] = currentWave;
         }
-        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f, Screen.height / 30 * 27.5f, Screen.width / 10, Screen.height / 30), "Delete Wave"))
+        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f, Screen.height / 30 * 27.5f, Screen.width / 10, Screen.height / 30), "Delete Wave", button))
         {
             if (currentLevel.waveDict.Count > 1)
             {
@@ -258,7 +355,7 @@ public class LevelEditor : MonoBehaviour
                 UpdateLevel();
             }
         }
-        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 10, Screen.height / 30 * 27.5f, Screen.width / 10, Screen.height / 30), "New Wave"))
+        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 10, Screen.height / 30 * 27.5f, Screen.width / 10, Screen.height / 30), "New Wave", button))
         {
             currentLevel.CreateNewWave();
         }
@@ -266,30 +363,33 @@ public class LevelEditor : MonoBehaviour
         //{
         //    UpdateWave();
         //}
-        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f, Screen.height / 30 * 26.5f, Screen.width / 10, Screen.height / 30), "Start / Stop"))
+        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f, Screen.height / 30 * 26.5f, Screen.width / 10, Screen.height / 30), "Start / Stop", button))
         {
             currentWave.ToggleEnemies();
         }
 
-        GUI.Box(new Rect(Screen.width / 2, Screen.height / 40, Screen.width / 4, Screen.height / 30), "End Game Message");
-        GUI.Box(new Rect(Screen.width / 4 * 3, Screen.height / 40, Screen.width / 4, Screen.height / 30), "Game Over Message");
-        if(GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 10, Screen.height / 120 * 8, Screen.width / 10, Screen.height / 30), "Save Level"))
+        GUI.Box(new Rect(Screen.width / 2, Screen.height / 40, Screen.width / 4, Screen.height / 30), "End Game Message", box);
+        GUI.Box(new Rect(Screen.width / 4 * 3, Screen.height / 40, Screen.width / 4, Screen.height / 30), "Game Over Message", box);
+        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 10, Screen.height / 30 * 2, Screen.width / 10, Screen.height / 30), "Save Level", button))
         {
-            currentLevel.WriteXML();
+            currentLevel.WriteXML(currentPlayer);
             ReadLevels();
         }
-        if(GUI.Button(new Rect(Screen.width / 30 * 8.5f, Screen.height / 30 * 2, Screen.width / 10, Screen.height / 30), "Delete Level"))
+        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f, Screen.height / 30 * 2, Screen.width / 10, Screen.height / 30), "Delete Level", button))
         {
-            deleteLevelCheck = true;
+            if(levelDict.Count > 1)
+            {
+                deleteLevelCheck = true;
+            }
         }
         if(deleteLevelCheck)
         {
-            GUI.Box(new Rect(Screen.width / 30 * 8.5f, Screen.height / 30 * 3, Screen.width / 10, Screen.height / 30), "Are you sure?");
-            if (GUI.Button(new Rect(Screen.width / 30 * 8.5f, Screen.height / 30 * 4, Screen.width / 20, Screen.height / 30), "No"))
+            GUI.Box(new Rect(Screen.width / 30 * 8.5f, Screen.height / 30 * 3, Screen.width / 10, Screen.height / 30), "Are you sure?", box);
+            if (GUI.Button(new Rect(Screen.width / 30 * 8.5f, Screen.height / 30 * 4, Screen.width / 20, Screen.height / 30), "No", button))
             {
                 deleteLevelCheck = false;
             }
-            if (GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 20, Screen.height / 30 * 4, Screen.width / 20, Screen.height / 30), "Yes"))
+            if (GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 20, Screen.height / 30 * 4, Screen.width / 20, Screen.height / 30), "Yes", button))
             {
                 File.Copy(currentLevel.directory, Application.dataPath + "/Resources/Levels/DeletedLevels/" + currentLevel.directory.Split('\\').Last(), true);
                 File.Delete(currentLevel.directory);
@@ -297,7 +397,7 @@ public class LevelEditor : MonoBehaviour
                 deleteLevelCheck = false;
             }
         }
-        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 10, Screen.height / 10, Screen.width / 10, Screen.height / 30), "New Level"))
+        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 10, Screen.height / 10, Screen.width / 10, Screen.height / 30), "New Level", button))
         {
             Level newLevel = new Level();
             newLevel.name = "New Level";
@@ -305,7 +405,7 @@ public class LevelEditor : MonoBehaviour
             {
                 if(!levelDict.ContainsKey(newLevel.name + " (" + i.ToString() + ")"))
                 {
-                    newLevel.name = newLevel + " (" + i.ToString() + ")";
+                    newLevel.name = newLevel.name + " (" + i.ToString() + ")";
                     break;
                 }
             }
@@ -315,32 +415,55 @@ public class LevelEditor : MonoBehaviour
             currentLevel = newLevel;
             UpdateLevel();
         }
-        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 10, Screen.height / 15 * 2, Screen.width / 10, Screen.height / 30), "Apply"))
+        if (GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 10, Screen.height / 15 * 2, Screen.width / 10, Screen.height / 30), "Apply", button))
         {
             Apply();
         }
 
-        if (GUI.Button(new Rect(Screen.width / 8 * 5, Screen.height / 30 * 19, Screen.width / 8, Screen.height / 30), "Next"))
+        if (GUI.Button(new Rect(Screen.width / 8 * 5, Screen.height / 30 * 11, Screen.width / 8, Screen.height / 30), "Next", button))
         {
             Next();
         }
-        if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 30 * 19, Screen.width / 8, Screen.height / 30), "Previous"))
+        if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 30 * 11, Screen.width / 8, Screen.height / 30), "Previous", button))
         {
             Previous();
         }
-        if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 30 * 20, Screen.width / 4, Screen.height / 30), "Add"))
+        if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 30 * 12, Screen.width / 4, Screen.height / 30), "Add", button))
         {
             Add();
         }
 
-        lockEnemies = GUI.Toggle(new Rect(new Rect(Screen.width / 2, Screen.height / 30 * 21.5f, Screen.width / 8, Screen.height / 30)), lockEnemies, "Lock Enemies Positions");
-        lockWaypoints = GUI.Toggle(new Rect(new Rect(Screen.width / 2, Screen.height / 30 * 22.5f, Screen.width / 8, Screen.height / 30)), lockWaypoints, "Lock Waypoints Positions");
-        if(GUI.Button(new Rect(new Rect(Screen.width / 8 * 5, Screen.height / 30 * 21, Screen.width / 8, Screen.height / 30)), "Add Waypoint"))
+        GUI.Box(new Rect(Screen.width / 8 * 5f, Screen.height / 30 * 15f, Screen.width / 16, Screen.height / 30), "Life:", box);
+        try
+        {
+            lifeCount = int.Parse(GUI.TextField(new Rect(Screen.width / 8 * 5.5f, Screen.height / 30 * 15f, Screen.width / 16, Screen.height / 30), lifeCount.ToString(), 3, textField));
+        }
+        catch
+        {
+            lifeCount = 0;
+        }
+
+        if (GUI.Button(new Rect(Screen.width / 8 * 4.5f, Screen.height / 30 * 17.5f, Screen.width / 16, Screen.height / 30), "Next", button))
+        {
+            NextPlayer();
+        }
+        if (GUI.Button(new Rect(Screen.width / 8 * 4, Screen.height / 30 * 17.5f, Screen.width / 16, Screen.height / 30), "Previous", button))
+        {
+            PreviousPlayer();
+        }
+        if (GUI.Button(new Rect(Screen.width / 8 * 4, Screen.height / 30 * 18.5f, Screen.width / 8, Screen.height / 30), "Set", button))
+        {
+            SetPlayer();
+        }
+
+        lockEnemies = GUI.Toggle(new Rect(Screen.width / 2, Screen.height / 30 * 21.5f, Screen.width / 8, Screen.height / 30), lockEnemies, "Lock Enemies Positions");
+        lockWaypoints = GUI.Toggle(new Rect(Screen.width / 2, Screen.height / 30 * 22.5f, Screen.width / 8, Screen.height / 30), lockWaypoints, "Lock Waypoints Positions");
+        if (GUI.Button(new Rect(new Rect(Screen.width / 8 * 5, Screen.height / 30 * 21, Screen.width / 8, Screen.height / 30)), "Add Waypoint", button))
         {
             AddWaypoint();
         }
-
-        GUI.Box(new Rect(Screen.width / 2, Screen.height / 5, Screen.width / 4, Screen.height / 15), "Name: " + currentEnemy.name + "\nId:" + currentEnemy.id.ToString());
+        GUI.Box(new Rect(Screen.width / 2, Screen.height / 5, Screen.width / 4, Screen.height / 15), "Name: " + currentEnemy.name + "\nId:" + currentEnemy.id.ToString(), box);
+        GUI.Box(new Rect(Screen.width / 2, Screen.height / 30 * 13, Screen.width / 4, Screen.height / 15), "Player Name: " + currentPlayer.name + "\nPlayer Id: " + currentPlayer.id.ToString(), box);
     }
 
     void NextPic()
@@ -367,20 +490,29 @@ public class LevelEditor : MonoBehaviour
         }
     }
 
-    void SetTexture()
+    void SetTexture(BackgoundHolder bg = null)
     {
-        background.renderer.material.mainTexture = pics[backgroundIndex].texture;
-        currentLevel.waveDict[currentWave.id].background = pics[backgroundIndex].path;
+        if (bg == null)
+        {
+            currentLevel.waveDict[currentWave.id].background = pics[backgroundIndex];
+            background.renderer.material.mainTexture = pics[backgroundIndex].texture;
+        }
+        else
+        {
+            background.renderer.material.mainTexture = bg.texture;
+        }
+
     }
 
     void AddWaypoint()
     {
         GameObject wp = Instantiate(Resources.Load("Prefabs/LevelAssets/Waypoint") as GameObject, Vector3.zero, Quaternion.identity) as GameObject;
-        wp.AddComponent<SphereCollider>();
+        wp.AddComponent<CircleCollider2D>();
+        wp.collider2D.isTrigger = true;
         wp.AddComponent<MouseMove>();
         wp.GetComponent<MouseMove>().enabled = !lockWaypoints;
-        //currentWave.waypoints.Add(wp);
-        //currentWave.waypointsPos.Add(wp.transform.position);
+        currentWave.waypoints.Add(wp);
+        currentWave.waypointsPos.Add(wp.transform.position);
     }
 
     void Apply()
@@ -390,6 +522,7 @@ public class LevelEditor : MonoBehaviour
         dummy.endGameMessage = newEndGame;
         dummy.gameOverMessage = newGameOver;
         dummy.description = newLevelDescription;
+        dummy.lifeCount = lifeCount;
         levelDict.Remove(currentLevel.name);
         levelDict.Add(dummy.name, dummy);
         currentLevel = dummy;
@@ -410,6 +543,7 @@ public class LevelEditor : MonoBehaviour
         currentWave.enemyInfoList.Add(newInfo);
         currentWave.enemyEnemyInfoDict.Add(currentPrefab.GetComponent<Enemy>(), newInfo);
         currentPrefab = null;
+
     }
 
     void Update()
@@ -425,17 +559,36 @@ public class LevelEditor : MonoBehaviour
             {
                 Destroy(currentPrefab);
             }
-            currentPrefab = GameObject.Instantiate(CurrentPrefab, new Vector3(33, 3, 0), Quaternion.Euler(new Vector3(0, 0, 180))) as GameObject;
+            currentPrefab = GameObject.Instantiate(CurrentPrefab, new Vector3(33, 9.5f, 0), Quaternion.Euler(new Vector3(0, 0, 180))) as GameObject;
             currentPrefab.GetComponent<Actor>().enabled = false;
             currentEnemy = TypeIdDict[typeInfoHolder.enemyIds[currentEnemyIndex]];
             currentPrefab.tag = "Untagged";
-            currentPrefab.gameObject.transform.localScale = new Vector3(5, 5, 1);
+            //currentPrefab.gameObject.transform.localScale = new Vector3(5, 5, 1);
+        }
+        if(currentPlayerPrefab == null)
+        {
+            changePlayerPrefab = true;
+        }
+        if(changePlayerPrefab)
+        {
+            changePlayerPrefab = false;
+            if (currentPlayerPrefab != null)
+            {
+                Destroy(currentPlayerPrefab);
+            }
+            currentPlayerPrefab = GameObject.Instantiate(CurrentPlayerPrefab, new Vector3(27, -1.5f, 0), Quaternion.Euler(new Vector3(0, 0, 0))) as GameObject;
+            currentPlayerPrefab.GetComponent<Actor>().enabled = false;
+            currentPlayerPrefab.tag = "Untagged";
         }
         if(previousEnemiesLock != lockEnemies)
         {
             previousEnemiesLock = lockEnemies;
             foreach(GameObject g in GameObject.FindGameObjectsWithTag("Enemy"))
             {
+                if (g.GetComponent<MouseMove>() == null)
+                {
+                    g.AddComponent<MouseMove>();
+                }
                 g.GetComponent<MouseMove>().enabled = !lockEnemies;
             }
         }
@@ -448,12 +601,21 @@ public class LevelEditor : MonoBehaviour
                 {
                     g.AddComponent<MouseMove>();
                 }
-                if(g.GetComponent<SphereCollider>() == null)
+                if(g.GetComponent<CircleCollider2D>() == null)
                 {
-                    g.AddComponent<SphereCollider>();
+                    g.AddComponent<CircleCollider2D>();
                 }
                 g.GetComponent<MouseMove>().enabled = !lockWaypoints;
             }
+        }
+    }
+
+    void LateUpdate()
+    {
+        if(levelUpdated)
+        {
+            levelUpdated = false;
+            SetPlayer();
         }
     }
 
@@ -481,5 +643,47 @@ public class LevelEditor : MonoBehaviour
             currentEnemyIndex--;
         }
         changePrefab = true;
+    }
+
+    void NextPlayer()
+    {
+        if (currentPlayerIndex < typeInfoHolder.enemyIds.Count - 1)
+        {
+            currentPlayerIndex++;
+        }
+        else
+        {
+            currentPlayerIndex = 0;
+        }
+        changePlayerPrefab = true;
+    }
+
+    void PreviousPlayer()
+    {
+        if (currentPlayerIndex < 1)
+        {
+            currentPlayerIndex = typeInfoHolder.enemyIds.Count - 1;
+        }
+        else
+        {
+            currentPlayerIndex--;
+        }
+        changePlayerPrefab = true;
+    }
+
+    void SetPlayer()
+    {
+        GameObject currentPlayerObject = GameObject.FindObjectOfType<Player>().gameObject;
+        Vector3 playerPos = currentPlayerObject.transform.position;
+        Destroy(currentPlayerObject);
+        currentPlayerPrefab.transform.position = playerPos;
+        currentPlayerPrefab.tag = "Player";
+        Destroy(currentPlayerPrefab.GetComponent<Enemy>());
+        currentPlayerPrefab.AddComponent<Player>().enabled = false;
+        currentPlayerPrefab.AddComponent<MouseMove>();
+        currentPlayerPrefab.name = "Player";
+        currentPlayerPrefab = null;
+        changePlayerPrefab = true;
+        currentPlayer = TypeIdDict[typeInfoHolder.enemyIds[currentPlayerIndex]];
     }
 }

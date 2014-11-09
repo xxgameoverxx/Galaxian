@@ -17,6 +17,11 @@ public class Manager : MonoBehaviour {
     float updateCounter = 0;
 
     public List<Vector3> wayPoints;
+    private GUISkin skin;
+    private GUIStyle button;
+    private GUIStyle box;
+    private GUIStyle textField;
+    private GUIStyle label;
 
     #region New Values
     string ammoCount = "0";
@@ -26,6 +31,8 @@ public class Manager : MonoBehaviour {
     string newEnergyRegen = "NOPE";
     float newSelfDestroyProb = 0;
     float newShootProb = 0;
+    int spread = 1;
+    float bulletSpeed = 10;
     string newHurtCooldown = "NOPE";
     string newAmplitudeX = "NOPE";
     string newAmplitudeY = "NOPE";
@@ -34,6 +41,8 @@ public class Manager : MonoBehaviour {
     string newMoveSpeed = "NOPE";
     float newDropProb = 100;
     bool newMoveToWaypoint = false;
+
+
 
     bool hasHealth = false;
     bool hasShield = false;
@@ -93,6 +102,13 @@ public class Manager : MonoBehaviour {
             }
         }
     }
+
+    float shotGunAmmoCount = 5;
+    float laserAmmoCount = 5;
+    float rocketAmmoCount = 5;
+    float divineInterventionAmmoCount = 1;
+    float shileldDuration = 5;
+    float healthAmount = 3;
     #endregion
 
     private TypeInfo currentType;
@@ -191,109 +207,120 @@ public class Manager : MonoBehaviour {
         //{
         //    FillTypePrefabDict(node);
         //}
-        ChangePrefab();
     }
 
     void Start()
     {
+        if (GameObject.FindObjectOfType<Style>() != null)
+        {
+            skin = GameObject.FindObjectOfType<Style>().skin;
+            button = skin.customStyles[2];
+            textField = skin.customStyles[3];
+            box = skin.customStyles[4];
+            label = skin.customStyles[6];
+        }
+        else
+        {
+            Debug.LogError("Style object is not found!");
+            button = new GUIStyle();
+        }
         foreach(GameObject g in GameObject.FindGameObjectsWithTag("Waypoint"))
         {
             wayPoints.Add(g.transform.position);
         }
+        ChangePrefab();
     }
-
-    //void FillTypePrefabDict(XmlNode node)
-    //{
-    //    foreach(XmlNode child in node.ChildNodes)
-    //    {
-    //        int typeId = int.Parse(child.Attributes["type"].Value);
-    //        TypeInfo type = new TypeInfo();
-    //        type.ReadInfo(child);
-    //        if (typeId < 100)
-    //        {
-    //            enemyTypeDict.Add(typeId, type);
-    //            enemyTypes.Add(typeId);
-    //        }
-    //        else
-    //        {
-    //            itemTypeDict.Add(typeId, type);
-    //            itemTypes.Add(typeId);
-    //        }
-    //    }
-    //}
 
     void OnGUI()
     {
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20, Screen.width / 4, Screen.height / 20), "Id: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 10, Screen.width / 4, Screen.height / 20), "Name: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 3, Screen.width / 4, Screen.height / 20), "Health: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 5, Screen.width / 4, Screen.height / 20), "Energy: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 4, Screen.width / 4, Screen.height / 20), "Energy Regeneration Speed: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 10 * 3, Screen.width / 4, Screen.height / 20), "Self Destroy Probability: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 7, Screen.width / 4, Screen.height / 20), "Shoot Probability: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 5 * 2, Screen.width / 4, Screen.height / 20), "Hurt Cooldown: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 9, Screen.width / 4, Screen.height / 20), "Amplitude X: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 2, Screen.width / 4, Screen.height / 20), "Amplitude Y: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 11, Screen.width / 4, Screen.height / 20), "Damping X: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 5 * 3, Screen.width / 4, Screen.height / 20), "Damping Y: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 13, Screen.width / 4, Screen.height / 20), "Move Speed: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 10 * 7, Screen.width / 4, Screen.height / 20), "Drop Probability: ");
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 4 * 3, Screen.width / 4, Screen.height / 20), "Move To Waypoint: ");
-        GUI.Box(new Rect(Screen.width / 30, Screen.height / 20, Screen.width / 4 - Screen.width / 30, Screen.height / 30), "Inventory");
-        GUI.Box(new Rect(Screen.width / 60 + Screen.width / 4, Screen.height / 20, Screen.width / 4 - Screen.width / 30, Screen.height / 30), "Weapon");
+        GUI.Label(new Rect(Screen.width / 8 * 5, Screen.height / 20, Screen.width / 8, Screen.height / 20), "Id: ", label);
+        GUI.Label(new Rect(Screen.width / 8 * 5, Screen.height / 20 * 2, Screen.width / 4, Screen.height / 20), "Name: ", label);
+        GUI.Label(new Rect(Screen.width / 8 * 5, Screen.height / 20 * 3, Screen.width / 4, Screen.height / 20), "Health: ", label);
+        GUI.Label(new Rect(Screen.width / 8 * 5, Screen.height / 20 * 4, Screen.width / 4, Screen.height / 20), "Energy: ", label);
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 5, Screen.width / 4, Screen.height / 20), "Energy Regeneration Speed: ", label);
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 6, Screen.width / 4, Screen.height / 20), "Self Destroy Probability: ", label);
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 7, Screen.width / 4, Screen.height / 20), "Shoot Probability: ", label);
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 8, Screen.width / 4, Screen.height / 20), "Hurt Cooldown: ", label);
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 9, Screen.width / 4, Screen.height / 20), "Amplitude X: ", label);
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 10, Screen.width / 4, Screen.height / 20), "Amplitude Y: ", label);
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 11, Screen.width / 4, Screen.height / 20), "Damping X: ", label);
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 12, Screen.width / 4, Screen.height / 20), "Damping Y: ", label);
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 13, Screen.width / 4, Screen.height / 20), "Move Speed: ", label);
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 14, Screen.width / 4, Screen.height / 20), "Drop Probability: ", label);
+        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 15, Screen.width / 4, Screen.height / 20), "Move To Waypoint: ", label);
+        GUI.Box(new Rect(Screen.width / 30, Screen.height / 20, Screen.width / 4 - Screen.width / 30, Screen.height / 30), "Inventory", box);
+        GUI.Box(new Rect(Screen.width / 60 + Screen.width / 8 * 3, Screen.height / 20, Screen.width / 4 - Screen.width / 30, Screen.height / 30), "Weapon", box);
 
-        GUI.Label(new Rect(Screen.width / 4 * 3, Screen.height / 20, Screen.width / 4, Screen.height / 20), currentType.id.ToString());
-        newName = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 10, Screen.width / 4, Screen.height / 20), newName);
-        newHealth = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 3, Screen.width / 4, Screen.height / 20), newHealth);
-        newEnergy = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 5, Screen.width / 4, Screen.height / 20), newEnergy);
-        newEnergyRegen = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 4, Screen.width / 4, Screen.height / 20), newEnergyRegen);
-        newSelfDestroyProb = GUI.HorizontalScrollbar(new Rect(Screen.width / 4 * 3, Screen.height / 10 * 3, Screen.width / 4, Screen.height / 20), newSelfDestroyProb, 10, 0, 100);
-        newShootProb = GUI.HorizontalScrollbar(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 7, Screen.width / 4, Screen.height / 20), newShootProb, 10, 0, 100);
-        newHurtCooldown = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 5 * 2, Screen.width / 4, Screen.height / 20), newHurtCooldown);
-        newAmplitudeX = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 9, Screen.width / 4, Screen.height / 20), newAmplitudeX);
-        newAmplitudeY = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 2, Screen.width / 4, Screen.height / 20), newAmplitudeY);
-        newDampingX = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 11, Screen.width / 4, Screen.height / 20), newDampingX);
-        newDampingY = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 5 * 3, Screen.width / 4, Screen.height / 20), newDampingY);
-        newMoveSpeed = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 13, Screen.width / 4, Screen.height / 20), newMoveSpeed);
-        newDropProb = GUI.HorizontalScrollbar(new Rect(Screen.width / 4 * 3, Screen.height / 10 * 7, Screen.width / 4, Screen.height / 20), newDropProb, 10, 0, 100);
-        newMoveToWaypoint = GUI.Toggle(new Rect(Screen.width / 4 * 3, Screen.height / 4 * 3, Screen.width / 4, Screen.height / 20), newMoveToWaypoint, "");
+        GUI.Label(new Rect(Screen.width / 4 * 3, Screen.height / 20, Screen.width / 4, Screen.height / 20), currentType.id.ToString(), label);
+        newName = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 2, Screen.width / 4, Screen.height / 20), newName, textField);
+        newHealth = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 3, Screen.width / 4, Screen.height / 20), newHealth, textField);
+        newEnergy = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 4, Screen.width / 4, Screen.height / 20), newEnergy, textField);
+        newEnergyRegen = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 5, Screen.width / 4, Screen.height / 20), newEnergyRegen, textField);
+        newSelfDestroyProb = GUI.HorizontalScrollbar(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 6f, Screen.width / 4, Screen.height / 25), newSelfDestroyProb, 10, 0, 100);
+        newShootProb = GUI.HorizontalScrollbar(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 7, Screen.width / 4, Screen.height / 25), newShootProb, 10, 0, 100);
+        newHurtCooldown = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 8, Screen.width / 4, Screen.height / 20), newHurtCooldown, textField);
+        newAmplitudeX = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 9, Screen.width / 4, Screen.height / 20), newAmplitudeX, textField);
+        newAmplitudeY = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 10, Screen.width / 4, Screen.height / 20), newAmplitudeY, textField);
+        newDampingX = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 11, Screen.width / 4, Screen.height / 20), newDampingX, textField);
+        newDampingY = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 12, Screen.width / 4, Screen.height / 20), newDampingY, textField);
+        newMoveSpeed = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 13, Screen.width / 4, Screen.height / 20), newMoveSpeed, textField);
+        newDropProb = GUI.HorizontalScrollbar(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 14, Screen.width / 4, Screen.height / 20), newDropProb, 10, 0, 100);
+        newMoveToWaypoint = GUI.Toggle(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 15, Screen.width / 4, Screen.height / 20), newMoveToWaypoint, "");
         hasHealth = GUI.Toggle(new Rect(Screen.width / 30, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 40), hasHealth, "Health");
+        healthAmount = float.Parse(GUI.TextField(new Rect(Screen.width / 30 * 4, Screen.height / 20 * 2f, Screen.width / 30, Screen.height / 40), healthAmount.ToString()));
         hasShield = GUI.Toggle(new Rect(Screen.width / 30, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 40), hasShield, "Shield");
+        shileldDuration = float.Parse(GUI.TextField(new Rect(Screen.width / 30 * 4, Screen.height / 20 * 2.5f, Screen.width / 30, Screen.height / 40), shileldDuration.ToString()));
         hasShotgunAmmo = GUI.Toggle(new Rect(Screen.width / 30, Screen.height / 20 * 3f, Screen.width / 12, Screen.height / 40), hasShotgunAmmo, "Shotgun Ammo");
-        hasLaserAmmo = GUI.Toggle(new Rect(Screen.width / 30 * 4, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 40), hasLaserAmmo, "Laser Ammo");
-        hasRocketAmmo = GUI.Toggle(new Rect(Screen.width / 30 * 4, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 40), hasRocketAmmo, "Rocket Ammo");
-        hasDevineIntervention = GUI.Toggle(new Rect(Screen.width / 30 * 4, Screen.height / 20 * 3f, Screen.width / 12, Screen.height / 40), hasDevineIntervention, "Devine Intervention");
-        Shotgun = GUI.Toggle(new Rect(Screen.width / 15 * 4, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 40), Shotgun, "Shotgun");
-        Laser = GUI.Toggle(new Rect(Screen.width / 15 * 4, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 40), Laser, "Laser");
-        Rocket = GUI.Toggle(new Rect(Screen.width / 15 * 4, Screen.height / 20 * 3f, Screen.width / 12, Screen.height / 40), Rocket, "Rocket");
-        ammoCount = GUI.TextField(new Rect(Screen.width / 5 * 2, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 20), ammoCount);
-        GUI.Label(new Rect(Screen.width / 5 * 2, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 20), "Ammo Count");
+        shotGunAmmoCount = float.Parse(GUI.TextField(new Rect(Screen.width / 30 * 4, Screen.height / 20 * 3f, Screen.width / 30, Screen.height / 40), shotGunAmmoCount.ToString()));
+        hasLaserAmmo = GUI.Toggle(new Rect(Screen.width / 30 * 6, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 40), hasLaserAmmo, "Laser Ammo");
+        laserAmmoCount = float.Parse(GUI.TextField(new Rect(Screen.width / 30 * 10, Screen.height / 20 * 2f, Screen.width / 30, Screen.height / 40), laserAmmoCount.ToString()));
+        hasRocketAmmo = GUI.Toggle(new Rect(Screen.width / 30 * 6, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 40), hasRocketAmmo, "Rocket Ammo");
+        rocketAmmoCount = float.Parse(GUI.TextField(new Rect(Screen.width / 30 * 10, Screen.height / 20 * 2.5f, Screen.width / 30, Screen.height / 40), rocketAmmoCount.ToString()));
+        hasDevineIntervention = GUI.Toggle(new Rect(Screen.width / 30 * 6, Screen.height / 20 * 3f, Screen.width / 11, Screen.height / 40), hasDevineIntervention, "Devine Intervention");
+        divineInterventionAmmoCount = float.Parse(GUI.TextField(new Rect(Screen.width / 30 * 10, Screen.height / 20 * 3f, Screen.width / 30, Screen.height / 40), divineInterventionAmmoCount.ToString()));
+        Shotgun = GUI.Toggle(new Rect(Screen.width / 60 + Screen.width / 8 * 3, Screen.height / 20 * 2f, Screen.width / 15, Screen.height / 40), Shotgun, "Shotgun");
+        Laser = GUI.Toggle(new Rect(Screen.width / 60 + Screen.width / 8 * 3, Screen.height / 20 * 2.5f, Screen.width / 15, Screen.height / 40), Laser, "Laser");
+        Rocket = GUI.Toggle(new Rect(Screen.width / 60 + Screen.width / 8 * 3, Screen.height / 20 * 3f, Screen.width / 15, Screen.height / 40), Rocket, "Rocket");
+        ammoCount = GUI.TextField(new Rect(Screen.width / 60 + Screen.width / 8 * 4.1f, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 40), ammoCount, textField);
+        GUI.Label(new Rect(Screen.width / 60 + Screen.width / 8 * 3.5f, Screen.height / 20 * 1.75f, Screen.width / 12, Screen.height / 20), "Ammo Count", label);
+        spread = int.Parse(GUI.TextField(new Rect(Screen.width / 60 + Screen.width / 8 * 4.1f, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 40), spread.ToString(), textField));
+        GUI.Label(new Rect(Screen.width / 60 + Screen.width / 8 * 3.5f, Screen.height / 20 * 2.25f, Screen.width / 12, Screen.height / 20), "Spread", label);
+        bulletSpeed = float.Parse(GUI.TextField(new Rect(Screen.width / 60 + Screen.width / 8 * 4.1f, Screen.height / 20 * 3f, Screen.width / 12, Screen.height / 40), bulletSpeed.ToString(), textField));
+        GUI.Label(new Rect(Screen.width / 60 + Screen.width / 8 * 3.5f, Screen.height / 20 * 2.75f, Screen.width / 12, Screen.height / 20), "Bullet Speed", label);
 
-        if (GUI.Button(new Rect(Screen.width / 5 * 3, Screen.height / 20 * 16, Screen.width / 10, Screen.height / 20), "Previous"))
+
+        if (GUI.Button(new Rect(Screen.width / 5 * 3, Screen.height / 20 * 16, Screen.width / 10, Screen.height / 20), "Previous", button))
         {
             Previous();
         }
-        if (GUI.Button(new Rect(Screen.width / 10 * 7, Screen.height / 20 * 16, Screen.width / 10, Screen.height / 20), "Next"))
+        if (GUI.Button(new Rect(Screen.width / 10 * 7, Screen.height / 20 * 16, Screen.width / 10, Screen.height / 20), "Next", button))
         {
             Next();
         }
-        if (GUI.Button(new Rect(Screen.width / 5 * 4, Screen.height / 20 * 16, Screen.width / 5, Screen.height / 20), "Delete"))
+        if (GUI.Button(new Rect(Screen.width / 5 * 4, Screen.height / 20 * 16, Screen.width / 5, Screen.height / 20), "Delete", button))
         {
-            EnemyTypes.Remove(currentType.id);
-            EnemyTypes.Remove(currentType.id);
-            currentType = EnemyTypeDict[EnemyTypes[0]];
-            index = 0;
-            ChangePrefab();
-            //Apply();
+            if (!currentType.locked)
+            {
+                EnemyTypes.Remove(currentType.id);
+                EnemyTypes.Remove(currentType.id);
+                currentType = EnemyTypeDict[EnemyTypes[0]];
+                index = 0;
+                ChangePrefab();
+            }
+            else
+            {
+                Debug.LogError("This type is protected!");
+            }
         }
-        if (GUI.Button(new Rect(Screen.width / 5 * 3, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Apply"))
+        if (GUI.Button(new Rect(Screen.width / 5 * 3, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Apply", button))
         {
             Apply();
         }
-        if (GUI.Button(new Rect(Screen.width / 5 * 4, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Save as new"))
+        if (GUI.Button(new Rect(Screen.width / 5 * 4, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Save as new", button))
         {
             TypeInfo type = new TypeInfo();
             type.Clone(currentType);
+            type.locked = false;
             for(int i = 0; i < 100; i++)
             {
                 if (!EnemyTypes.Contains(i))
@@ -303,23 +330,27 @@ public class Manager : MonoBehaviour {
                 }
             }
             EnemyTypes.Add(type.id);
+            if (EnemyTypeDict.ContainsKey(type.id))
+            {
+                EnemyTypeDict.Remove(type.id);
+            }
             EnemyTypeDict.Add(type.id, type);
             currentType = type;
             Apply();
         }
-        if (GUI.Button(new Rect(Screen.width / 5 * 2, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Save"))
+        if (GUI.Button(new Rect(Screen.width / 5 * 2, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Save", button))
         {
             WriteToXML();
         }
-        if (GUI.Button(new Rect(0, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Hit"))
+        if (GUI.Button(new Rect(0, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Hit", button))
         {
             currentDummy.GetComponent<Enemy>().Hit();
         }
-        if (GUI.Button(new Rect(Screen.width / 5, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Kill"))
+        if (GUI.Button(new Rect(Screen.width / 5, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Kill", button))
         {
             currentDummy.GetComponent<Enemy>().Die();
         }
-        if(GUI.Button(new Rect(Screen.width / 4 * 3.5f, 10, Screen.width / 10, Screen.height / 20), "Main menu"))
+        if (GUI.Button(new Rect(Screen.width / 4 * 3.5f, 10, Screen.width / 10, Screen.height / 20), "Main menu", button))
         {
             Application.LoadLevel("MainMenu");
         }
@@ -342,27 +373,29 @@ public class Manager : MonoBehaviour {
         EnemyTypeDict[currentType.id].dropProbability = newDropProb;
         EnemyTypeDict[currentType.id].moveToWaypoint = newMoveToWaypoint;
         EnemyTypeDict[currentType.id].ammoCount = int.Parse(ammoCount);
+        EnemyTypeDict[currentType.id].bulletSpeed = bulletSpeed;
+        EnemyTypeDict[currentType.id].spread = spread;
 
-        EnemyTypeDict[currentType.id].inventoryItems = new List<int>();
+        EnemyTypeDict[currentType.id].inventoryItems = new Dictionary<int, float>();
         if (hasHealth)
         {
-            EnemyTypeDict[currentType.id].inventoryItems.Add(100);
+            EnemyTypeDict[currentType.id].inventoryItems.Add(100, healthAmount);
         }
         if (hasShield)
         {
-            EnemyTypeDict[currentType.id].inventoryItems.Add(105);
+            EnemyTypeDict[currentType.id].inventoryItems.Add(105, shileldDuration);
         } if (hasShotgunAmmo)
         {
-            EnemyTypeDict[currentType.id].inventoryItems.Add(102);
+            EnemyTypeDict[currentType.id].inventoryItems.Add(102, shotGunAmmoCount);
         } if (hasLaserAmmo)
         {
-            EnemyTypeDict[currentType.id].inventoryItems.Add(103);
+            EnemyTypeDict[currentType.id].inventoryItems.Add(103, laserAmmoCount);
         } if (hasRocketAmmo)
         {
-            EnemyTypeDict[currentType.id].inventoryItems.Add(104);
+            EnemyTypeDict[currentType.id].inventoryItems.Add(104, rocketAmmoCount);
         } if (hasDevineIntervention)
         {
-            EnemyTypeDict[currentType.id].inventoryItems.Add(101);
+            EnemyTypeDict[currentType.id].inventoryItems.Add(101, divineInterventionAmmoCount);
         }
         if (Shotgun)
         {
@@ -403,9 +436,10 @@ public class Manager : MonoBehaviour {
         e.moveSpeed = currentType.moveSpeed;
         e.moveToWaypoint = currentType.moveToWaypoint;
         e.inventory = new List<Item>();
-        foreach(int i in currentType.inventoryItems)
+        foreach(int i in currentType.inventoryItems.Keys)
         {
             GameObject newItem = Resources.Load(ItemTypeDict[i].prefab) as GameObject;
+            newItem.GetComponent<Item>().durability = EnemyTypeDict[CurrentType.id].inventoryItems[i];
             e.inventory.Add(newItem.GetComponent<Item>());
         }
 
@@ -425,7 +459,7 @@ public class Manager : MonoBehaviour {
         XmlWriterSettings settings = new XmlWriterSettings();
         settings.Indent = true;
         settings.IndentChars = "\t";
-        using (XmlWriter writer = XmlWriter.Create("Assets/Resources/TypeInfo.xml", settings))
+        using (XmlWriter writer = XmlWriter.Create(Application.dataPath + "/Resources/TypeInfo.xml", settings))
         {
             writer.WriteStartDocument();
             writer.WriteStartElement("Types");
@@ -436,6 +470,9 @@ public class Manager : MonoBehaviour {
                 writer.WriteAttributeString("type", t.id.ToString());
                 writer.WriteAttributeString("name", t.name);
                 writer.WriteAttributeString("prefab", t.prefab);
+                writer.WriteAttributeString("locked", t.locked.ToString());
+                writer.WriteAttributeString("spread", t.spread.ToString());
+                writer.WriteAttributeString("bulletSpeed", t.bulletSpeed.ToString());
                 writer.WriteStartElement("Amplitude");
                 writer.WriteAttributeString("x", t.amplitudeX.ToString());
                 writer.WriteAttributeString("y", t.amplitudeY.ToString());
@@ -474,11 +511,13 @@ public class Manager : MonoBehaviour {
                 writer.WriteStartElement("Weapon");
                 writer.WriteAttributeString("value", t.weapon.ToString());
                 writer.WriteAttributeString("ammoCount", t.ammoCount.ToString());
+
                 writer.WriteEndElement(); //Weapon
-                foreach(int j in t.inventoryItems)
+                foreach(int j in t.inventoryItems.Keys)
                 {
                     writer.WriteStartElement("InventoryItem");
                     writer.WriteAttributeString("value", j.ToString());
+                    writer.WriteAttributeString("durability", t.inventoryItems[j].ToString());
                     writer.WriteEndElement(); //InventoryItem
                 }
                 writer.WriteEndElement(); //Type
@@ -502,7 +541,7 @@ public class Manager : MonoBehaviour {
 
     void ChangePrefab()
     {
-        if(currentDummy != null)
+        if (currentDummy != null)
         {
             Destroy(currentDummy);
         }
@@ -525,17 +564,41 @@ public class Manager : MonoBehaviour {
         newMoveToWaypoint = currentType.moveToWaypoint;
         newDropProb = currentType.dropProbability;
         ammoCount = currentType.ammoCount.ToString();
-        if(currentType.inventoryItems.Contains(100)) hasHealth = true;
+        if (currentType.inventoryItems.ContainsKey(100))
+        {
+            hasHealth = true;
+            healthAmount = currentType.inventoryItems[100];
+        }
         else hasHealth = false;
-        if (currentType.inventoryItems.Contains(101)) hasDevineIntervention = true;
+        if (currentType.inventoryItems.ContainsKey(101))
+        {
+            hasDevineIntervention = true;
+            divineInterventionAmmoCount = currentType.inventoryItems[101];
+        }
         else hasDevineIntervention = false;
-        if (currentType.inventoryItems.Contains(102)) hasShotgunAmmo = true;
+        if (currentType.inventoryItems.ContainsKey(102))
+        {
+            hasShotgunAmmo = true;
+            shotGunAmmoCount = currentType.inventoryItems[102];
+        }
         else hasShotgunAmmo = false;
-        if (currentType.inventoryItems.Contains(103)) hasLaserAmmo = true;
+        if (currentType.inventoryItems.ContainsKey(103))
+        {
+            hasLaserAmmo = true;
+            laserAmmoCount = currentType.inventoryItems[103];
+        }
         else hasLaserAmmo = false;
-        if (currentType.inventoryItems.Contains(104)) hasRocketAmmo = true;
+        if (currentType.inventoryItems.ContainsKey(104))
+        {
+            hasRocketAmmo = true;
+            rocketAmmoCount = currentType.inventoryItems[104];
+        }
         else hasRocketAmmo = false;
-        if (currentType.inventoryItems.Contains(105)) hasShield = true;
+        if (currentType.inventoryItems.ContainsKey(105))
+        {
+            hasShield = true;
+            shileldDuration = currentType.inventoryItems[105];
+        }
         else hasShield = false;
         if(currentType.weapon == 106)
         {

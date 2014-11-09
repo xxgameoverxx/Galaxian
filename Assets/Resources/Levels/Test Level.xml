@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Level name="Test Level" leftBorder="(-20.0, 0.0, 0.0)" rightBorder="(20.0, 0.0, 0.0)" topBorder="(0.0, 15.0, 0.0)" bottomBorder="(0.0, -15.0, 0.0)" respawnPos="(0.0, -12.0, 0.0)">
+<Level name="Test Level" leftBorder="(-20.0, 0.0, 0.0)" rightBorder="(20.0, 0.0, 0.0)" topBorder="(0.0, 15.0, 0.0)" bottomBorder="(0.0, -15.0, 0.0)" respawnPos="(0.0, -12.0, 0.0)" player="2" life="4">
 	<EndGameText>Yay! You rock!</EndGameText>
 	<GameOverText>Lol noob!</GameOverText>
 	<Description tag="level">Level description</Description>
-	<Wave name="Test Wave 6" val="0">
+	<Wave name="Test Wave 6" val="0" background="D:/Unity Project/Galaxian/Assets/Resources/Backgrounds\bg2.jpg" backgroundId="2">
 		<Description tag="wave">Nope it wasn't...</Description>
 		<Waypoint pos="(12.7, 0.3, 0.0)" />
 		<Waypoint pos="(6.1, 0.1, 0.0)" />
@@ -29,7 +29,7 @@
 		<Enemy typeId="1" pos="(13,5)" rot="(0.0,0.0,180.0)" />
 		<Enemy typeId="0" pos="(0,0)" rot="(0.0,0.0,180.0)" />
 	</Wave>
-	<Wave name="New Wave" val="1">
+	<Wave name="New Wave" val="1" background="D:/Unity Project/Galaxian/Assets/Resources/Backgrounds\bg2.jpg" backgroundId="2">
 		<Description tag="wave">This is a new wave</Description>
 		<Waypoint pos="(12.7, 0.3, 0.0)" />
 		<Waypoint pos="(6.1, 0.1, 0.0)" />

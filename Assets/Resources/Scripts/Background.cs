@@ -3,22 +3,26 @@ using System.Collections;
 
 public class Background : MonoBehaviour {
 
-    SpriteRenderer sr;
-    float worldScreenHeight;
-    float worldScreenWidth;
+    //SpriteRenderer sr;
+    //float worldScreenHeight;
+    //float worldScreenWidth;
 
-	// Use this for initialization
-	void Start () {
-        sr = GetComponent<SpriteRenderer>();
-        worldScreenHeight = Camera.main.orthographicSize * 2;
-        worldScreenWidth = worldScreenHeight / Screen.height * Screen.width;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    Color original;
 
-        transform.localScale = new Vector3(
-            worldScreenWidth / sr.sprite.bounds.size.x,
-            worldScreenHeight / sr.sprite.bounds.size.y, 1);
-	}
+    void Awake()
+    {
+        original = renderer.material.color;
+    }
+
+    public void Flash(float flashTime = 0.1f)
+    {
+        StartCoroutine(FlashCoroutine(flashTime));
+    }
+
+    IEnumerator FlashCoroutine(float flashTime)
+    {
+        renderer.material.color = new Color(100, 100, 255);
+        yield return new WaitForSeconds(flashTime);
+        renderer.material.color = original;
+    }
 }

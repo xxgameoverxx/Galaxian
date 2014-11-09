@@ -8,7 +8,7 @@ public class RocketAmmo : Item
 	void Start () {
         Name = "Rocket";
         activeSlot = SlotName.Front;
-        durability = 3;
+        //durability =;
         rocketLauncher = Resources.Load("Prefabs/Weapons/RocketLauncher") as GameObject;
 	}
 

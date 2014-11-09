@@ -8,7 +8,7 @@ public class LaserAmmo : Item
     {
         Name = "Laser Ammo";
         activeSlot = SlotName.Front;
-        durability = 5;
+        //durability = 5;
         laser = Resources.Load("Prefabs/Weapons/BFL") as GameObject;
     }
 

@@ -7,7 +7,7 @@ public class Shield : Item
     {
         Name = "Shield Item";
         activeSlot = SlotName.Center;
-        durability = 10;
+        //durability = 10;
     }
 
     void OnTriggerEnter2D(Collider2D col)
