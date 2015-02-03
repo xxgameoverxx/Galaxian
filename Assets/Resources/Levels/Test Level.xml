@@ -3,7 +3,7 @@
 	<EndGameText>Yay! You rock!</EndGameText>
 	<GameOverText>Lol noob!</GameOverText>
 	<Description tag="level">Level description</Description>
-	<Wave name="Test Wave 6" val="0" background="D:/Unity Project/Galaxian/Assets/Resources/Backgrounds\bg2.jpg" backgroundId="2">
+	<Wave name="Test Wave 6" val="0" background="bg1.jpg" backgroundId="0">
 		<Description tag="wave">Nope it wasn't...</Description>
 		<Waypoint pos="(12.7, 0.3, 0.0)" />
 		<Waypoint pos="(6.1, 0.1, 0.0)" />
@@ -29,7 +29,7 @@
 		<Enemy typeId="1" pos="(13,5)" rot="(0.0,0.0,180.0)" />
 		<Enemy typeId="0" pos="(0,0)" rot="(0.0,0.0,180.0)" />
 	</Wave>
-	<Wave name="New Wave" val="1" background="D:/Unity Project/Galaxian/Assets/Resources/Backgrounds\bg2.jpg" backgroundId="2">
+	<Wave name="New Wave" val="1" background="bg1.jpg" backgroundId="2">
 		<Description tag="wave">This is a new wave</Description>
 		<Waypoint pos="(12.7, 0.3, 0.0)" />
 		<Waypoint pos="(6.1, 0.1, 0.0)" />

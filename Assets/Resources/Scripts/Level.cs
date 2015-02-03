@@ -153,6 +153,11 @@ public class Level
                 writer.WriteAttributeString("player", player.id.ToString());
                 writer.WriteAttributeString("life", lifeCount.ToString());
             }
+            else
+            {
+                writer.WriteAttributeString("player", "1");
+                writer.WriteAttributeString("life", "5");
+            }
             writer.WriteStartElement("EndGameText");
             writer.WriteString(endGameMessage);
             writer.WriteEndElement(); //EndGameText

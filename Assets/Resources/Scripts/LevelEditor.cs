@@ -23,7 +23,7 @@ public class BackgoundHolder
 
     public BackgoundHolder(string _path, int _id)
     {
-        path = _path;
+        path = Application.dataPath + "/Resources/Backgrounds/" + _path;
         id = _id;
         Texture2D tex = null;
         byte[] fileData;
@@ -37,6 +37,10 @@ public class BackgoundHolder
         else
         {
             Debug.LogError("No such background path: " + path);
+            fileData = File.ReadAllBytes(Application.dataPath + "/Resources/Backgrounds/black.jpg");
+            tex = new Texture2D(400, 300);
+            tex.LoadImage(fileData);
+            texture = tex;
         }
     }
 
@@ -55,6 +59,10 @@ public class BackgoundHolder
         else
         {
             Debug.LogError("No such background path: " + path);
+            fileData = File.ReadAllBytes(Application.dataPath + "/Resources/Resources/Backgrounds/black.jpg");
+            tex = new Texture2D(400, 300);
+            tex.LoadImage(fileData);
+            texture = tex;
         }
     }
 }
@@ -197,7 +205,7 @@ public class LevelEditor : MonoBehaviour
                     tex.LoadImage(fileData);
                     BackgoundHolder bh = new BackgoundHolder();
                     bh.id = i;
-                    bh.path = v;
+                    bh.path = v.Split('\\').Last();
                     bh.texture = tex;
                     pics.Add(i, bh);
                     i++;
