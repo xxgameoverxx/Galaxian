@@ -233,71 +233,51 @@ public class Manager : MonoBehaviour {
 
     void OnGUI()
     {
-        GUI.Label(new Rect(Screen.width / 8 * 5, Screen.height / 20, Screen.width / 8, Screen.height / 20), "Id: ", label);
-        GUI.Label(new Rect(Screen.width / 8 * 5, Screen.height / 20 * 2, Screen.width / 4, Screen.height / 20), "Name: ", label);
-        GUI.Label(new Rect(Screen.width / 8 * 5, Screen.height / 20 * 3, Screen.width / 4, Screen.height / 20), "Health: ", label);
-        GUI.Label(new Rect(Screen.width / 8 * 5, Screen.height / 20 * 4, Screen.width / 4, Screen.height / 20), "Energy: ", label);
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 5, Screen.width / 4, Screen.height / 20), "Energy Regeneration Speed: ", label);
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 6, Screen.width / 4, Screen.height / 20), "Self Destroy Probability: ", label);
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 7, Screen.width / 4, Screen.height / 20), "Shoot Probability: ", label);
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 8, Screen.width / 4, Screen.height / 20), "Hurt Cooldown: ", label);
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 9, Screen.width / 4, Screen.height / 20), "Amplitude X: ", label);
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 10, Screen.width / 4, Screen.height / 20), "Amplitude Y: ", label);
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 11, Screen.width / 4, Screen.height / 20), "Damping X: ", label);
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 12, Screen.width / 4, Screen.height / 20), "Damping Y: ", label);
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 13, Screen.width / 4, Screen.height / 20), "Move Speed: ", label);
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 14, Screen.width / 4, Screen.height / 20), "Drop Probability: ", label);
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 20 * 15, Screen.width / 4, Screen.height / 20), "Move To Waypoint: ", label);
-        GUI.Box(new Rect(Screen.width / 30, Screen.height / 20, Screen.width / 4 - Screen.width / 30, Screen.height / 30), "Inventory", box);
-        GUI.Box(new Rect(Screen.width / 60 + Screen.width / 8 * 3, Screen.height / 20, Screen.width / 4 - Screen.width / 30, Screen.height / 30), "Weapon", box);
-
-        GUI.Label(new Rect(Screen.width / 4 * 3, Screen.height / 20, Screen.width / 4, Screen.height / 20), currentType.id.ToString(), label);
-        newName = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 2, Screen.width / 4, Screen.height / 20), newName, textField);
-        newHealth = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 3, Screen.width / 4, Screen.height / 20), newHealth, textField);
-        newEnergy = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 4, Screen.width / 4, Screen.height / 20), newEnergy, textField);
-        newEnergyRegen = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 5, Screen.width / 4, Screen.height / 20), newEnergyRegen, textField);
-        newSelfDestroyProb = GUI.HorizontalScrollbar(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 6f, Screen.width / 4, Screen.height / 25), newSelfDestroyProb, 10, 0, 100);
-        newShootProb = GUI.HorizontalScrollbar(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 7, Screen.width / 4, Screen.height / 25), newShootProb, 10, 0, 100);
-        newHurtCooldown = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 8, Screen.width / 4, Screen.height / 20), newHurtCooldown, textField);
-        newAmplitudeX = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 9, Screen.width / 4, Screen.height / 20), newAmplitudeX, textField);
-        newAmplitudeY = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 10, Screen.width / 4, Screen.height / 20), newAmplitudeY, textField);
-        newDampingX = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 11, Screen.width / 4, Screen.height / 20), newDampingX, textField);
-        newDampingY = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 12, Screen.width / 4, Screen.height / 20), newDampingY, textField);
-        newMoveSpeed = GUI.TextField(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 13, Screen.width / 4, Screen.height / 20), newMoveSpeed, textField);
-        newDropProb = GUI.HorizontalScrollbar(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 14, Screen.width / 4, Screen.height / 20), newDropProb, 10, 0, 100);
-        newMoveToWaypoint = GUI.Toggle(new Rect(Screen.width / 4 * 3, Screen.height / 20 * 15, Screen.width / 4, Screen.height / 20), newMoveToWaypoint, "");
-        hasHealth = GUI.Toggle(new Rect(Screen.width / 30, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 40), hasHealth, "Health");
-        healthAmount = float.Parse(GUI.TextField(new Rect(Screen.width / 30 * 4, Screen.height / 20 * 2f, Screen.width / 30, Screen.height / 40), healthAmount.ToString()));
-        hasShield = GUI.Toggle(new Rect(Screen.width / 30, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 40), hasShield, "Shield");
-        shileldDuration = float.Parse(GUI.TextField(new Rect(Screen.width / 30 * 4, Screen.height / 20 * 2.5f, Screen.width / 30, Screen.height / 40), shileldDuration.ToString()));
-        hasShotgunAmmo = GUI.Toggle(new Rect(Screen.width / 30, Screen.height / 20 * 3f, Screen.width / 12, Screen.height / 40), hasShotgunAmmo, "Shotgun Ammo");
-        shotGunAmmoCount = float.Parse(GUI.TextField(new Rect(Screen.width / 30 * 4, Screen.height / 20 * 3f, Screen.width / 30, Screen.height / 40), shotGunAmmoCount.ToString()));
-        hasLaserAmmo = GUI.Toggle(new Rect(Screen.width / 30 * 6, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 40), hasLaserAmmo, "Laser Ammo");
-        laserAmmoCount = float.Parse(GUI.TextField(new Rect(Screen.width / 30 * 10, Screen.height / 20 * 2f, Screen.width / 30, Screen.height / 40), laserAmmoCount.ToString()));
-        hasRocketAmmo = GUI.Toggle(new Rect(Screen.width / 30 * 6, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 40), hasRocketAmmo, "Rocket Ammo");
-        rocketAmmoCount = float.Parse(GUI.TextField(new Rect(Screen.width / 30 * 10, Screen.height / 20 * 2.5f, Screen.width / 30, Screen.height / 40), rocketAmmoCount.ToString()));
-        hasDevineIntervention = GUI.Toggle(new Rect(Screen.width / 30 * 6, Screen.height / 20 * 3f, Screen.width / 11, Screen.height / 40), hasDevineIntervention, "Devine Intervention");
-        divineInterventionAmmoCount = float.Parse(GUI.TextField(new Rect(Screen.width / 30 * 10, Screen.height / 20 * 3f, Screen.width / 30, Screen.height / 40), divineInterventionAmmoCount.ToString()));
-        Shotgun = GUI.Toggle(new Rect(Screen.width / 60 + Screen.width / 8 * 3, Screen.height / 20 * 2f, Screen.width / 15, Screen.height / 40), Shotgun, "Shotgun");
-        Laser = GUI.Toggle(new Rect(Screen.width / 60 + Screen.width / 8 * 3, Screen.height / 20 * 2.5f, Screen.width / 15, Screen.height / 40), Laser, "Laser");
-        Rocket = GUI.Toggle(new Rect(Screen.width / 60 + Screen.width / 8 * 3, Screen.height / 20 * 3f, Screen.width / 15, Screen.height / 40), Rocket, "Rocket");
-        ammoCount = GUI.TextField(new Rect(Screen.width / 60 + Screen.width / 8 * 4.1f, Screen.height / 20 * 2f, Screen.width / 12, Screen.height / 40), ammoCount, textField);
-        GUI.Label(new Rect(Screen.width / 60 + Screen.width / 8 * 3.5f, Screen.height / 20 * 1.75f, Screen.width / 12, Screen.height / 20), "Ammo Count", label);
-        spread = int.Parse(GUI.TextField(new Rect(Screen.width / 60 + Screen.width / 8 * 4.1f, Screen.height / 20 * 2.5f, Screen.width / 12, Screen.height / 40), spread.ToString(), textField));
-        GUI.Label(new Rect(Screen.width / 60 + Screen.width / 8 * 3.5f, Screen.height / 20 * 2.25f, Screen.width / 12, Screen.height / 20), "Spread", label);
-        bulletSpeed = float.Parse(GUI.TextField(new Rect(Screen.width / 60 + Screen.width / 8 * 4.1f, Screen.height / 20 * 3f, Screen.width / 12, Screen.height / 40), bulletSpeed.ToString(), textField));
-        GUI.Label(new Rect(Screen.width / 60 + Screen.width / 8 * 3.5f, Screen.height / 20 * 2.75f, Screen.width / 12, Screen.height / 20), "Bullet Speed", label);
-
-
-        if (GUI.Button(new Rect(Screen.width / 5 * 3, Screen.height / 20 * 16, Screen.width / 10, Screen.height / 20), "Previous", button))
+        //GUI.Label(new Rect(Screen.width / 8 * 5, Screen.height / 20, Screen.width / 8, Screen.height / 20), "Id: ", label);
+        //GUI.Label(new Rect(Screen.width / 8 * 5, Screen.height / 20 * 2, Screen.width / 4, Screen.height / 20), "Name: ", label);
+        //GUI.Label(new Rect(Screen.width / 8 * 5, Screen.height / 20 * 3, Screen.width / 4, Screen.height / 20), "Health: ", label);
+        //GUI.Label(new Rect(Screen.width / 8 * 5, Screen.height / 20 * 4, Screen.width / 4, Screen.height / 20), "Energy: ", label);
+        
+        GUI.BeginGroup(new Rect(Screen.width / 2 + Screen.width / 7, Screen.height / 8, 350, 570));
+        GUI.Label(new Rect(0, 0, 230, 30), "Id: ", label);
+        GUI.Label(new Rect(0, 30, 230, 30), "Name: ", label);
+        GUI.Label(new Rect(0, 60, 230, 30), "Health: ", label);
+        GUI.Label(new Rect(0, 90, 230, 30), "Energy: ", label);
+        GUI.Label(new Rect(250, 0, 230, 30), currentType.id.ToString(), label);
+        newName = GUI.TextField(new Rect(250, 30, 100, 25), newName, textField);
+        newHealth = GUI.TextField(new Rect(250, 60, 100, 25), newHealth, textField);
+        newEnergy = GUI.TextField(new Rect(250, 90, 100, 25), newEnergy, textField);
+        GUI.Label(new Rect(0, 120, 230, 30), "Energy Regeneration Speed: ", label);
+        GUI.Label(new Rect(0, 150, 230, 30), "Self Destroy Probability: ", label);
+        GUI.Label(new Rect(0, 180, 230, 30), "Shoot Probability: ", label);
+        GUI.Label(new Rect(0, 210, 230, 30), "Hurt Cooldown: ", label);
+        GUI.Label(new Rect(0, 240, 230, 30), "Amplitude X: ", label);
+        GUI.Label(new Rect(0, 270, 230, 30), "Amplitude Y: ", label);
+        GUI.Label(new Rect(0, 300, 230, 30), "Damping X: ", label);
+        GUI.Label(new Rect(0, 330, 230, 30), "Damping Y: ", label);
+        GUI.Label(new Rect(0, 360, 230, 30), "Move Speed: ", label);
+        GUI.Label(new Rect(0, 390, 230, 30), "Drop Probability: ", label);
+        GUI.Label(new Rect(0, 420, 230, 30), "Move To Waypoint: ", label);
+        newEnergyRegen = GUI.TextField(new Rect(250, 120, 100, 25), newEnergyRegen, textField);
+        newSelfDestroyProb = GUI.HorizontalScrollbar(new Rect(250, 150, 100, 25), newSelfDestroyProb, 10, 0, 100);
+        newShootProb = GUI.HorizontalScrollbar(new Rect(250, 180, 100, 25), newShootProb, 10, 0, 100);
+        newHurtCooldown = GUI.TextField(new Rect(250, 210, 100, 25), newHurtCooldown, textField);
+        newAmplitudeX = GUI.TextField(new Rect(250, 240, 100, 25), newAmplitudeX, textField);
+        newAmplitudeY = GUI.TextField(new Rect(250, 270, 100, 25), newAmplitudeY, textField);
+        newDampingX = GUI.TextField(new Rect(250, 300, 100, 25), newDampingX, textField);
+        newDampingY = GUI.TextField(new Rect(250, 330, 100, 25), newDampingY, textField);
+        newMoveSpeed = GUI.TextField(new Rect(250, 360, 100, 25), newMoveSpeed, textField);
+        newDropProb = GUI.HorizontalScrollbar(new Rect(250, 390, 100, 25), newDropProb, 10, 0, 100);
+        newMoveToWaypoint = GUI.Toggle(new Rect(250, 420, 100, 25), newMoveToWaypoint, "");
+        if (GUI.Button(new Rect(0, 450, 85, 30), "Previous", button))
         {
             Previous();
         }
-        if (GUI.Button(new Rect(Screen.width / 10 * 7, Screen.height / 20 * 16, Screen.width / 10, Screen.height / 20), "Next", button))
+        if (GUI.Button(new Rect(85, 450, 85, 30), "Next", button))
         {
             Next();
         }
-        if (GUI.Button(new Rect(Screen.width / 5 * 4, Screen.height / 20 * 16, Screen.width / 5, Screen.height / 20), "Delete", button))
+        if (GUI.Button(new Rect(170, 450, 175, 30), "Delete", button))
         {
             if (!currentType.locked)
             {
@@ -312,16 +292,16 @@ public class Manager : MonoBehaviour {
                 Debug.LogError("This type is protected!");
             }
         }
-        if (GUI.Button(new Rect(Screen.width / 5 * 3, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Apply", button))
+        if (GUI.Button(new Rect(0, 480, 170, 30), "Apply", button))
         {
             Apply();
         }
-        if (GUI.Button(new Rect(Screen.width / 5 * 4, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Save as new", button))
+        if (GUI.Button(new Rect(170, 480, 175, 30), "Save as new", button))
         {
             TypeInfo type = new TypeInfo();
             type.Clone(currentType);
             type.locked = false;
-            for(int i = 0; i < 100; i++)
+            for (int i = 0; i < 100; i++)
             {
                 if (!EnemyTypes.Contains(i))
                 {
@@ -338,19 +318,48 @@ public class Manager : MonoBehaviour {
             currentType = type;
             Apply();
         }
-        if (GUI.Button(new Rect(Screen.width / 5 * 2, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Save", button))
+        if (GUI.Button(new Rect(0, 510, 350, 30), "Save", button))
         {
             WriteToXML();
         }
-        if (GUI.Button(new Rect(0, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Hit", button))
+        if (GUI.Button(new Rect(0, 540, 175, 30), "Hit", button))
         {
             currentDummy.GetComponent<Enemy>().Hit();
         }
-        if (GUI.Button(new Rect(Screen.width / 5, Screen.height / 20 * 17, Screen.width / 5, Screen.height / 20), "Kill", button))
+        if (GUI.Button(new Rect(175, 540, 175, 30), "Kill", button))
         {
             currentDummy.GetComponent<Enemy>().Die();
         }
-        if (GUI.Button(new Rect(Screen.width / 4 * 3.5f, 10, Screen.width / 10, Screen.height / 20), "Main menu", button))
+        GUI.EndGroup();
+
+        GUI.Box(new Rect(Screen.width / 2 - 500, 20, 585, 125), "");
+        GUI.BeginGroup(new Rect(Screen.width / 2 - 500, Screen.height / 30, 585, 125));
+        GUI.Box(new Rect(0, 0, 340, 30), "Inventory", box);
+        GUI.Box(new Rect(360, 0, 220, 30), "Weapon", box);
+        hasHealth = GUI.Toggle(new Rect(0, 30, 120, 25), hasHealth, "Health");
+        healthAmount = float.Parse(GUI.TextField(new Rect(120, 30, 40, 20), healthAmount.ToString()));
+        hasShield = GUI.Toggle(new Rect(0, 60, 120, 25), hasShield, "Shield");
+        shileldDuration = float.Parse(GUI.TextField(new Rect(120, 60, 40, 20), shileldDuration.ToString()));
+        hasShotgunAmmo = GUI.Toggle(new Rect(0, 90, 120, 25), hasShotgunAmmo, "Shotgun Ammo");
+        shotGunAmmoCount = float.Parse(GUI.TextField(new Rect(120, 90, 40, 20), shotGunAmmoCount.ToString()));
+        hasLaserAmmo = GUI.Toggle(new Rect(170, 30, 130, 25), hasLaserAmmo, "Laser Ammo");
+        laserAmmoCount = float.Parse(GUI.TextField(new Rect(300, 30, 40, 20), laserAmmoCount.ToString()));
+        hasRocketAmmo = GUI.Toggle(new Rect(170, 60, 130, 25), hasRocketAmmo, "Rocket Ammo");
+        rocketAmmoCount = float.Parse(GUI.TextField(new Rect(300, 60, 40, 20), rocketAmmoCount.ToString()));
+        hasDevineIntervention = GUI.Toggle(new Rect(170, 90, 130, 25), hasDevineIntervention, "Devine Intervention");
+        divineInterventionAmmoCount = float.Parse(GUI.TextField(new Rect(300, 90, 40, 20), divineInterventionAmmoCount.ToString()));
+        Shotgun = GUI.Toggle(new Rect(360, 30, 75, 25), Shotgun, "Shotgun");
+        Laser = GUI.Toggle(new Rect(360, 60, 75, 25), Laser, "Laser");
+        Rocket = GUI.Toggle(new Rect(360, 90, 75, 25), Rocket, "Rocket");
+        GUI.Label(new Rect(435, 30, 100, 25), "Ammo Count", label);
+        ammoCount = GUI.TextField(new Rect(535, 30, 40, 20), ammoCount, textField);
+        GUI.Label(new Rect(435, 60, 100, 25), "Spread", label);
+        spread = int.Parse(GUI.TextField(new Rect(535, 60, 40, 20), spread.ToString(), textField));
+        GUI.Label(new Rect(435, 90, 100, 25), "Bullet Speed", label);
+        bulletSpeed = float.Parse(GUI.TextField(new Rect(535, 90, 40, 20), bulletSpeed.ToString(), textField));
+        GUI.EndGroup();
+
+        if (GUI.Button(new Rect(Screen.width / 2 + Screen.width / 7 + 250, Screen.height / 30, 100, 50), "Main menu", button))
         {
             Application.LoadLevel("MainMenu");
         }
