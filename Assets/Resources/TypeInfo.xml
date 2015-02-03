@@ -3,7 +3,7 @@
 	<Type type="0" name="First Guy" prefab="Prefabs/Enemies/Enemy" locked="True" spread="1" bulletSpeed="10">
 		<Amplitude x="0" y="0" />
 		<ShootProbability value="0" />
-		<SelfDestroyProbability value="90" />
+		<SelfDestroyProbability value="0" />
 		<Damping x="1" y="1" />
 		<Health value="2" maxValue="2" />
 		<Energy value="2" maxValue="2" regenSpeed="1" />

@@ -67,6 +67,13 @@ public class MouseMove : MonoBehaviour {
                     Destroy(this.gameObject);
                 }
             }
+            else if(this.tag == "Player")
+            {
+                if (transform.position.x > 20) transform.position = new Vector2(20, transform.position.y);
+                if (transform.position.x < -20) transform.position = new Vector2(-20, transform.position.y);
+                if (transform.position.y > 15) transform.position = new Vector2(transform.position.x, 15);
+                if (transform.position.y < -15) transform.position = new Vector2(transform.position.x, -15);
+            }
             else if ((this.tag == "TopBorder" || this.tag == "BottomBorder") && transform.position.y > 15 && transform.position.y > -15f)
             {
                 transform.position = new Vector3(transform.position.x, 15, transform.position.z);
