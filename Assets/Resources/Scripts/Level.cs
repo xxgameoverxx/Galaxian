@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System;
 
@@ -176,7 +177,7 @@ public class Level
                 writer.WriteStartElement("Wave");
                 writer.WriteAttributeString("name", w.name);
                 writer.WriteAttributeString("val", index.ToString());
-                writer.WriteAttributeString("background", w.background.path);
+                writer.WriteAttributeString("background", w.background.path.Split('/').Last().Split('\\').Last());
                 writer.WriteAttributeString("backgroundId", w.background.id.ToString());
                 writer.WriteStartElement("Description");
                 writer.WriteAttributeString("tag", "wave");

@@ -5,7 +5,7 @@ public class PlayerGUI : MonoBehaviour {
 
 	private Actor player;
     private GUISkin skin;
-
+    private Rect groupRect = new Rect(Screen.width / 2 - 300, Screen.height - 75, 600, 70);
 	void Start()
 	{
 		player = GetComponent<Actor>();
@@ -28,17 +28,19 @@ public class PlayerGUI : MonoBehaviour {
 	{
         if (player != null)
         {
-            float engRatio = Screen.width / 3f * (player.energy / player.maxEnergy);
-            float healthRatio = Screen.width / 3f * (player.health / player.maxHealth);
-            GUI.Box(new Rect(0, Screen.height / 15 * 14, engRatio, Screen.height / 15), "Energy: " + ((int)(player.energy)).ToString(), skin.customStyles[1]);
-            GUI.Box(new Rect(Screen.width / 3 * 2, Screen.height / 15 * 14, healthRatio, Screen.height / 15), "Health: " + player.health.ToString(), skin.customStyles[0]);
+            float engRatio = 200 * (player.energy / player.maxEnergy);
+            float healthRatio = 200 * (player.health / player.maxHealth);
+            GUI.BeginGroup(groupRect);
+            GUI.Box(new Rect(0, 0, engRatio, 50), "Energy: " + ((int)(player.energy)).ToString(), skin.customStyles[1]);
+            GUI.Box(new Rect(400, 0, healthRatio, 50), "Health: " + player.health.ToString(), skin.customStyles[0]);
 
             string weaponName = "";
             if (player.ActiveWeapon != null)
             {
                 weaponName = player.ActiveWeapon.name;
             }
-            GUI.Box(new Rect(Screen.width / 3, Screen.height / 10 * 9, Screen.width / 3, Screen.height / 10), player.ActiveWeapon.name + "\n" + player.ActiveWeapon.ammoCount, skin.box);
+            GUI.Box(new Rect(225, 10, 150, 45), player.ActiveWeapon.name + "\n" + player.ActiveWeapon.ammoCount, skin.box);
+            GUI.EndGroup();
         }
         else
         {

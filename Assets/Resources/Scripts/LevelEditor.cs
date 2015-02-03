@@ -23,20 +23,20 @@ public class BackgoundHolder
 
     public BackgoundHolder(string _path, int _id)
     {
-        path = Application.dataPath + "/Resources/Backgrounds/" + _path;
+        path = _path;
         id = _id;
         Texture2D tex = null;
         byte[] fileData;
-        if (File.Exists(path))
+        if (File.Exists(Application.dataPath + "/Resources/Backgrounds/" + path))
         {
-            fileData = File.ReadAllBytes(path);
+            fileData = File.ReadAllBytes(Application.dataPath + "/Resources/Backgrounds/" + path);
             tex = new Texture2D(400, 300);
             tex.LoadImage(fileData);
             texture = tex;
         }
         else
         {
-            Debug.LogError("No such background path: " + path);
+            Debug.LogError("No such background path: " + Application.dataPath + "/Resources/Backgrounds/" + path);
             fileData = File.ReadAllBytes(Application.dataPath + "/Resources/Backgrounds/black.jpg");
             tex = new Texture2D(400, 300);
             tex.LoadImage(fileData);
@@ -44,27 +44,27 @@ public class BackgoundHolder
         }
     }
 
-    public void LoadTexture(string _path)
-    {
-        path = _path;
-        Texture2D tex = null;
-        byte[] fileData;
-        if (File.Exists(path))
-        {
-            fileData = File.ReadAllBytes(path);
-            tex = new Texture2D(400, 300);
-            tex.LoadImage(fileData);
-            texture = tex;
-        }
-        else
-        {
-            Debug.LogError("No such background path: " + path);
-            fileData = File.ReadAllBytes(Application.dataPath + "/Resources/Resources/Backgrounds/black.jpg");
-            tex = new Texture2D(400, 300);
-            tex.LoadImage(fileData);
-            texture = tex;
-        }
-    }
+    //public void LoadTexture(string _path)
+    //{
+    //    path = _path;
+    //    Texture2D tex = null;
+    //    byte[] fileData;
+    //    if (File.Exists(path))
+    //    {
+    //        fileData = File.ReadAllBytes(path);
+    //        tex = new Texture2D(400, 300);
+    //        tex.LoadImage(fileData);
+    //        texture = tex;
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("No such background path: " + path);
+    //        fileData = File.ReadAllBytes(Application.dataPath + "/Resources/Resources/Backgrounds/black.jpg");
+    //        tex = new Texture2D(400, 300);
+    //        tex.LoadImage(fileData);
+    //        texture = tex;
+    //    }
+    //}
 }
 
 public class LevelEditor : MonoBehaviour
@@ -205,7 +205,7 @@ public class LevelEditor : MonoBehaviour
                     tex.LoadImage(fileData);
                     BackgoundHolder bh = new BackgoundHolder();
                     bh.id = i;
-                    bh.path = v.Split('\\').Last();
+                    bh.path = v.Split('/').Last();
                     bh.texture = tex;
                     pics.Add(i, bh);
                     i++;
@@ -253,7 +253,7 @@ public class LevelEditor : MonoBehaviour
         currentWaveName = currentWave.name;
     }
 
-    void UpdateLevel()
+    void UpdateLevel(bool readBorders = true)
     {
         newLevelName = currentLevel.name;
         newEndGame = currentLevel.endGameMessage;
@@ -265,10 +265,13 @@ public class LevelEditor : MonoBehaviour
         lifeCount = currentLevel.lifeCount;
         changePlayerPrefab = true;
         levelUpdated = true;
-        GameObject.FindGameObjectWithTag("LeftBorder").transform.position = currentLevel.leftBorder;
-        GameObject.FindGameObjectWithTag("RightBorder").transform.position = currentLevel.rightBorder;
-        GameObject.FindGameObjectWithTag("TopBorder").transform.position = currentLevel.topBorder;
-        GameObject.FindGameObjectWithTag("BottomBorder").transform.position = currentLevel.bottomBorder;
+        if (readBorders)
+        {
+            GameObject.FindGameObjectWithTag("LeftBorder").transform.position = currentLevel.leftBorder;
+            GameObject.FindGameObjectWithTag("RightBorder").transform.position = currentLevel.rightBorder;
+            GameObject.FindGameObjectWithTag("TopBorder").transform.position = currentLevel.topBorder;
+            GameObject.FindGameObjectWithTag("BottomBorder").transform.position = currentLevel.bottomBorder;
+        }
         UpdateWave();
     }
 
@@ -420,8 +423,10 @@ public class LevelEditor : MonoBehaviour
             levelDict.Add(newLevel.name, newLevel);
             levels.Add(newLevel.name);
             newLevel.CreateNewWave();
+            newLevel.waveDict[0].background = currentWave.background;
             currentLevel = newLevel;
-            UpdateLevel();
+            newLevel.player = currentPlayer;
+            UpdateLevel(false);
         }
         if (GUI.Button(new Rect(Screen.width / 30 * 8.5f + Screen.width / 10, Screen.height / 15 * 2, Screen.width / 10, Screen.height / 30), "Apply", button))
         {

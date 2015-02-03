@@ -7,31 +7,16 @@ public class LevelSelector : MonoBehaviour {
 
     private List<Level> levels = new List<Level>();
     private Vector2 scrollPosition = Vector2.zero;
-    private Rect scrollRect = new Rect(Screen.width / 6, Screen.height / 10, Screen.width / 3, Screen.height / 3);
+    private Rect scrollRect = new Rect(0, 0, 350, 400);
+    private Rect groupRect = new Rect(Screen.width / 2 - 350, Screen.height / 10, 700, 500);
     private bool show = true;
     private float destroyTimer = 0.5f;
     public Level selectedLevel;
-    private GUISkin skin;
-    private GUIStyle button;
-    private GUIStyle box;
-    private GUIStyle scrollH;
-    private GUIStyle scrollV;
+    public GUISkin skin;
+
 
 	void Start()
     {
-        if (GameObject.FindObjectOfType<Style>() != null)
-        {
-            skin = GameObject.FindObjectOfType<Style>().skin;
-            button = skin.button;
-            box = skin.box;
-            scrollH = skin.horizontalScrollbar;
-            scrollV = skin.verticalScrollbar;
-        }
-        else
-        {
-            Debug.LogError("Style object is not found!");
-            button = new GUIStyle();
-        }
         Object.DontDestroyOnLoad(this);
         foreach (var v in Directory.GetFiles(Application.dataPath + "/Resources/Levels"))
         {
@@ -47,29 +32,32 @@ public class LevelSelector : MonoBehaviour {
 
     void OnGUI()
     {
+        GUI.skin = skin;
         if (show)
         {
-            scrollPosition = GUI.BeginScrollView(scrollRect, scrollPosition, new Rect(0, 0, Screen.width / 7, Screen.height / 30 * levels.Count), scrollH, scrollV);
+            GUI.BeginGroup(groupRect);
+            scrollPosition = GUI.BeginScrollView(scrollRect, scrollPosition, new Rect(0, 0, Screen.width / 7, Screen.height / 15 * levels.Count));
             for (int i = 0; i < levels.Count; i++)
             {
-                if (GUI.Button(new Rect(0, Screen.height / 15 * i, scrollRect.width, Screen.height / 15), levels[i].name, button))
+                if (GUI.Button(new Rect(0, Screen.height / 15 * i, scrollRect.width, Screen.height / 15), levels[i].name))
                 {
                     selectedLevel = levels[i];
                 }
             }
             GUI.EndScrollView();
 
-            GUI.Box(new Rect(Screen.width / 2, Screen.height / 10, Screen.width / 3, Screen.height / 2), selectedLevel.description, box);
-            if (GUI.Button(new Rect(Screen.width / 6, Screen.height / 30 * 19, Screen.width / 3, Screen.height / 15), "Main Menu", button))
+            GUI.Box(new Rect(350, 0, 350, 400), selectedLevel.name + "\n\n" + selectedLevel.description);
+            if (GUI.Button(new Rect(100, 410, 200, 90), "Main Menu"))
             {
                 Application.LoadLevel("MainMenu");
                 show = false;
             }
-            if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 30 * 19, Screen.width / 3, Screen.height / 15), "Play", button))
+            if (GUI.Button(new Rect(400, 410, 200, 90), "Play"))
             {
                 Application.LoadLevel("GameScene");
                 show = false;
             }
+            GUI.EndGroup();
         }
         else
         {
